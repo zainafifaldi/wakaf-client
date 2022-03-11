@@ -5,9 +5,11 @@ Application for online waqf.
 ## Stacks
 
 - React.js
-- [Next.js](https://nextjs.org/) -- Created with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
+- [Next.js](https://nextjs.org) - created with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
 - Typescript
-- 
+- [Zustand](https://github.com/pmndrs/zustand) - State management
+- [Chakra UI](https://chakra-ui.com) - Design system
+- [Purity UI](https://www.creative-tim.com/product/purity-ui-dashboard) - Admin UI template
 
 ## How To Install
 
