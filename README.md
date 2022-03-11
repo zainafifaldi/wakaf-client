@@ -1,4 +1,4 @@
-# Wakaf API Service
+# Wakaf Client
 
 Application for online waqf.
 
@@ -6,6 +6,8 @@ Application for online waqf.
 
 - React.js
 - [Next.js](https://nextjs.org/) -- Created with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
+- Typescript
+- 
 
 ## How To Install
 
