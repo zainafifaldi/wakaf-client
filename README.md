@@ -1,22 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Wakaf API Service
 
-## Getting Started
+Application for online waqf.
 
-First, run the development server:
+## Stacks
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- React.js
+- [Next.js](https://nextjs.org/) -- Created with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How To Install
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+1. Clone repository (SSH recommended)
+   ```bash
+   git clone git@github.com:zainafifaldi/wakaf-client.git
+   ```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+2. Copy environment file, and edit based on your configuration
+   ```bash
+   cp .env.example .env
+   ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+3. Run the development server
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+## Application
+
+Open [`http://localhost:3000`](http://localhost:3000) with your browser to see the result.
 
 ## Learn More
 
