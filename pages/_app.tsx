@@ -1,5 +1,7 @@
 import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { FC } from 'react'
+
 import 'styles/global.scss';
 
 const colors = {
@@ -12,10 +14,16 @@ const colors = {
 
 const theme = extendTheme({ colors })
 
+const Noop: FC = ({ children }) => <>{children}</>
+
 export default function App({ Component, pageProps }: AppProps) {
+  const Layout = (Component as any).Layout || Noop
+
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <Layout pageProps={pageProps}>
+        <Component {...pageProps} />
+      </Layout>
     </ChakraProvider>
   );
 }
