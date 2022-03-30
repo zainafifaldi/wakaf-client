@@ -1,6 +1,5 @@
 import {
   SimpleGrid,
-  Stack,
   Container,
 } from '@chakra-ui/react';
 import Head from 'next/head';
@@ -15,23 +14,19 @@ export default function Home() {
       <Head>
         <title>Home | Wakaf</title>
       </Head>
-      <Stack spacing='8'>
-        <Banner />
-        <Container maxW='full' pb='6' centerContent>
-          <SimpleGrid
-            minChildWidth='260px'
-            spacing='6'
-            w='5xl'
-            maxW='full'
-          >
-            {Array(10)
-              .fill('')
-              .map((_, i) => (
-                <ProductCard key={i} />
-              ))}
-          </SimpleGrid>
-        </Container>
-      </Stack>
+      <Banner />
+      <Container maxW='5xl' py='8'>
+        <SimpleGrid
+          columns={{ base: 2, sm: 3, lg: 4 }}
+          spacing={{ base: 2, md: 6 }}
+        >
+          {Array(10)
+            .fill('')
+            .map((_, i) => (
+              <ProductCard key={i} />
+            ))}
+        </SimpleGrid>
+      </Container>
     </>
   );
 }
