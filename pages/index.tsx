@@ -10,12 +10,20 @@ import Banner from 'components/Banner';
 import ProductCard from 'components/ProductCard';
 
 export async function getServerSideProps() {
-  const { data } = await ProductAPI.getProducts();
-  return {
-    props: {
-      products: data,
-    },
-  };
+  try {
+    const { data } = await ProductAPI.getProducts();
+    return {
+      props: {
+        products: data,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        products: [],
+      },
+    };
+  }
 }
 
 export default function Home({ products }) {

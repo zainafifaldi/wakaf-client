@@ -1,6 +1,6 @@
 import {
+  AspectRatio,
   SimpleGrid,
-  Flex,
   Stack,
   StackDivider,
   Container,
@@ -10,8 +10,6 @@ import {
   Box,
   Heading,
   Text,
-  List,
-  ListItem,
   Button,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -22,17 +20,27 @@ import { money } from 'helpers/number';
 import PublicLayout from 'layouts/public/index';
 
 export async function getServerSideProps({ params }) {
-  const [id] = params.slug;
-  const { data: product } = await ProductAPI.getProduct(id);
-  const { data: images } = await ProductAPI.getProductImages(id);
-  return {
-    props: {
-      product: {
-        ...product,
-        images,
+  try {
+    const [id] = params.slug;
+    const { data: product } = await ProductAPI.getProduct(id);
+
+    try {
+      const { data: images } = await ProductAPI.getProductImages(id);
+      product.images = images;
+    } catch (error) {
+      product.images = [];
+    }
+
+    return {
+      props: {
+        product,
       },
-    },
-  };
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 }
 
 export default function Home({ product }) {
@@ -56,22 +64,26 @@ export default function Home({ product }) {
               w='100%'
               h={{ base: '100%', sm: '400px', lg: '500px' }}
             />
-            <Flex direction='row' wrap='wrap'>
+            <SimpleGrid
+              columns={{ base: 4, md: 6, lg: 5 }}
+              spacing={{ base: 2, md: 4 }}
+            >
               {product.images.map((image) => (
-                <Image
-                  key={image.id}
-                  rounded='md'
-                  alt={product.name}
-                  src={image.image_url}
-                  fallbackSrc='https://via.placeholder.com/100'
-                  boxSize='100px'
-                  fit='cover'
-                  align='center'
-                  mb='6'
-                  mr='6'
-                />
+                <AspectRatio key={image.id} ratio={1}>
+                  <Image
+                    rounded='md'
+                    alt={product.name}
+                    src={image.image_url}
+                    fallbackSrc='https://via.placeholder.com/100'
+                    boxSize='100px'
+                    fit='cover'
+                    align='center'
+                    mb='6'
+                    mr='6'
+                  />
+                </AspectRatio>
               ))}
-            </Flex>
+            </SimpleGrid>
           </Stack>
           <Stack spacing={{ base: 6, md: 10 }}>
             <Box as='header'>
@@ -82,13 +94,15 @@ export default function Home({ product }) {
               <Heading
                 lineHeight='1.1'
                 fontWeight='600'
-                fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
+                fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
+              >
                 {product.name}
               </Heading>
               <Text
                 color={useColorModeValue('gray.900', 'gray.400')}
                 fontWeight='300'
-                fontSize='2xl'>
+                fontSize='2xl'
+              >
                 {money(product.price)}
               </Text>
             </Box>

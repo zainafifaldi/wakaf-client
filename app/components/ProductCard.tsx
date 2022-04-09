@@ -5,6 +5,7 @@ import {
   LinkBox,
   LinkOverlay,
   Heading,
+  AspectRatio,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 
@@ -15,11 +16,15 @@ export default function ProductCard({ product }) {
   return (
     <LinkBox>
       <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-        <Image
-          src={product.image?.image_url}
-          fallbackSrc='https://via.placeholder.com/300'
-          alt={product.name}
-        />
+        <AspectRatio ratio={1}>
+          <Image
+            src={product.image?.image_url}
+            fallbackSrc='https://via.placeholder.com/300'
+            alt={product.name}
+            fit='cover'
+            align='center'
+          />
+        </AspectRatio>
 
         <Box p='4'>
           <Box display='flex' alignItems='baseline'>
