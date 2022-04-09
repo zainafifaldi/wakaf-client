@@ -18,12 +18,14 @@
     "framer-motion": "^5.5.5",
     "make-plural": "^7.0.0",
     "next": "12.1.0",
+    "numeral": "^2.0.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-slick": "^0.28.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
+    "@types/numeral": "^2.0.2",
     "@types/react": "^17.0.40",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",

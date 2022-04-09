@@ -12,7 +12,7 @@ class ApiClient {
   constructor() {
     this.instance = axios.create({
       baseURL: process.env.NEXT_PUBLIC_API_HOST,
-      timeout: 1000,
+      timeout: Number(process.env.NEXT_PUBLIC_API_TIMEOUT),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -20,9 +20,22 @@ class ApiClient {
 
     API_METHODS.forEach(method => {
       Object.defineProperty(this, method, {
-        value: this.instance[method],
+        value: (url, options = {}) => this.request(url, method, options),
       });
     });
+  }
+
+  async request(url, method, options = {}) {
+    try {
+      const response = await this.instance.request({
+        ...options,
+        url,
+        method,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   }
 
   wrap(interfaces: object): WrappedInterface {

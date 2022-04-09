@@ -4,11 +4,21 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 
+import ProductAPI from 'library/api/products';
 import PublicLayout from 'layouts/public/index';
 import Banner from 'components/Banner';
 import ProductCard from 'components/ProductCard';
 
-export default function Home() {
+export async function getServerSideProps() {
+  const { data } = await ProductAPI.getProducts();
+  return {
+    props: {
+      products: data,
+    },
+  };
+}
+
+export default function Home({ products }) {
   return (
     <>
       <Head>
@@ -20,15 +30,16 @@ export default function Home() {
           columns={{ base: 2, sm: 3, lg: 4 }}
           spacing={{ base: 2, md: 6 }}
         >
-          {Array(10)
-            .fill('')
-            .map((_, i) => (
-              <ProductCard key={i} />
-            ))}
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
         </SimpleGrid>
       </Container>
     </>
   );
 }
 
-Home.Layout = PublicLayout
+Home.Layout = PublicLayout;

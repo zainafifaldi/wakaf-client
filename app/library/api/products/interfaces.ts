@@ -1,15 +1,12 @@
 const interfaces = {
-  transactions(params) {
-    return this.get('/transactions', { params });
+  getProducts(params) {
+    return this.get('/products', { params });
   },
-  transaction(id) {
-    return this.get(`/transactions/${id}`);
+  getProduct(id) {
+    return this.get(`/products/${id}`);
   },
-  createTransaction(data) {
-    return this.post('/transactions', { data });
-  },
-  updateTransactionState(id, { data }) {
-    return this.patch(`/transactions/${id}/state`, { data });
+  getProductImages(id) {
+    return this.get(`/products/${id}/images`);
   },
 }
 

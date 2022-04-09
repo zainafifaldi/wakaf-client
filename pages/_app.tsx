@@ -1,7 +1,8 @@
 import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { FC, useEffect } from 'react';
-import AuthApi from 'library/api/auth';
+
+import AuthAPI from 'library/api/auth';
 
 import 'styles/global.scss';
 
@@ -21,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const Layout = (Component as any).Layout || Noop;
 
   useEffect(() => {
-    AuthApi.guestIn();
+    AuthAPI.guestIn();
   }, []);
 
   return (

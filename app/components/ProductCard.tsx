@@ -8,23 +8,18 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 
-export default function ProductCard() {
-  const product = {
-    id: 1,
-    imageUrl: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=4600&q=80',
-    imageAlt: 'Rear view of modern home with pool',
-    beds: 3,
-    baths: 2,
-    title: 'Modern home in city center in the heart of historic Los Angeles',
-    formattedPrice: 'Rp15.000',
-    reviewCount: 34,
-    rating: 4,
-  }
+import { money } from 'helpers/number';
+import { productUrl } from 'helpers/product';
 
+export default function ProductCard({ product }) {
   return (
     <LinkBox>
       <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-        <Image src={product.imageUrl} alt={product.imageAlt} />
+        <Image
+          src={product.image?.image_url}
+          fallbackSrc='https://via.placeholder.com/300'
+          alt={product.name}
+        />
 
         <Box p='4'>
           <Box display='flex' alignItems='baseline'>
@@ -38,18 +33,18 @@ export default function ProductCard() {
             my='2'
             fontWeight='semibold'
             lineHeight='tight'
-            title={product.title}
+            title={product.name}
             isTruncated
           >
-            <Link href={`/product/${product.id}`} passHref>
+            <Link href={productUrl(product)} passHref>
               <LinkOverlay>
-                {product.title}
+                {product.name}
               </LinkOverlay>
             </Link>
           </Heading>
 
           <Box fontSize='sm'>
-            {product.formattedPrice}
+            {money(product.price)}
           </Box>
         </Box>
       </Box>
