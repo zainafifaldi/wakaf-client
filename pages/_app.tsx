@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const Layout = (Component as any).Layout || Noop;
 
   useEffect(() => {
-    AuthAPI.guestIn();
+    // AuthAPI.guestIn();
   }, []);
 
   return (

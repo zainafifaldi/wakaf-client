@@ -1,11 +1,12 @@
 import {
+  AspectRatio,
   Box,
   Image,
   Badge,
   LinkBox,
   LinkOverlay,
   Heading,
-  AspectRatio,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 
@@ -48,7 +49,10 @@ export default function ProductCard({ product }) {
             </Link>
           </Heading>
 
-          <Box fontSize='sm'>
+          <Box
+            color={useColorModeValue('gray.900', 'gray.400')}
+            fontSize='sm'
+          >
             {money(product.price)}
           </Box>
         </Box>
