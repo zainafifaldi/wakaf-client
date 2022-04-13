@@ -1,12 +1,15 @@
 const interfaces = {
-  products(params) {
-    return this.get('/products', { params });
+  getCarts(params) {
+    return this.get('/carts', { params });
   },
-  product(id) {
-    return this.get(`/products/${id}`);
+  addToCart(data) {
+    return this.post('/carts', data);
   },
-  productImages(id) {
-    return this.get(`/products/${id}/images`);
+  updateCart(id, data) {
+    return this.patch(`/carts/${id}`, data);
+  },
+  deleteCartItem(id) {
+    return this.delete(`/carts/${id}`);
   },
 }
 
