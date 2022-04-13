@@ -55,15 +55,26 @@ export default function Home({ product }) {
           spacing={{ base: 8, md: 10 }}
         >
           <Stack direction='column' spacing='6'>
-            <Image
-              rounded='md'
-              alt='product image'
-              src='https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080'
-              fit='cover'
-              align='center'
-              w='100%'
-              h={{ base: '100%', sm: '400px', lg: '500px' }}
-            />
+            { product.images.length > 0 &&
+              <Image
+                rounded='md'
+                alt='product image'
+                src={product.images[0].image_url}
+                fit='cover'
+                align='center'
+                w='100%'
+                h={{ base: '100%', sm: '400px', lg: '500px' }}
+              /> ||
+              <Image
+                rounded='md'
+                alt='product image'
+                src={process.env.DEFAULT_PRODUCT_IMAGE}
+                fit='cover'
+                align='center'
+                w='100%'
+                h={{ base: '100%', sm: '400px', lg: '500px' }}
+              />
+            }
             <SimpleGrid
               columns={{ base: 4, md: 6, lg: 5 }}
               spacing={{ base: 2, md: 4 }}
