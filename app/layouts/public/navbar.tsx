@@ -18,21 +18,34 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import NextLink from 'next/link';
 
-const Links = ['Home', 'Projects', 'Team'];
+const links = [
+  {
+    title: 'Home',
+    url: '/',
+  },
+  {
+    title: 'Cart',
+    url: '/cart',
+  },
+];
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href='/'>
-    {children}
-  </Link>
+const NavLink = ({ href, children }: { href: string, children: ReactNode }) => (
+  <NextLink href={href} passHref>
+    <Link
+      px='2'
+      py='1'
+      rounded='md'
+      _hover={{
+        textDecoration: 'none',
+        bg: useColorModeValue('gray.200', 'gray.700'),
+      }}
+      href={href}
+    >
+      {children}
+    </Link>
+  </NextLink>
 );
 
 export default function NavbarPublicLayout() {
@@ -51,9 +64,12 @@ export default function NavbarPublicLayout() {
           <HStack
             as={'nav'}
             spacing={4}
-            display={{ base: 'none', md: 'flex' }}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+            display={{ base: 'none', md: 'flex' }}
+          >
+            {links.map(link => (
+              <NavLink key={link.title} href={link.url}>
+                {link.title}
+              </NavLink>
             ))}
           </HStack>
         </HStack>

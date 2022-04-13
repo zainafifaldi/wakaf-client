@@ -54,18 +54,20 @@ export default function Cart() {
     setSelected(newSelected);
   }
 
-  function handleDelete(id: number) {
+  async function handleDelete(id: number) {
     try {
-      CartAPI.deleteCartItem(id);
+      await CartAPI.deleteCartItem(id);
       setCarts(carts.filter(cart => cart.id !== id));
     } catch (error) {
       console.log(error);
     }
   }
 
-  function handleUpdate(id: number, quantity: number) {
+  async function handleUpdate(id: number, quantity: number) {
     try {
-      CartAPI.updateCartItem(id, quantity);
+      await CartAPI.updateCartItem(id, {
+        quantity
+      });
       setCarts(carts.map(cart =>
         cart.id === id ? { ...cart, quantity } : cart
       ));

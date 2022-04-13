@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   AspectRatio,
   SimpleGrid,
@@ -16,6 +17,7 @@ import {
 import Head from 'next/head';
 
 import ProductAPI from 'library/api/products';
+import CartAPI from 'library/api/carts';
 import { money } from 'helpers/number';
 import PublicLayout from 'layouts/public/index';
 
@@ -44,6 +46,19 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function Home({ product }) {
+  const [selectedImage, setSelectedImage] = React.useState(product.images[0].image_url);
+
+  async function addToCart() {
+    try {
+      await CartAPI.addToCart({
+        product_id: product.id,
+        quantity: 1,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -55,35 +70,46 @@ export default function Home({ product }) {
           spacing={{ base: 8, md: 10 }}
         >
           <Stack direction='column' spacing='6'>
-            <Image
-              rounded='md'
-              alt='product image'
-              src='https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080'
-              fit='cover'
-              align='center'
-              w='100%'
-              h={{ base: '100%', sm: '400px', lg: '500px' }}
-            />
-            <SimpleGrid
-              columns={{ base: 4, md: 6, lg: 5 }}
-              spacing={{ base: 2, md: 4 }}
-            >
-              {product.images.map((image) => (
-                <AspectRatio key={image.id} ratio={1}>
-                  <Image
+            <AspectRatio ratio={1}>
+              <Image
+                rounded='md'
+                alt={product.name}
+                src={selectedImage}
+                fallbackSrc='https://via.placeholder.com/800'
+                fit='cover'
+                align='center'
+              />
+            </AspectRatio>
+            {product.images.length > 1 && (
+              <SimpleGrid
+                columns={{ base: 4, md: 6, lg: 5 }}
+                spacing={{ base: 2, md: 4 }}
+              >
+                {product.images.map((image) => (
+                  <AspectRatio
+                    key={image.id}
+                    ratio={1}
                     rounded='md'
-                    alt={product.name}
-                    src={image.image_url}
-                    fallbackSrc='https://via.placeholder.com/100'
-                    boxSize='100px'
-                    fit='cover'
-                    align='center'
-                    mb='6'
-                    mr='6'
-                  />
-                </AspectRatio>
-              ))}
-            </SimpleGrid>
+                    cursor='pointer'
+                    overflow='hidden'
+                    borderWidth='2px'
+                    borderColor={selectedImage === image.image_url ? 'blue.400' : 'transparent'}
+                    onClick={() => setSelectedImage(image.image_url)}
+                  >
+                    <Image
+                      alt={product.name}
+                      src={image.image_url}
+                      fallbackSrc='https://via.placeholder.com/100'
+                      boxSize='100px'
+                      fit='cover'
+                      align='center'
+                      mb='6'
+                      mr='6'
+                    />
+                  </AspectRatio>
+                ))}
+              </SimpleGrid>
+            )}
           </Stack>
           <Stack spacing={{ base: 6, md: 10 }}>
             <Box as='header'>
@@ -132,6 +158,7 @@ export default function Home({ product }) {
                 transform: 'translateY(2px)',
                 boxShadow: 'lg',
               }}
+              onClick={addToCart}
             >
               Berwakaf sekarang
             </Button>
