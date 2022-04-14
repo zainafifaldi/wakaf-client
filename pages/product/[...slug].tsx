@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import {
   AspectRatio,
   SimpleGrid,
@@ -46,7 +46,7 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function Home({ product }) {
-  const [selectedImage, setSelectedImage] = React.useState(product.images[0].image_url);
+  const [selectedImage, setSelectedImage] = useState<string>(product.images[0].image_url);
 
   async function addToCart() {
     try {

@@ -1,12 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 
-interface WrappedInterface {
-  [key: string]: Function
-}
+import { APIResponse, RequestMethod } from 'interfaces/api';
 
-const API_METHODS: string[] = ['get', 'post', 'patch', 'put', 'delete'];
-
-class ApiClient {
+class ApiClient implements RequestMethod {
   private instance: AxiosInstance;
 
   constructor() {
@@ -17,17 +13,31 @@ class ApiClient {
         'Content-Type': 'application/json',
       },
     });
-
-    API_METHODS.forEach(method => {
-      Object.defineProperty(this, method, {
-        value: (url, options = {}) => this.request(url, method, options),
-      });
-    });
   }
 
-  async request(url, method, options = {}) {
+  get<T>(url: string, options?: object): Promise<APIResponse<T>> {
+    return this.request<T>(url, 'get', options);
+  }
+
+  post<T>(url: string, options?: object): Promise<APIResponse<T>> {
+    return this.request<T>(url, 'post', options);
+  }
+
+  patch<T>(url: string, options?: object): Promise<APIResponse<T>> {
+    return this.request<T>(url, 'patch', options);
+  }
+
+  put<T>(url: string, options?: object): Promise<APIResponse<T>> {
+    return this.request<T>(url, 'put', options);
+  }
+
+  delete<T>(url: string, options?: object): Promise<APIResponse<T>> {
+    return this.request<T>(url, 'delete', options);
+  }
+
+  async request<T>(url, method, options = {}) {
     try {
-      const response = await this.instance.request({
+      const response = await this.instance.request<APIResponse<T>>({
         ...options,
         url,
         method,
@@ -36,17 +46,6 @@ class ApiClient {
     } catch (error) {
       throw error;
     }
-  }
-
-  wrap(interfaces: object): WrappedInterface {
-    const wrappedInterfaces: WrappedInterface = {};
-    Object.keys(interfaces).forEach((key) => {
-      wrappedInterfaces[key] = (...args) => {
-        return interfaces[key].bind(this)(...args);
-      };
-    });
-
-    return wrappedInterfaces;
   }
 }
 

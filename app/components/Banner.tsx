@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Box, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import Slider from 'react-slick';
@@ -16,7 +16,7 @@ const settings = {
 };
 
 export default function Banner() {
-  const [slider, setSlider] = React.useState<Slider | null>(null);
+  const [slider, setSlider] = useState<Slider | null>(null);
 
   const top = useBreakpointValue({ base: '90%', md: '50%' });
   const side = useBreakpointValue({ base: '30%', md: '10px' });

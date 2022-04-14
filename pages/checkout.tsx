@@ -21,14 +21,12 @@ import {
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
 import CartAPI from 'library/api/carts';
 import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
 
 export default function Cart() {
-  const router = useRouter();
   const [carts, setCarts] = useState<any[]>([]);
   const [selected, setSelected] = useState<any[]>([]);
 
@@ -67,7 +65,7 @@ export default function Cart() {
 
   async function handleUpdate(id: number, quantity: number) {
     try {
-      await CartAPI.updateCart(id, {
+      await CartAPI.updateCartItem(id, {
         quantity
       });
       setCarts(carts.map((cart) =>
@@ -196,7 +194,6 @@ export default function Cart() {
                   transform: 'translateY(2px)',
                   boxShadow: 'lg',
                 }}
-                onClick={() => router.push('/checkout')}
               >
                 Berwakaf sekarang
               </Button>

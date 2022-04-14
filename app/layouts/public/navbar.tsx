@@ -66,7 +66,7 @@ export default function NavbarPublicLayout() {
             spacing={4}
             display={{ base: 'none', md: 'flex' }}
           >
-            {links.map(link => (
+            {links.map((link) => (
               <NavLink key={link.title} href={link.url}>
                 {link.title}
               </NavLink>
