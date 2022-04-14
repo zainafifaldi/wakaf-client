@@ -8,7 +8,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 
 import { money } from 'helpers/number';
 import { productUrl } from 'helpers/product';
@@ -42,11 +42,11 @@ export default function ProductCard({ product }) {
             title={product.name}
             isTruncated
           >
-            <Link href={productUrl(product)} passHref>
+            <NextLink href={productUrl(product)} passHref>
               <LinkOverlay>
                 {product.name}
               </LinkOverlay>
-            </Link>
+            </NextLink>
           </Heading>
 
           <Box

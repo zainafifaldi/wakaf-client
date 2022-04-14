@@ -1,10 +1,10 @@
 import { Button } from '@chakra-ui/react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { MyButtonProps, DefaultProps } from 'interfaces/forms/buttons';
 
 export function MyButton(props: MyButtonProps) {
   return (
-    <Link href={props.href}>
+    <NextLink href={props.href} passHref>
       <Button
         display={{ base: 'none', md: 'inline-flex' }}
         fontSize={'sm'}
@@ -15,21 +15,21 @@ export function MyButton(props: MyButtonProps) {
           bg: (props.bg + '.500'),
         }}
       >{ props.children }</Button>
-    </Link>
+    </NextLink>
   );
 }
 
-export function MyLink(props: MyButtonProps) {
+export function MyNextLink(props: MyButtonProps) {
   return (
-    <Link href={props.href}>
+    <NextLink href={props.href}>
       <Button
         fontSize={'sm'}
         fontWeight={400}
-        variant={'link'}
+        variant={'NextLink'}
       >{ props.children }</Button>
-    </Link>
+    </NextLink>
   );
 }
 
 MyButton.defaultProps = DefaultProps;
-MyLink.defaultProps = DefaultProps;
+MyNextLink.defaultProps = DefaultProps;

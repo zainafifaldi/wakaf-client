@@ -15,6 +15,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "axios": "^0.26.1",
+    "formik": "^2.2.9",
     "framer-motion": "^5.5.5",
     "make-plural": "^7.0.0",
     "next": "12.1.0",

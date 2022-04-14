@@ -4,7 +4,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Checkbox,
   Stack,
   Button,
   Heading,
@@ -12,14 +11,28 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import {
   CheckIcon,
   LockIcon,
 } from '@chakra-ui/icons';
+import { Formik, Form, Field } from 'formik';
+
+import { UserCredential } from 'interfaces/user';
+import AuthAPI from 'library/api/auth';
 import buttonStyles from 'styles/forms/buttons.module.scss';
 
 export default function LoginPage() {
+  async function handleLogin(values: UserCredential, { setSubmitting }: any) {
+    try {
+      const { data } = await AuthAPI.signIn(values);
+      // localStorage.setItem('token', data.token);
+    } catch (error) {
+      setSubmitting(false);
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -43,72 +56,73 @@ export default function LoginPage() {
             rounded='lg'
             bg={useColorModeValue('white', 'gray.700')}
             boxShadow='lg'
-            p='8'>
-            <form>
-              <Stack spacing='4'>
-                <Text fontSize='xs' color='gray.500' align='center'>
-                  Masukkan data login kamu di sini...
-                </Text>
-                <Stack spacing='4'>
-                  <InputGroup size='sm'>
-                    <InputLeftElement pointerEvents='none'>
-                      <CheckIcon color='gray.300' />
-                    </InputLeftElement>
-                    <Input
-                      type='text'
-                      placeholder='Username'
-                      color='gray.600'
-                      defaultValue=''
-                    />
-                  </InputGroup>
-                  <InputGroup size='sm'>
-                    <InputLeftElement pointerEvents='none'>
-                      <LockIcon color='gray.300' />
-                    </InputLeftElement>
-                    <Input
-                      type='password'
-                      placeholder='Password'
-                      color='gray.600'
-                      defaultValue=''
-                    />
-                  </InputGroup>
-                </Stack>
-                <Stack spacing='10'>
-                  <Stack
-                    direction={{ base: 'column', sm: 'row' }}
-                    align='start'
-                    justify='space-between'>
-                    <Checkbox
-                      size='md'
-                      colorScheme='green'
-                      defaultChecked={false}
+            p='8'
+          >
+            <Formik
+              initialValues={{ email: '', password: '' }}
+              onSubmit={(values, actions) => handleLogin(values, actions)}
+            >
+              {(props) => (
+                <Form>
+                  <Stack spacing='4'>
+                    <Text fontSize='xs' color='gray.500' align='center'>
+                      Masukkan data login kamu di sini...
+                    </Text>
+                    <Stack spacing='4'>
+                      <Field name='email'>
+                        {({ field }) => (
+                          <InputGroup size='sm'>
+                            <InputLeftElement pointerEvents='none'>
+                              <CheckIcon color='gray.300' />
+                            </InputLeftElement>
+                            <Input
+                              type='text'
+                              placeholder='Username'
+                              color='gray.600'
+                              {...field}
+                            />
+                          </InputGroup>
+                        )}
+                      </Field>
+                      <Field name='password'>
+                        {({ field }) => (
+                          <InputGroup size='sm'>
+                            <InputLeftElement pointerEvents='none'>
+                              <LockIcon color='gray.300' />
+                            </InputLeftElement>
+                            <Input
+                              type='password'
+                              placeholder='Password'
+                              color='gray.600'
+                              {...field}
+                            />
+                          </InputGroup>
+                        )}
+                      </Field>
+                    </Stack>
+                    <Button
+                      type='submit'
+                      bg='green.400'
+                      color='white'
+                      isLoading={props.isSubmitting}
+                      _hover={{
+                        bg: 'green.500',
+                      }}
                     >
-                      <Text fontSize='sm' color='gray.500'>
-                        Otomatis login setiap membuka situs
-                      </Text>
-                    </Checkbox>
+                      Sign in
+                    </Button>
                   </Stack>
-                  <Button
-                    type='submit'
-                    bg='green.400'
-                    color='white'
-                    _hover={{
-                      bg: 'green.500',
-                    }}
-                  >
-                    Sign in
-                  </Button>
-                </Stack>
-              </Stack>
-            </form>
+                </Form>
+              )}
+            </Formik>
           </Box>
-          <Link href=''>
+          <NextLink href=''>
             <a className={buttonStyles.noUnderline}>
               <Text color='green.400' fontSize='xs' _hover={{ color: 'green.600' }}>
                 Lupa password? Yuk hubungi admin di sini
               </Text>
             </a>
-          </Link>
+          </NextLink>
         </Stack>
       </Flex>
     </>
