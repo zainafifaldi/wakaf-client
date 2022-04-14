@@ -2,7 +2,7 @@ import { Pagination } from './common/pagination';
 import { Product } from './product';
 
 export interface CartEntryParams extends Pagination {
-  selected_ids?: number[];
+  selected_ids?: number[] | string[];
 }
 
 export interface CartPayload {

@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/icons';
 import buttonStyles from 'styles/forms/buttons.module.scss';
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <>
       <Head>

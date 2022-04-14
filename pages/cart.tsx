@@ -23,14 +23,15 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import { Cart } from 'interfaces/cart';
 import CartAPI from 'library/api/carts';
 import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
 
-export default function Cart() {
+export default function CartPage() {
   const router = useRouter();
-  const [carts, setCarts] = useState<any[]>([]);
-  const [selected, setSelected] = useState<any[]>([]);
+  const [carts, setCarts] = useState<Cart[]>([]);
+  const [selected, setSelected] = useState<number[]>([]);
 
   const totalAmount = selected.reduce((acc, id) => {
     const cart = carts.find((cart) => cart.id === id);
@@ -76,6 +77,15 @@ export default function Cart() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function handleCheckout() {
+    router.push({
+      pathname: '/checkout',
+      query: {
+        ids: selected,
+      },
+    });
   }
 
   useEffect(() => {
@@ -196,7 +206,7 @@ export default function Cart() {
                   transform: 'translateY(2px)',
                   boxShadow: 'lg',
                 }}
-                onClick={() => router.push('/checkout')}
+                onClick={handleCheckout}
               >
                 Berwakaf sekarang
               </Button>
@@ -208,4 +218,4 @@ export default function Cart() {
   );
 }
 
-Cart.Layout = PublicLayout;
+CartPage.Layout = PublicLayout;

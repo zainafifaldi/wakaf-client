@@ -17,77 +17,42 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import CartAPI from 'library/api/carts';
 import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
 
-export default function Cart() {
+export default function CheckoutPage() {
+  const router = useRouter();
   const [carts, setCarts] = useState<any[]>([]);
-  const [selected, setSelected] = useState<any[]>([]);
 
-  const totalAmount = selected.reduce((acc, id) => {
-    const cart = carts.find((cart) => cart.id === id);
+  const totalAmount = carts.reduce((acc, cart) => {
     return acc + (cart.product.price * cart.quantity);
   }, 0);
 
-  function toggleSelectAll() {
-    if (selected.length === carts.length) {
-      setSelected([]);
-    } else {
-      setSelected(carts.map((cart) => cart.id));
-    }
-  }
-
-  function toggleSelected(id: number) {
-    const newSelected = [...selected];
-    const index = selected.indexOf(id);
-    if (index === -1) {
-      newSelected.push(id);
-    } else {
-      newSelected.splice(index, 1);
-    }
-    setSelected(newSelected);
-  }
-
-  async function handleDelete(id: number) {
-    try {
-      await CartAPI.deleteCartItem(id);
-      setCarts(carts.filter((cart) => cart.id !== id));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function handleUpdate(id: number, quantity: number) {
-    try {
-      await CartAPI.updateCartItem(id, {
-        quantity
-      });
-      setCarts(carts.map((cart) =>
-        cart.id === id ? { ...cart, quantity } : cart
-      ));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    CartAPI.getCarts().then(({ data }) => {
+    if (!router.isReady) return;
+
+    const selectedIds = Array.isArray(router.query.ids) ? router.query.ids : [router.query.ids];
+    CartAPI.getCarts({ selected_ids: selectedIds }).then(({ data }) => {
       setCarts(data);
     }).catch(() => {
-      setCarts([]);
+      router.replace('/');
     });
-  }, []);
+  }, [router]);
 
   return (
     <>
       <Head>
-        <title>Keranjang | Wakaf</title>
+        <title>Checkout | Wakaf</title>
       </Head>
       <Container maxW='5xl' py='8'>
         <Stack
@@ -99,7 +64,7 @@ export default function Cart() {
               fontWeight='500'
               fontSize='xl'
             >
-              Keranjang Saya
+              Checkout
             </Text>
 
             <Stack
@@ -109,53 +74,42 @@ export default function Cart() {
                 <StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />
               }
             >
+              <Checkbox>
+                Berwakaf untuk diri sendiri
+              </Checkbox>
+              <Stack>
+                <FormControl isRequired>
+                  <FormLabel htmlFor='donor-name'>Nama Pewakaf</FormLabel>
+                  <Input id='donor-name' placeholder='Nama Pewakaf' />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor='donor-phone-number'>Nomor HP Pewakaf</FormLabel>
+                  <Input id='donor-phone-number' placeholder='Nomor HP Pewakaf' />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor='donor-phone-number'>Alamat Pewakaf</FormLabel>
+                  <Textarea resize='none' rows={3} placeholder='Alamat Pewakaf' />
+                </FormControl>
+              </Stack>
               {carts.map((cart) => (
-                <Stack key={cart.id} direction='column'>
-                  <Stack direction='row' spacing='4'>
-                    <Checkbox
-                      onChange={() => toggleSelected(cart.id)}
+                <Stack key={cart.id} direction='row' spacing='4'>
+                  <AspectRatio w='75px' ratio={1}>
+                    <Image
+                      src={cart.product.image.image_url}
+                      fallbackSrc='https://via.placeholder.com/75'
+                      alt={cart.product.name}
+                      fit='cover'
+                      align='center'
                     />
-                    <AspectRatio w='75px' ratio={1}>
-                      <Image
-                        src={cart.product.image.image_url}
-                        fallbackSrc='https://via.placeholder.com/75'
-                        alt={cart.product.name}
-                        fit='cover'
-                        align='center'
-                      />
-                    </AspectRatio>
-                    <Box>
-                      <Text>
-                        {cart.product.name}
-                      </Text>
-                      <Text fontSize='sm'>
-                        {money(cart.product.price)}
-                      </Text>
-                    </Box>
-                  </Stack>
-                  <Flex>
-                    <Spacer />
-                    <IconButton
-                      aria-label='Delete item'
-                      size='sm'
-                      icon={<DeleteIcon />}
-                      onClick={() => handleDelete(cart.id)}
-                    />
-                    <NumberInput
-                      defaultValue={cart.quantity}
-                      min={0}
-                      max={cart.product.stock}
-                      size='sm'
-                      maxW='20'
-                      ml='6'
-                    >
-                      <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </Flex>
+                  </AspectRatio>
+                  <Box>
+                    <Text>
+                      {cart.product.name}
+                    </Text>
+                    <Text fontSize='sm'>
+                      {money(cart.product.price)}
+                    </Text>
+                  </Box>
                 </Stack>
               ))}
             </Stack>
@@ -176,7 +130,7 @@ export default function Cart() {
               </Text>
               <Flex mt='6'>
                 <Text fontWeight='500'>
-                  Total harga ({selected.length} barang)
+                  Total harga ({carts.length} barang)
                 </Text>
                 <Spacer />
                 <Text fontWeight='500'>
@@ -205,4 +159,4 @@ export default function Cart() {
   );
 }
 
-Cart.Layout = PublicLayout;
+CheckoutPage.Layout = PublicLayout;

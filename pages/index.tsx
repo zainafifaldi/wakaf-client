@@ -26,7 +26,7 @@ export async function getServerSideProps() {
   }
 }
 
-export default function Home({ products }) {
+export default function HomePage({ products }) {
   return (
     <>
       <Head>
@@ -50,4 +50,4 @@ export default function Home({ products }) {
   );
 }
 
-Home.Layout = PublicLayout;
+HomePage.Layout = PublicLayout;

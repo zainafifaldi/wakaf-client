@@ -45,7 +45,7 @@ export async function getServerSideProps({ params }) {
   }
 }
 
-export default function Home({ product }) {
+export default function ProductPage({ product }) {
   const [selectedImage, setSelectedImage] = useState<string>(product.images[0].image_url);
 
   async function addToCart() {
@@ -169,4 +169,4 @@ export default function Home({ product }) {
   );
 }
 
-Home.Layout = PublicLayout;
+ProductPage.Layout = PublicLayout;
