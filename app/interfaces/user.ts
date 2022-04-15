@@ -4,12 +4,12 @@ export interface UserToken {
 }
 
 export interface UserCredential {
-  name: string;
+  email: string;
   password?: string;
 }
 
 export interface User extends UserCredential {
-  email: string;
+  name: string;
   phone_number: string;
   address: string;
 }

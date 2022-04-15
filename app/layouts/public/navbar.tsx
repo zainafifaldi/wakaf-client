@@ -56,7 +56,7 @@ export default function NavbarPublicLayout() {
       bg={useColorModeValue('white', 'gray.900')}
       px={4}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-        <Box fontWeight='semibold'>
+        <Box fontWeight='500'>
           Pondok Saif Al-Ulum
         </Box>
 

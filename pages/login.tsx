@@ -28,8 +28,9 @@ export default function LoginPage() {
       const { data } = await AuthAPI.signIn(values);
       // localStorage.setItem('token', data.token);
     } catch (error) {
-      setSubmitting(false);
       console.log(error);
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -60,9 +61,9 @@ export default function LoginPage() {
           >
             <Formik
               initialValues={{ email: '', password: '' }}
-              onSubmit={(values, actions) => handleLogin(values, actions)}
+              onSubmit={handleLogin}
             >
-              {(props) => (
+              {({ isSubmitting }) => (
                 <Form>
                   <Stack spacing='4'>
                     <Text fontSize='xs' color='gray.500' align='center'>
@@ -104,7 +105,7 @@ export default function LoginPage() {
                       type='submit'
                       bg='green.400'
                       color='white'
-                      isLoading={props.isSubmitting}
+                      isLoading={isSubmitting}
                       _hover={{
                         bg: 'green.500',
                       }}

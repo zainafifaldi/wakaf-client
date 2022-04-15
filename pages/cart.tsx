@@ -38,8 +38,10 @@ export default function CartPage() {
     return acc + (cart.product.price * cart.quantity);
   }, 0);
 
+  const isAllSelected = selected.length && selected.length === carts.length;
+
   function toggleSelectAll() {
-    if (selected.length === carts.length) {
+    if (isAllSelected) {
       setSelected([]);
     } else {
       setSelected(carts.map((cart) => cart.id));
@@ -60,6 +62,7 @@ export default function CartPage() {
   async function handleDelete(id: number) {
     try {
       await CartAPI.deleteCartItem(id);
+      setSelected(selected.filter((selectedId) => selectedId !== id));
       setCarts(carts.filter((cart) => cart.id !== id));
     } catch (error) {
       console.log(error);
@@ -121,10 +124,17 @@ export default function CartPage() {
                 <StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />
               }
             >
+              <Checkbox
+                isChecked={isAllSelected}
+                onChange={toggleSelectAll}
+              >
+                Pilih semua
+              </Checkbox>
               {carts.map((cart) => (
                 <Stack key={cart.id} direction='column'>
                   <Stack direction='row' spacing='4'>
                     <Checkbox
+                      isChecked={selected.includes(cart.id)}
                       onChange={() => toggleSelected(cart.id)}
                     />
                     <AspectRatio w='75px' ratio={1}>

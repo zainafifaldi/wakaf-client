@@ -37,7 +37,7 @@ export default function ProductCard({ product }) {
           <Heading
             size='sm'
             my='2'
-            fontWeight='semibold'
+            fontWeight='500'
             lineHeight='tight'
             title={product.name}
             isTruncated
