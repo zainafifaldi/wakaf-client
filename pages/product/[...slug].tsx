@@ -46,7 +46,7 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function ProductPage({ product }) {
-  const [selectedImage, setSelectedImage] = useState<string>(product.images[0].image_url);
+  const [selectedImage, setSelectedImage] = useState<string>(product.images[0]?.image_url);
 
   async function addToCart() {
     try {

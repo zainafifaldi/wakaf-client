@@ -19,7 +19,7 @@ export default function ProductCard({ product }) {
       <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
         <AspectRatio ratio={1}>
           <Image
-            src={product.image ? product.image.image_url : process.env.DEFAULT_PRODUCT_IMAGE}
+            src={product.image ? product.image.image_url : process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_IMAGE}
             // fallbackSrc='https://via.placeholder.com/300'
             alt={product.name}
             fit='cover'
