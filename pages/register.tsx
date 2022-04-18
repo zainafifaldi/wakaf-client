@@ -85,8 +85,9 @@ export default function RegisterPage() {
               {(props) => (
                 <Form
                   onChange={(e) => {
-                    if(e.target.name == 'password')
-                      setPassword(e.target.value)
+                    const { name, value } = (e.target as HTMLInputElement)
+                    if(name == 'password')
+                      setPassword(value)
                   }}
                   >
                   <Stack spacing='4'>
