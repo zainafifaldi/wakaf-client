@@ -3,16 +3,16 @@ import ApiClient from './';
 
 const api = {
   getCarts(params?: CartEntryParams) {
-    return ApiClient.get<Cart[]>('/carts', { params });
+    return ApiClient.get<Cart[]>('/carts', 'public', { params });
   },
   addToCart(data: CartPayload) {
-    return ApiClient.post('/carts', { data });
+    return ApiClient.post('/carts', 'public', { data });
   },
   updateCart(id: number | string, data: CartPayload) {
-    return ApiClient.patch(`/carts/${id}`, { data });
+    return ApiClient.patch(`/carts/${id}`, 'public', { data });
   },
   deleteCartItem(id: number | string) {
-    return ApiClient.delete(`/carts/${id}`);
+    return ApiClient.delete(`/carts/${id}`, 'public');
   },
 };
 

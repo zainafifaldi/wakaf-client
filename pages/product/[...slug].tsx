@@ -21,17 +21,17 @@ import CartAPI from 'library/api/carts';
 import { money } from 'helpers/number';
 import PublicLayout from 'layouts/public/index';
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ res, params }) {
   try {
-    const [id] = params.slug;
-    const { data: product } = await ProductAPI.getProduct(id);
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
 
-    try {
-      const { data: images } = await ProductAPI.getProductImages(id);
-      product.images = images;
-    } catch (error) {
-      product.images = [];
-    }
+    const [id] = params.slug;
+    const [{ data: product }, { data: images }] = await Promise.all([
+      ProductAPI.getProduct(id),
+      ProductAPI.getProductImages(id),
+    ]);
+
+    product.images = images || [];
 
     return {
       props: {
@@ -46,7 +46,7 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function ProductPage({ product }) {
-  const [selectedImage, setSelectedImage] = useState<string>(product.images[0].image_url);
+  const [selectedImage, setSelectedImage] = useState<string>(product.images[0]?.image_url);
 
   async function addToCart() {
     try {

@@ -17,6 +17,7 @@ export interface APIResponse<T = any> {
 
 export type WrapperParams = [
   url: string,
+  scope: string,
   options: object,
 ];
 
