@@ -22,8 +22,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Formik, Form, Field } from 'formik';
 
-import CartAPI from 'library/api/carts';
-import TransactionAPI from 'library/api/transactions';
+import CartAPI from 'lib/api/carts';
+import TransactionAPI from 'lib/api/transactions';
 import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
 
@@ -77,7 +77,7 @@ export default function CheckoutPage() {
     }).catch(() => {
       router.replace('/');
     });
-  }, [router]);
+  }, [router.isReady]);
 
   return (
     <>

@@ -24,7 +24,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { Cart } from 'interfaces/cart';
-import CartAPI from 'library/api/carts';
+import CartAPI from 'lib/api/carts';
 import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
 

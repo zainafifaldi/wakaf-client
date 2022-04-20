@@ -1,5 +1,5 @@
 import { Product, ProductImage, ProductEntryParams } from 'interfaces/product';
-import ApiClient from './';
+import ApiClient from '.';
 
 const api = {
   getProducts(params?: ProductEntryParams) {

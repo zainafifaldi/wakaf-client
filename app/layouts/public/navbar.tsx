@@ -20,6 +20,8 @@ import {
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import NextLink from 'next/link';
 
+import useStore from 'store';
+
 const links = [
   {
     title: 'Home',
@@ -51,6 +53,8 @@ const NavLink = ({ href, children }: { href: string, children: ReactNode }) => (
 export default function NavbarPublicLayout() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = useStore((state) => state.user);
+
   return (
     <Box
       bg={useColorModeValue('white', 'gray.900')}
@@ -102,7 +106,7 @@ export default function NavbarPublicLayout() {
                 </Center>
                 <br />
                 <Center>
-                  <p>Username</p>
+                  <p>{user.name}</p>
                 </Center>
                 <br />
                 <MenuDivider />

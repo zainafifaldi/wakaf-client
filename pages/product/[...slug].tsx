@@ -16,8 +16,8 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 
-import ProductAPI from 'library/api/products';
-import CartAPI from 'library/api/carts';
+import ProductAPI from 'lib/api/products';
+import CartAPI from 'lib/api/carts';
 import { money } from 'helpers/number';
 import PublicLayout from 'layouts/public/index';
 

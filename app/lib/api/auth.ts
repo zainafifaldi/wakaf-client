@@ -1,5 +1,5 @@
-import { User, UserToken, UserCredential, AuthUser } from 'interfaces/user';
-import ApiClient from './';
+import { User, UserCredential, AuthUser } from 'interfaces/user';
+import ApiClient from '.';
 
 const api = {
   register(data: User) {

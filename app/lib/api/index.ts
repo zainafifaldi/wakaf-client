@@ -95,11 +95,15 @@ class ApiClient implements RequestMethod {
       return Promise.reject('Token is expired');
     }
 
-    if (!token) {
+    if (!this.isServer && !token) {
       return this.fetchToken();
     }
 
     return Promise.resolve(token);
+  }
+
+  get isServer() {
+    return typeof window === 'undefined';
   }
 
   get isLogin() {

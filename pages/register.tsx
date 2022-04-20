@@ -26,7 +26,7 @@ import {
 import { Field, Formik, Form } from 'formik';
 
 import { User } from 'interfaces/user';
-import AuthAPI from 'library/api/auth';
+import AuthAPI from 'lib/api/auth';
 
 export default function RegisterPage() {
   const [password, setPassword] = useState<string | ''>('')

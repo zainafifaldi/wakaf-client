@@ -5,7 +5,7 @@ import {
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
-import ProductAPI from 'library/api/products';
+import ProductAPI from 'lib/api/products';
 import PublicLayout from 'layouts/public/index';
 import Banner from 'components/Banner';
 import ProductCard from 'components/ProductCard';

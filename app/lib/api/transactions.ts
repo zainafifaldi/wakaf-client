@@ -1,5 +1,5 @@
 import { TransactionPayload, TransactionStatePayload, Transaction } from 'interfaces/transaction';
-import ApiClient from './';
+import ApiClient from '.';
 
 const api = {
   getTransactions(params?: object) {

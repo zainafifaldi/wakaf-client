@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import {
   CheckIcon,
   LockIcon,
@@ -19,14 +20,18 @@ import {
 import { Formik, Form, Field } from 'formik';
 
 import { UserCredential } from 'interfaces/user';
-import AuthAPI from 'library/api/auth';
+import ApiClient from 'lib/api';
+import AuthAPI from 'lib/api/auth';
 import buttonStyles from 'styles/forms/buttons.module.scss';
 
 export default function LoginPage() {
+  const router = useRouter();
+
   async function handleLogin(values: UserCredential, { setSubmitting }: any) {
     try {
       const { data } = await AuthAPI.signIn(values);
-      // localStorage.setItem('token', data.token);
+      ApiClient.saveToken(data);
+      router.replace('/');
     } catch (error) {
       console.log(error);
     } finally {
@@ -117,7 +122,7 @@ export default function LoginPage() {
               )}
             </Formik>
           </Box>
-          <NextLink href=''>
+          <NextLink href='/'>
             <a className={buttonStyles.noUnderline}>
               <Text color='green.400' fontSize='xs' _hover={{ color: 'green.600' }}>
                 Lupa password? Yuk hubungi admin di sini

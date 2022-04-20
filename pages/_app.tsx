@@ -1,7 +1,9 @@
 import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
+import useStore from 'store';
+import ApiClient from 'lib/api';
 import 'styles/global.scss';
 
 const colors = {
@@ -18,6 +20,11 @@ const Noop: FC = ({ children }) => <>{children}</>
 
 export default function App({ Component, pageProps }: AppProps) {
   const Layout = (Component as any).Layout || Noop;
+  const setUser = useStore((state) => state.setUser);
+
+  useEffect(() => {
+    setUser(ApiClient.token);
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>

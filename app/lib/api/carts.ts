@@ -1,5 +1,5 @@
 import { Cart, CartEntryParams, CartPayload } from 'interfaces/cart';
-import ApiClient from './';
+import ApiClient from '.';
 
 const api = {
   getCarts(params?: CartEntryParams) {
