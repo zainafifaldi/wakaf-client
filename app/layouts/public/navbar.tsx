@@ -16,22 +16,14 @@ import {
   Stack,
   useColorMode,
   Center,
+  Spacer,
+  Text,
+  Icon,
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { BiCartAlt, BiUser } from 'react-icons/bi';
 import NextLink from 'next/link';
 
 import useStore from 'store';
-
-const links = [
-  {
-    title: 'Home',
-    url: '/',
-  },
-  {
-    title: 'Cart',
-    url: '/cart',
-  },
-];
 
 const NavLink = ({ href, children }: { href: string, children: ReactNode }) => (
   <NextLink href={href} passHref>
@@ -39,9 +31,9 @@ const NavLink = ({ href, children }: { href: string, children: ReactNode }) => (
       px='2'
       py='1'
       rounded='md'
+      color='white'
       _hover={{
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
+        bg: 'green.600',
       }}
       href={href}
     >
@@ -57,62 +49,53 @@ export default function NavbarPublicLayout() {
 
   return (
     <Box
-      bg={useColorModeValue('white', 'gray.900')}
-      px={4}>
-      <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-        <Box fontWeight='500'>
-          Pondok Saif Al-Ulum
-        </Box>
+      pos='relative'
+      bg='green.500'
+      boxShadow='xl'
+      px='4'
+      zIndex='1'
+    >
+      <Flex h='14' alignItems='center' justifyContent='space-between'>
+        <NavLink href='/'>
+          <Text fontWeight='500'>
+            Pondok Saif Al-Ulum
+          </Text>
+        </NavLink>
 
-        <HStack spacing={8} alignItems={'center'}>
-          <HStack
-            as={'nav'}
-            spacing={4}
-            display={{ base: 'none', md: 'flex' }}
-          >
-            {links.map((link) => (
-              <NavLink key={link.title} href={link.url}>
-                {link.title}
-              </NavLink>
-            ))}
-          </HStack>
-        </HStack>
-
-        <Flex alignItems={'center'}>
-          <Stack direction={'row'} spacing={7}>
-            <Button onClick={toggleColorMode}>
-              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-            </Button>
+        <Flex alignItems='center'>
+          <Stack direction='row' spacing='7'>
+            <NavLink href='/cart'>
+              <Icon as={BiCartAlt} />
+            </NavLink>
 
             <Menu>
               <MenuButton
                 as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'sm'}
-                  src={'https://avatars.dicebear.com/api/male/username.svg'}
-                />
+                rounded='full'
+                variant='link'
+                cursor='pointer'
+                minW='0'
+              >
+                <Icon as={BiUser} color='white' />
               </MenuButton>
-              <MenuList alignItems={'center'}>
-                <br />
+              <MenuList alignItems='center' zIndex='2'>
                 <Center>
                   <Avatar
-                    size={'2xl'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    size='2xl'
+                    src='https://avatars.dicebear.com/api/male/username.svg'
                   />
                 </Center>
-                <br />
-                <Center>
+                <Center my='4'>
                   <p>{user.name}</p>
                 </Center>
-                <br />
                 <MenuDivider />
-                <MenuItem>Your Servers</MenuItem>
-                <MenuItem>Account Settings</MenuItem>
-                <MenuItem>Logout</MenuItem>
+                <NextLink href='/logout' passHref>
+                  <Link _hover={{ textDecoration: 'none' }}>
+                    <MenuItem fontSize='sm'>
+                      Logout
+                    </MenuItem>
+                  </Link>
+                </NextLink>
               </MenuList>
             </Menu>
           </Stack>

@@ -14,7 +14,16 @@ const colors = {
   },
 }
 
-const theme = extendTheme({ colors })
+const theme = extendTheme({
+  colors,
+  styles: {
+    global: () => ({
+      body: {
+        bg: 'gray.50',
+      },
+    }),
+  },
+});
 
 const Noop: FC = ({ children }) => <>{children}</>
 

@@ -2,7 +2,7 @@ import { Pagination } from './common/pagination';
 
 export interface ProductEntryParams extends Pagination {
   query?: string;
-  sort?: 'most_popular' | 'least_popular' | 'newest' | 'oldest' | 'price_lowest' | 'price_highest';
+  sort?: string;
 }
 
 export interface ProductImage {

@@ -399,7 +399,7 @@
   dependencies:
     "@chakra-ui/utils" "^1.10.4"
 
-"@chakra-ui/react@^1.7.3":
+"@chakra-ui/react@^1.8.8":
   version "1.8.8"
   resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-1.8.8.tgz#ca697dea94d94138043ef6fd62836b39107b4abd"
   integrity sha512-/XqL25J0i0h+usAXBngn/RTG2u1oQRzbhHe9tNHwFyNbx/izIADhQW/6ji06QU0KtaRIU77XvgSAyTtMJY1KmA==
@@ -2517,6 +2517,11 @@ react-focus-lock@2.5.2:
     react-clientside-effect "^1.2.5"
     use-callback-ref "^1.2.5"
     use-sidecar "^1.0.5"
+
+react-icons@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.3.1.tgz#2fa92aebbbc71f43d2db2ed1aed07361124e91ca"
+  integrity sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
