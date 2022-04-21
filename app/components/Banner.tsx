@@ -22,9 +22,11 @@ export default function Banner() {
   const side = useBreakpointValue({ base: '30%', md: '10px' });
 
   const cards = [
-    'https://images.unsplash.com/photo-1612852098516-55d01c75769a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-    'https://images.unsplash.com/photo-1627875764093-315831ac12f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-    'https://images.unsplash.com/photo-1571432248690-7fd6980a1ae2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804120376-Slide2-1.PNG',
+    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804290631-Slide8.PNG',
+    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804224610-Slide5.PNG',
+    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804272132-Slide7.PNG',
+    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804175831-Slide1-1.PNG',
   ];
 
   return (
