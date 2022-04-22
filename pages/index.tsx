@@ -5,19 +5,26 @@ import {
   Stack,
   Box,
   Text,
+  Skeleton,
+  AspectRatio,
+  InputGroup,
+  Input,
+  InputRightElement,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { BiSearchAlt } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 
 import { Product } from 'interfaces/product';
 import ProductAPI from 'lib/api/products';
 import PublicLayout from 'layouts/public/index';
 import Banner from 'components/Banner';
-import ProductCard from 'components/ProductCard';
+import ProductCard from 'components/Product/ProductCard';
 
 export default function HomePage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [sort, setSort] = useState<string>();
 
@@ -44,6 +51,7 @@ export default function HomePage() {
   useEffect(() => {
     if (!router.isReady) return;
 
+    setIsLoading(true);
     setSort(router.query.sort as string);
 
     ProductAPI.getProducts({
@@ -52,6 +60,8 @@ export default function HomePage() {
       setProducts(data);
     }).catch(() => {
       setProducts([]);
+    }).finally(() => {
+      setIsLoading(false);
     });
   }, [router.isReady, router.query]);
 
@@ -63,6 +73,7 @@ export default function HomePage() {
       <Container
         maxW='5xl'
         px='0'
+        mb='20'
         bg='white'
         boxShadow='2xl'
       >
@@ -70,7 +81,6 @@ export default function HomePage() {
         <Flex alignItems='stretch'>
           <Box
             w='250px'
-            bg='whitesmoke'
             borderRight='1px'
             borderColor='gray.200'
           >
@@ -126,11 +136,19 @@ export default function HomePage() {
             <Box
               p='4'
               bg='whitesmoke'
-              fontWeight='700'
               borderBottom='1px'
               borderColor='gray.200'
             >
-              Pencarian
+              <InputGroup>
+                <Input
+                  variant='unstyled'
+                  placeholder='Cari wakaf...'
+                  fontWeight='700'
+                />
+                <InputRightElement>
+                  <BiSearchAlt />
+                </InputRightElement>
+              </InputGroup>
             </Box>
 
             <SimpleGrid
@@ -138,12 +156,30 @@ export default function HomePage() {
               gap='1'
               mt='0'
             >
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
-              ))}
+              {isLoading
+                ? Array(4).fill(null).map((_, index) => (
+                  <AspectRatio key={index} ratio={1}>
+                    <Box
+                      p='4'
+                      bg='gray.100'
+                      flexDir='column'
+                      sx={{
+                        alignItems: 'flex-start !important',
+                        justifyContent: 'flex-end !important',
+                      }}
+                    >
+                      <Skeleton h='23px' w='150px' maxW='full' mb='2' />
+                      <Skeleton h='18px' w='100px' />
+                    </Box>
+                  </AspectRatio>
+                ))
+                : products.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                ))
+              }
             </SimpleGrid>
           </Stack>
         </Flex>

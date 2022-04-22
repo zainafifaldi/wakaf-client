@@ -34,6 +34,7 @@ export default function Banner() {
       pos='relative'
       height='400px'
       width='full'
+      bg='white'
       overflow='hidden'
     >
       {/* CSS files for react-slick */}

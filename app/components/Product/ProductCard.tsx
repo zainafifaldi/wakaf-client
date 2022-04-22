@@ -6,7 +6,6 @@ import {
   Badge,
   LinkBox,
   LinkOverlay,
-  Heading,
   Text,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
@@ -70,8 +69,8 @@ export default function ProductCard({ product }) {
           _hover={{
             _before: {
               top: '0',
-              bg: 'green.600',
-              opacity: '0.7',
+              bg: isOutOfStock ? 'gray.700' : 'green.500',
+              opacity: '0.8',
             }
           }}
         >
