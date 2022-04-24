@@ -80,7 +80,7 @@ export default function Banner() {
             key={index}
             height='6xl'
             pos='relative'
-            backgroundpos='center'
+            backgroundPosition='center'
             backgroundRepeat='no-repeat'
             backgroundSize='cover'
             backgroundImage={`url(${url})`}
