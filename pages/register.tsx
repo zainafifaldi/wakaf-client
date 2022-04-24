@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import {
   ViewOffIcon,
   ViewIcon,
@@ -27,8 +28,10 @@ import { Field, Formik, Form } from 'formik';
 
 import { User } from 'interfaces/user';
 import AuthAPI from 'lib/api/auth';
+import ApiClient from 'lib/api';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [password, setPassword] = useState<string | ''>('')
   const [passwordConfirmation, setPasswordConfirmation] = useState<string | ''>('')
   const [showPassword, setShowPassword] = useState<boolean | false>(false)
@@ -41,6 +44,8 @@ export default function RegisterPage() {
 
     try {
       const { data } = await AuthAPI.register(values);
+      ApiClient.saveToken(data);
+      router.replace('/');
     } catch (error) {
       setSubmitting(false);
       console.log(error);
