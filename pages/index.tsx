@@ -19,10 +19,33 @@ import { useEffect, useState } from 'react';
 import { Product } from 'interfaces/product';
 import ProductAPI from 'lib/api/products';
 import PublicLayout from 'layouts/public/index';
-import Banner from 'components/Banner';
+import BannerSlider from 'components/BannerSlider';
 import ProductCard from 'components/Product/ProductCard';
+import BannerAPI from 'lib/api/banners';
 
-export default function HomePage() {
+export async function getServerSideProps({ res, params }) {
+  try {
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
+
+    const [{ data: banners }] = await Promise.all([
+      BannerAPI.getBanners(),
+    ]);
+
+    return {
+      props: {
+        banners,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        data: []
+      },
+    };
+  }
+}
+
+export default function HomePage({ banners }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>([]);
@@ -77,7 +100,7 @@ export default function HomePage() {
         bg='white'
         boxShadow='2xl'
       >
-        <Banner />
+        <BannerSlider banners={ banners } />
         <Flex alignItems='stretch'>
           <Box
             w='250px'
