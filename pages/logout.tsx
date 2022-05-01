@@ -8,7 +8,7 @@ export default function LogoutPage() {
 
   useEffect(() => {
     ApiClient.destroyToken();
-    router.replace('/');
+    window.location.href = '/';
   }, []);
 
   return (null);

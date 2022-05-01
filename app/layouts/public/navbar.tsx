@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import {
   Box,
   Flex,
@@ -43,8 +43,8 @@ const NavLink = ({ href, children }: { href: string, children: ReactNode }) => (
 );
 
 export default function NavbarPublicLayout() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { colorMode, toggleColorMode } = useColorMode();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useStore((state) => state.user);
 
   return (
@@ -68,36 +68,46 @@ export default function NavbarPublicLayout() {
               <Icon as={BiCartAlt} />
             </NavLink>
 
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded='full'
-                variant='link'
-                cursor='pointer'
-                minW='0'
-              >
-                <Icon as={BiUser} color='white' />
-              </MenuButton>
-              <MenuList alignItems='center' zIndex='2'>
-                <Center>
-                  <Avatar
-                    size='2xl'
-                    src='https://avatars.dicebear.com/api/male/username.svg'
-                  />
-                </Center>
-                <Center my='4'>
-                  <p>{user.name}</p>
-                </Center>
-                <MenuDivider />
-                <NextLink href='/logout' passHref>
-                  <Link _hover={{ textDecoration: 'none' }}>
-                    <MenuItem fontSize='sm'>
-                      Logout
-                    </MenuItem>
-                  </Link>
-                </NextLink>
-              </MenuList>
-            </Menu>
+            { user?.user_id ?
+              (
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded='full'
+                    variant='link'
+                    cursor='pointer'
+                    minW='0'
+                  >
+                    <Icon as={BiUser} color='white' />
+                  </MenuButton>
+                  <MenuList alignItems='center' zIndex='2'>
+                    <Center>
+                      <Avatar
+                        size='2xl'
+                        src='https://avatars.dicebear.com/api/male/username.svg'
+                      />
+                    </Center>
+                    <Center my='4'>
+                      <p>{user.name}</p>
+                    </Center>
+                    <MenuDivider />
+                    <NextLink href='/logout' passHref>
+                      <Link _hover={{ textDecoration: 'none' }}>
+                        <MenuItem fontSize='sm'>
+                          Logout
+                        </MenuItem>
+                      </Link>
+                    </NextLink>
+                  </MenuList>
+                </Menu>
+              )
+              :
+              (
+                <NavLink href='/login'>
+                  Sign In
+                </NavLink>
+              )
+            }
           </Stack>
         </Flex>
       </Flex>
