@@ -23,32 +23,12 @@ import BannerSlider from 'components/BannerSlider';
 import ProductCard from 'components/Product/ProductCard';
 import BannerAPI from 'lib/api/banners';
 
-export async function getServerSideProps({ res, params }) {
-  try {
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
-
-    const [{ data: banners }] = await Promise.all([
-      BannerAPI.getBanners(),
-    ]);
-
-    return {
-      props: {
-        banners,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        data: []
-      },
-    };
-  }
-}
-
-export default function HomePage({ banners }) {
+export default function HomePage() {
   const router = useRouter();
+  const [banners, setBanners] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Product[]>([]);
+  const [query, setQuery] = useState<string>('');
   const [sort, setSort] = useState<string>();
 
   const sortOptions = {
@@ -71,15 +51,42 @@ export default function HomePage({ banners }) {
     }, undefined, { scroll: false });
   }
 
+  function handleSearchChange(e: any) {
+    setQuery(e.target.value);
+  }
+
+  function handleSearch(e: any) {
+    if (e.charCode === 13) {
+      router.push({
+        pathname: '/',
+        query: {
+          ...router.query,
+          query: e.target.value.trim(),
+        },
+      }, undefined, { scroll: false });
+    }
+  };
+
+  useEffect(() => {
+    BannerAPI.getBanners().then(({ data }) => {
+      setBanners(data);
+    }).catch(() => {
+      setBanners([]);
+    });
+  }, []);
+
   useEffect(() => {
     if (!router.isReady) return;
 
+    const query = router.query.query as string || '';
     const sort = router.query.sort as string || 'oldest';
     setIsLoading(true);
+    setQuery(query);
     setSort(sort);
 
     ProductAPI.getProducts({
       sort,
+      query: query.trim(),
     }).then(({ data }) => {
       setProducts(data);
     }).catch(() => {
@@ -165,10 +172,13 @@ export default function HomePage({ banners }) {
               >
               <InputGroup>
                 <Input
+                  value={query}
                   p='2'
                   variant='unstyled'
                   placeholder='Cari wakaf...'
                   fontWeight='700'
+                  onInput={handleSearchChange}
+                  onKeyPress={handleSearch}
                 />
                 <InputRightElement>
                   <BiSearchAlt />
