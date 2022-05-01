@@ -26,7 +26,6 @@ export default function BannerSlider({ banners }) {
       pos='relative'
       height='400px'
       width='full'
-      bg='white'
       overflow='hidden'
     >
       {/* CSS files for react-slick */}

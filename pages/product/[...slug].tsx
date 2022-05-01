@@ -175,7 +175,7 @@ export default function ProductPage({ product }) {
               <Stack>
                 <HStack spacing='6'>
                   <NumberInput
-                    defaultValue={quantity}
+                    value={quantity}
                     min={1}
                     max={product.stock}
                     disabled={isOutOfStock}
@@ -188,7 +188,7 @@ export default function ProductPage({ product }) {
                   )}
                 </HStack>
                 <Text fontSize='sm' color='gray.400'>
-                  Max pembelian {product.stock} pcs
+                  Maks. pembelian {product.stock} pcs
                 </Text>
               </Stack>
               <Flex justifyContent='space-between'>
@@ -211,7 +211,7 @@ export default function ProductPage({ product }) {
                 }}
                 onClick={addToCart}
               >
-                Berwakaf sekarang
+                + Keranjang
               </Button>
             </Stack>
           </Stack>

@@ -12,24 +12,26 @@ import {
   Checkbox,
   IconButton,
   Button,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  useColorModeValue,
+  Link,
+  Skeleton,
 } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { BiTrash } from 'react-icons/bi';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import debounce from 'lodash/debounce';
 
+import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { Cart } from 'interfaces/cart';
 import CartAPI from 'lib/api/carts';
 import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
+import { productUrl } from 'helpers/product';
+import NumberInput from 'components/Form/NumberInput';
 
 export default function CartPage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [carts, setCarts] = useState<Cart[]>([]);
   const [selected, setSelected] = useState<number[]>([]);
 
@@ -69,18 +71,16 @@ export default function CartPage() {
     }
   }
 
-  async function handleUpdate(id: number, quantity: number) {
+  const handleQuantityChange = debounce(async (cart: Cart, quantity: number) => {
     try {
-      await CartAPI.updateCart(id, {
-        quantity
-      });
-      setCarts(carts.map((cart) =>
-        cart.id === id ? { ...cart, quantity } : cart
+      await CartAPI.updateCart(cart.id, { quantity });
+      setCarts(carts.map((currentCart) =>
+        currentCart.id === cart.id ? { ...cart, quantity } : currentCart
       ));
     } catch (error) {
       console.log(error);
     }
-  }
+  }, 500);
 
   function handleCheckout() {
     router.push({
@@ -92,10 +92,13 @@ export default function CartPage() {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     CartAPI.getCarts().then(({ data }) => {
       setCarts(data);
     }).catch(() => {
       setCarts([]);
+    }).finally(() => {
+      setIsLoading(false);
     });
   }, []);
 
@@ -104,25 +107,29 @@ export default function CartPage() {
       <Head>
         <title>Keranjang | Wakaf</title>
       </Head>
-      <Container maxW='5xl' py='8'>
+      <Container
+        maxW='5xl'
+        p='6'
+        mb='20'
+        bg='white'
+        boxShadow='2xl'
+      >
         <Stack
           direction='row'
-          spacing='12'
+          spacing='6'
         >
           <Stack w='full' direction='column' spacing='6'>
-            <Text
-              fontWeight='500'
-              fontSize='xl'
-            >
+            <Text fontWeight='500' fontSize='xl'>
               Keranjang Saya
             </Text>
 
-            <Stack
-              direction='column'
-              spacing='6'
-              divider={
-                <StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />
-              }
+            <Box
+              pos='sticky'
+              top='0'
+              py='4'
+              bg='white'
+              borderBottomWidth='3px'
+              zIndex='1'
             >
               <Checkbox
                 isChecked={isAllSelected}
@@ -130,63 +137,97 @@ export default function CartPage() {
               >
                 Pilih semua
               </Checkbox>
-              {carts.map((cart) => (
-                <Stack key={cart.id} direction='column'>
-                  <Stack direction='row' spacing='4'>
-                    <Checkbox
-                      isChecked={selected.includes(cart.id)}
-                      onChange={() => toggleSelected(cart.id)}
-                    />
-                    <AspectRatio w='75px' ratio={1}>
-                      <Image
-                        src={cart.product.image?.image_url}
-                        fallbackSrc='https://via.placeholder.com/75'
-                        alt={cart.product.name}
-                        fit='cover'
-                        align='center'
-                      />
-                    </AspectRatio>
-                    <Box>
-                      <Text>
-                        {cart.product.name}
-                      </Text>
-                      <Text fontSize='sm'>
-                        {money(cart.product.price)}
-                      </Text>
-                    </Box>
-                  </Stack>
-                  <Flex>
-                    <Spacer />
-                    <IconButton
-                      aria-label='Delete item'
-                      size='sm'
-                      icon={<DeleteIcon />}
-                      onClick={() => handleDelete(cart.id)}
-                    />
-                    <NumberInput
-                      defaultValue={cart.quantity}
-                      min={0}
-                      max={cart.product.stock}
-                      size='sm'
-                      maxW='20'
-                      ml='6'
+            </Box>
+
+            <Stack
+              direction='column'
+              spacing='6'
+              divider={
+                <StackDivider borderColor='gray.200' />
+              }
+            >
+              {isLoading
+                ? Array(2).fill(null).map((_, index) => (
+                  <Stack key={index} direction='column'>
+                    <Stack
+                      direction='row'
+                      spacing='4'
+                      pl='8'
                     >
-                      <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </Flex>
-                </Stack>
+                      <Skeleton w='75px' h='75px' />
+                      <Box>
+                        <Skeleton w='150px' h='23px' mb='2' />
+                        <Skeleton w='100px' h='18px' />
+                      </Box>
+                    </Stack>
+                    <Flex>
+                      <Spacer />
+                      <Skeleton w='36px' h='36px' />
+                      <Skeleton w='150px' h='36px' ml='5' />
+                    </Flex>
+                  </Stack>
+                ))
+                : carts.map((cart) => (
+                  <Stack key={cart.id} direction='column'>
+                    <Stack direction='row' spacing='4'>
+                      <Checkbox
+                        isChecked={selected.includes(cart.id)}
+                        onChange={() => toggleSelected(cart.id)}
+                      />
+                      <NextLink href={productUrl(cart.product)} passHref>
+                        <Link>
+                          <AspectRatio w='75px' ratio={1}>
+                            <Image
+                              src={cart.product.image?.image_url}
+                              fallbackSrc={IMAGE_PLACEHOLDER}
+                              alt={cart.product.name}
+                              fit='cover'
+                              align='center'
+                            />
+                          </AspectRatio>
+                        </Link>
+                      </NextLink>
+                      <Box>
+                        <NextLink href={productUrl(cart.product)} passHref>
+                          <Link>
+                            {cart.product.name}
+                          </Link>
+                        </NextLink>
+                        <Text fontSize='sm' fontWeight='700'>
+                          {money(cart.product.price)}
+                        </Text>
+                      </Box>
+                    </Stack>
+                    <Flex>
+                      <Spacer />
+                      <IconButton
+                        aria-label='Delete item'
+                        size='sm'
+                        colorScheme='red'
+                        icon={<BiTrash />}
+                        onClick={() => handleDelete(cart.id)}
+                      />
+                      <Box maxW='150px' ml='5'>
+                        <NumberInput
+                          value={cart.quantity}
+                          min={1}
+                          max={cart.product.stock}
+                          size='sm'
+                          onChange={(quantity) => handleQuantityChange(cart, quantity)}
+                        />
+                      </Box>
+                    </Flex>
+                  </Stack>
               ))}
             </Stack>
           </Stack>
           <Box>
             <Box
+              pos='sticky'
+              top='6'
               w='sm'
               borderWidth='1px'
-              borderRadius='lg'
+              borderRadius='md'
               overflow='hidden'
               p='6'
             >
@@ -201,7 +242,7 @@ export default function CartPage() {
                   Total harga ({selected.length} barang)
                 </Text>
                 <Spacer />
-                <Text fontWeight='500'>
+                <Text fontWeight='700'>
                   {money(totalAmount)}
                 </Text>
               </Flex>
@@ -209,8 +250,8 @@ export default function CartPage() {
                 rounded='none'
                 w='full'
                 mt='6'
-                bg={useColorModeValue('gray.900', 'gray.50')}
-                color={useColorModeValue('white', 'gray.900')}
+                bg='gray.900'
+                color='white'
                 textTransform='uppercase'
                 _hover={{
                   transform: 'translateY(2px)',

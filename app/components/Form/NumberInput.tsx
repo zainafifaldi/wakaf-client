@@ -6,9 +6,10 @@ import {
 } from '@chakra-ui/react';
 
 export default function NumberInput({
-  defaultValue = 0,
+  value = 0,
   min,
   max,
+  size = 'md',
   disabled = false,
   onChange = (value) => {},
 }) {
@@ -17,7 +18,7 @@ export default function NumberInput({
     getIncrementButtonProps,
     getDecrementButtonProps
   } = useNumberInput({
-    defaultValue,
+    defaultValue: value,
     min,
     max,
     step: 1,
@@ -32,11 +33,15 @@ export default function NumberInput({
 
   return (
     <HStack maxW='320px'>
-      <Button {...dec}>
+      <Button size={size} {...dec}>
         -
       </Button>
-      <Input textAlign='center' {...input} />
-      <Button {...inc}>
+      <Input
+        size={size}
+        textAlign='center'
+        {...input}
+      />
+      <Button size={size} {...inc}>
         +
       </Button>
     </HStack>

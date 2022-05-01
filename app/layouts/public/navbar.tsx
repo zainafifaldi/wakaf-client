@@ -1,9 +1,8 @@
-import { useEffect, useState, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {
   Box,
   Flex,
   Avatar,
-  HStack,
   Link,
   Button,
   Menu,
@@ -11,41 +10,56 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
-  useColorModeValue,
   Stack,
-  useColorMode,
   Center,
-  Spacer,
   Text,
   Icon,
+  Badge,
 } from '@chakra-ui/react';
 import { BiCartAlt, BiUser } from 'react-icons/bi';
 import NextLink from 'next/link';
 
 import useStore from 'store';
 
-const NavLink = ({ href, children }: { href: string, children: ReactNode }) => (
+interface NavLinkProps {
+  href: string;
+  counter?: number;
+  children: ReactNode;
+}
+
+const NavLink = (
+  { href, counter, children }: NavLinkProps
+) => (
   <NextLink href={href} passHref>
     <Link
       px='2'
       py='1'
+      pos='relative'
       rounded='md'
       color='white'
       _hover={{
         bg: 'green.600',
       }}
-      href={href}
     >
       {children}
+      {!!counter && (
+        <Badge
+          pos='absolute'
+          top='-1'
+          right='-1'
+          variant='solid'
+          colorScheme='red'
+        >
+          {counter}
+        </Badge>
+      )}
     </Link>
   </NextLink>
 );
 
 export default function NavbarPublicLayout() {
-  // const { colorMode, toggleColorMode } = useColorMode();
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useStore((state) => state.user);
+  const cartCount = useStore((state) => state.cartCount);
 
   return (
     <Box
@@ -64,7 +78,7 @@ export default function NavbarPublicLayout() {
 
         <Flex alignItems='center'>
           <Stack direction='row' spacing='7'>
-            <NavLink href='/cart'>
+            <NavLink href='/cart' counter={cartCount}>
               <Icon as={BiCartAlt} />
             </NavLink>
 
@@ -88,11 +102,11 @@ export default function NavbarPublicLayout() {
                       />
                     </Center>
                     <Center my='4'>
-                      <p>{user.name}</p>
+                      <Text>{user.name}</Text>
                     </Center>
                     <MenuDivider />
                     <NextLink href='/logout' passHref>
-                      <Link _hover={{ textDecoration: 'none' }}>
+                      <Link _hover={{ textDecor: 'none' }}>
                         <MenuItem fontSize='sm'>
                           Logout
                         </MenuItem>
