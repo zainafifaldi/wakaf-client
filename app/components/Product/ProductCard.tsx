@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
+import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { money } from 'helpers/number';
 import { productUrl } from 'helpers/product';
 
@@ -27,8 +28,8 @@ export default function ProductCard({ product }) {
           }}
         >
           <Image
-            src={product.image ? product.image.image_url : process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_IMAGE}
-            // fallbackSrc='https://via.placeholder.com/300'
+            src={product.image?.image_url}
+            fallbackSrc={IMAGE_PLACEHOLDER}
             alt={product.name}
             fit='cover'
             align='center'

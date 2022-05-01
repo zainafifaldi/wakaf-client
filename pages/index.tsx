@@ -51,11 +51,12 @@ export default function HomePage() {
   useEffect(() => {
     if (!router.isReady) return;
 
+    const sort = router.query.sort as string || 'oldest';
     setIsLoading(true);
-    setSort(router.query.sort as string);
+    setSort(sort);
 
     ProductAPI.getProducts({
-      sort: router.query.sort as string,
+      sort,
     }).then(({ data }) => {
       setProducts(data);
     }).catch(() => {
@@ -134,13 +135,14 @@ export default function HomePage() {
 
           <Stack flexGrow={1} spacing='0'>
             <Box
-              p='4'
+              p='2'
               bg='whitesmoke'
               borderBottom='1px'
               borderColor='gray.200'
-            >
+              >
               <InputGroup>
                 <Input
+                  p='2'
                   variant='unstyled'
                   placeholder='Cari wakaf...'
                   fontWeight='700'

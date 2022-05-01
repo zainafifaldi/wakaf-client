@@ -6,7 +6,7 @@ import {
   Text,
   VisuallyHidden,
 } from '@chakra-ui/react';
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaInstagram } from 'react-icons/fa';
 import { ReactNode } from 'react';
 
 const Logo = (props: any) => {
@@ -47,6 +47,7 @@ const SocialButton = ({
       cursor='pointer'
       as='a'
       href={href}
+      target='_blank'
       display='inline-flex'
       alignItems='center'
       justifyContent='center'
@@ -77,15 +78,9 @@ export default function SmallWithLogoLeft() {
         align={{ base: 'center', md: 'center' }}
       >
         <Logo />
-        <Text>© 2022 Chakra Templates. All rights reserved</Text>
+        <Text>© {new Date().getFullYear()} Pondok Saif Al-Ulum. All rights reserved</Text>
         <Stack direction='row' spacing='6'>
-          <SocialButton label='Twitter' href='#'>
-            <FaTwitter />
-          </SocialButton>
-          <SocialButton label='YouTube' href='#'>
-            <FaYoutube />
-          </SocialButton>
-          <SocialButton label={'Instagram'} href='#'>
+          <SocialButton label={'Instagram'} href='https://www.instagram.com/pondok.saifalulum'>
             <FaInstagram />
           </SocialButton>
         </Stack>

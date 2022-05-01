@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 
+import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import ProductAPI from 'lib/api/products';
 import CartAPI from 'lib/api/carts';
 import { money } from 'helpers/number';
@@ -75,7 +76,7 @@ export default function ProductPage({ product }) {
                 rounded='md'
                 alt={product.name}
                 src={selectedImage}
-                fallbackSrc='https://via.placeholder.com/800'
+                fallbackSrc={IMAGE_PLACEHOLDER}
                 fit='cover'
                 align='center'
               />
@@ -93,13 +94,13 @@ export default function ProductPage({ product }) {
                     cursor='pointer'
                     overflow='hidden'
                     borderWidth='2px'
-                    borderColor={selectedImage === image.image_url ? 'blue.400' : 'transparent'}
+                    borderColor={selectedImage === image.image_url ? 'green.500' : 'transparent'}
                     onClick={() => setSelectedImage(image.image_url)}
                   >
                     <Image
                       alt={product.name}
                       src={image.image_url}
-                      fallbackSrc='https://via.placeholder.com/100'
+                      fallbackSrc={IMAGE_PLACEHOLDER}
                       boxSize='100px'
                       fit='cover'
                       align='center'
