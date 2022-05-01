@@ -31,7 +31,7 @@ export default function LoginPage() {
     try {
       const { data } = await AuthAPI.signIn(values);
       ApiClient.saveToken(data);
-      router.replace('/');
+      window.location.href = '/';
     } catch (error) {
       console.log(error);
     } finally {
