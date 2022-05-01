@@ -17,11 +17,11 @@ import { BiSearchAlt } from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 
 import { Product } from 'interfaces/product';
+import BannerAPI from 'lib/api/banners';
 import ProductAPI from 'lib/api/products';
 import PublicLayout from 'layouts/public/index';
 import BannerSlider from 'components/BannerSlider';
 import ProductCard from 'components/Product/ProductCard';
-import BannerAPI from 'lib/api/banners';
 
 export default function HomePage() {
   const router = useRouter();

@@ -22,17 +22,18 @@ export default function PublicLayout({ children }) {
           left: '0',
           right: '0',
           bg: 'green.500',
+          zIndex: '-1',
         }}
       >
-          <Text
-            fontSize='3xl'
-            fontWeight='700'
-          >
-            Berwakaf Semudah Belanja Online!
-          </Text>
-          <Text>
-            Wakaf Pembangunan Masjid & Pesantren Saif al-Ulum
-          </Text>
+        <Text
+          fontSize='3xl'
+          fontWeight='700'
+        >
+          Berwakaf Semudah Belanja Online!
+        </Text>
+        <Text>
+          Wakaf Pembangunan Masjid & Pesantren Saif al-Ulum
+        </Text>
       </Box>
       {children}
       <FooterPublicLayout />

@@ -68,7 +68,7 @@ export default function NavbarPublicLayout() {
               <Icon as={BiCartAlt} />
             </NavLink>
 
-            { user?.user_id ?
+            {user?.user_id ?
               (
                 <Menu>
                   <MenuButton

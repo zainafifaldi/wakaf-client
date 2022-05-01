@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import {
   AspectRatio,
+  Flex,
   SimpleGrid,
   Stack,
+  HStack,
   StackDivider,
   Container,
   Alert,
@@ -12,7 +14,6 @@ import {
   Heading,
   Text,
   Button,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 
@@ -21,6 +22,7 @@ import ProductAPI from 'lib/api/products';
 import CartAPI from 'lib/api/carts';
 import { money } from 'helpers/number';
 import PublicLayout from 'layouts/public/index';
+import NumberInput from 'components/Form/NumberInput';
 
 export async function getServerSideProps({ res, params }) {
   try {
@@ -48,12 +50,19 @@ export async function getServerSideProps({ res, params }) {
 
 export default function ProductPage({ product }) {
   const [selectedImage, setSelectedImage] = useState<string>(product.images[0]?.image_url);
+  const [quantity, setQuantity] = useState<number>(1);
+  const isOutOfStock = product.stock === 0;
+  const totalAmount = product.price * quantity;
+
+  function handleQuantityChange(value: number) {
+    setQuantity(value);
+  }
 
   async function addToCart() {
     try {
       await CartAPI.addToCart({
+        quantity,
         product_id: product.id,
-        quantity: 1,
       });
     } catch (error) {
       console.log(error);
@@ -65,12 +74,18 @@ export default function ProductPage({ product }) {
       <Head>
         <title>{product.name} | Wakaf</title>
       </Head>
-      <Container maxW='5xl' py='8'>
+      <Container
+        maxW='5xl'
+        p='6'
+        mb='20'
+        bg='white'
+        boxShadow='2xl'
+      >
         <SimpleGrid
           columns={{ base: 1, lg: 2 }}
-          spacing={{ base: 8, md: 10 }}
+          spacing='6'
         >
-          <Stack direction='column' spacing='6'>
+          <Stack direction='column' spacing='4'>
             <AspectRatio ratio={1}>
               <Image
                 rounded='md'
@@ -81,10 +96,11 @@ export default function ProductPage({ product }) {
                 align='center'
               />
             </AspectRatio>
+
             {product.images.length > 1 && (
               <SimpleGrid
                 columns={{ base: 4, md: 6, lg: 5 }}
-                spacing={{ base: 2, md: 4 }}
+                spacing='3'
               >
                 {product.images.map((image) => (
                   <AspectRatio
@@ -114,10 +130,13 @@ export default function ProductPage({ product }) {
           </Stack>
           <Stack spacing={{ base: 6, md: 10 }}>
             <Box as='header'>
-              <Alert status='warning' mb='2'>
-                <AlertIcon />
-                Stok tidak tersedia
-              </Alert>
+              {isOutOfStock && (
+                <Alert status='warning' mb='2'>
+                  <AlertIcon />
+                  Stok tidak tersedia
+                </Alert>
+              )}
+
               <Heading
                 lineHeight='1.1'
                 fontWeight='600'
@@ -126,7 +145,7 @@ export default function ProductPage({ product }) {
                 {product.name}
               </Heading>
               <Text
-                color={useColorModeValue('gray.900', 'gray.400')}
+                color='gray.900'
                 fontWeight='300'
                 fontSize='2xl'
               >
@@ -138,7 +157,7 @@ export default function ProductPage({ product }) {
               spacing={{ base: 4, sm: 6 }}
               direction='column'
               divider={
-                <StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />
+                <StackDivider borderColor='gray.200' />
               }
             >
               <Text>
@@ -146,23 +165,55 @@ export default function ProductPage({ product }) {
               </Text>
             </Stack>
 
-            <Button
-              rounded='none'
-              w='full'
-              mt='8'
-              size='lg'
-              py='7'
-              bg={useColorModeValue('gray.900', 'gray.50')}
-              color={useColorModeValue('white', 'gray.900')}
-              textTransform='uppercase'
-              _hover={{
-                transform: 'translateY(2px)',
-                boxShadow: 'lg',
-              }}
-              onClick={addToCart}
+            <Stack
+              p='4'
+              borderWidth='1px'
+              borderRadius='md'
+              direction='column'
+              spacing='4'
             >
-              Berwakaf sekarang
-            </Button>
+              <Stack>
+                <HStack spacing='6'>
+                  <NumberInput
+                    defaultValue={quantity}
+                    min={1}
+                    max={product.stock}
+                    disabled={isOutOfStock}
+                    onChange={handleQuantityChange}
+                  />
+                  {!isOutOfStock && (
+                    <Box>
+                      Stok <Text as='span' fontWeight='700'>{product.stock}</Text>
+                    </Box>
+                  )}
+                </HStack>
+                <Text fontSize='sm' color='gray.400'>
+                  Max pembelian {product.stock} pcs
+                </Text>
+              </Stack>
+              <Flex justifyContent='space-between'>
+                <Text>Subtotal</Text>
+                <Text fontWeight='700'>{ money(totalAmount) }</Text>
+              </Flex>
+              <Button
+                rounded='none'
+                w='full'
+                mt='8'
+                size='lg'
+                py='7'
+                bg='gray.900'
+                color='white'
+                textTransform='uppercase'
+                disabled={isOutOfStock}
+                _hover={{
+                  transform: 'translateY(2px)',
+                  boxShadow: 'lg',
+                }}
+                onClick={addToCart}
+              >
+                Berwakaf sekarang
+              </Button>
+            </Stack>
           </Stack>
         </SimpleGrid>
       </Container>
