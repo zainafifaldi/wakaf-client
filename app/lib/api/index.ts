@@ -48,7 +48,7 @@ class ApiClient implements RequestMethod {
         url,
         method,
         headers: {
-          Authorization: `Token ${token}`,
+          Authorization: (this.isLogin ? `Token ${token}` : `Guest ${token}`),
         },
       });
       return response.data;

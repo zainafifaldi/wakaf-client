@@ -15,19 +15,11 @@ const settings = {
   slidesToScroll: 1,
 };
 
-export default function Banner() {
+export default function BannerSlider({ banners }) {
   const [slider, setSlider] = useState<Slider | null>(null);
 
   const top = useBreakpointValue({ base: '90%', md: '50%' });
   const side = useBreakpointValue({ base: '30%', md: '10px' });
-
-  const cards = [
-    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804120376-Slide2-1.PNG',
-    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804290631-Slide8.PNG',
-    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804224610-Slide5.PNG',
-    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804272132-Slide7.PNG',
-    'https://tokotalk.s3.ap-southeast-1.amazonaws.com/vendors/prod/630739/assets/image/1637804175831-Slide1-1.PNG',
-  ];
 
   return (
     <Box
@@ -75,15 +67,15 @@ export default function Banner() {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {cards.map((url, index) => (
+        {banners.map((banner, index) => (
           <Box
             key={index}
             height='6xl'
             pos='relative'
-            backgroundpos='center'
+            backgroundPosition='center'
             backgroundRepeat='no-repeat'
             backgroundSize='cover'
-            backgroundImage={`url(${url})`}
+            backgroundImage={`url(${banner.image_url})`}
           />
         ))}
       </Slider>

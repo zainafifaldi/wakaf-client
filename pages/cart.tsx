@@ -139,7 +139,7 @@ export default function CartPage() {
                     />
                     <AspectRatio w='75px' ratio={1}>
                       <Image
-                        src={cart.product.image.image_url}
+                        src={cart.product.image?.image_url}
                         fallbackSrc='https://via.placeholder.com/75'
                         alt={cart.product.name}
                         fit='cover'
