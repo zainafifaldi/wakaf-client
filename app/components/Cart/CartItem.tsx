@@ -10,6 +10,7 @@ import {
   Image,
   Spacer,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { BiTrash } from 'react-icons/bi';
 import NextLink from 'next/link';
 
@@ -31,8 +32,20 @@ interface CartItemProps {
 export default function CartItem(
   { cart, isSelected, editable, onToggleSelected, onDelete, onQuantityChange }: CartItemProps
 ) {
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const totalAmount = cart.quantity * cart.product.price;
   const isOutOfStock = cart.product.stock === 0;
+
+  async function handleDelete() {
+    setIsUpdating(true);
+    try {
+      await onDelete(cart.id);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsUpdating(false);
+    }
+  }
 
   return (
     <Stack key={cart.id} direction='column'>
@@ -80,15 +93,17 @@ export default function CartItem(
               aria-label='Delete item'
               size='sm'
               colorScheme='red'
+              isLoading={isUpdating}
               icon={<BiTrash />}
-              onClick={() => onDelete(cart.id)}
+              onClick={handleDelete}
             />
             <Box maxW='150px' ml='5'>
               <NumberInput
                 value={cart.quantity}
                 min={1}
                 max={cart.product.stock}
-                invalid={cart.quantity > cart.product.stock}
+                isDisabled={isUpdating}
+                isInvalid={cart.quantity > cart.product.stock}
                 size='sm'
                 onChange={(quantity) => onQuantityChange(cart, quantity)}
               />

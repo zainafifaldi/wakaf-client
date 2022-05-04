@@ -14,6 +14,7 @@ import {
   Heading,
   Text,
   Button,
+  useToast,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 
@@ -50,6 +51,7 @@ export async function getServerSideProps({ res, params }) {
 }
 
 export default function ProductPage({ product }) {
+  const toast = useToast();
   const [selectedImage, setSelectedImage] = useState<string>(product.images[0]?.image_url);
   const [quantity, setQuantity] = useState<number>(1);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -70,6 +72,15 @@ export default function ProductPage({ product }) {
       });
 
       getCartCount();
+      toast({
+        description: `${product.name} berhasil dimasukkan ke keranjang`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        containerStyle: {
+          fontSize: '0.875rem',
+        }
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -186,7 +197,7 @@ export default function ProductPage({ product }) {
                     value={quantity}
                     min={1}
                     max={product.stock}
-                    disabled={isOutOfStock}
+                    isDisabled={isOutOfStock}
                     onChange={handleQuantityChange}
                   />
                   {!isOutOfStock && (

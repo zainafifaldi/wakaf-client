@@ -12,6 +12,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Skeleton,
   FormErrorMessage,
 } from '@chakra-ui/react';
 import Head from 'next/head';
@@ -30,8 +31,12 @@ export default function CheckoutPage() {
   const router = useRouter();
   const user = useStore((state) => state.user);
   const isLoggedIn = useStore((state) => state.isLoggedIn());
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [carts, setCarts] = useState<any[]>([]);
   const [selfDonate, setSelfDonate] = useState<boolean>(false);
+
+  const ids = router.query.ids;
+  const selectedIds = Array.isArray(ids) ? ids : [ids];
 
   const totalAmount = carts.reduce((acc, cart) => {
     return acc + (cart.product.price * cart.quantity);
@@ -64,7 +69,7 @@ export default function CheckoutPage() {
         payment_method: 'bank_transfer',
         bank_name: 'muamalat',
       });
-      router.push(`/transaction/${data.id}`);
+      router.replace(`/transaction/${data.id}`);
     } catch (error) {
       console.log(error);
     } finally {
@@ -91,9 +96,6 @@ export default function CheckoutPage() {
   }
 
   useEffect(() => {
-    const ids = router.query.ids;
-    const selectedIds = Array.isArray(ids) ? ids : [ids];
-
     if (!router.isReady) {
       return;
     } else if (!ids || selectedIds.length === 0) {
@@ -105,10 +107,13 @@ export default function CheckoutPage() {
       return;
     }
 
+    setIsLoading(true);
     CartAPI.getCarts({ selected_ids: selectedIds }).then(({ data }) => {
       setCarts(data);
     }).catch(() => {
       router.replace('/');
+    }).finally(() => {
+      setIsLoading(false);
     });
   }, [router.isReady]);
 
@@ -205,12 +210,33 @@ export default function CheckoutPage() {
                       spacing='4'
                       divider={<StackDivider borderColor='gray.200' />}
                     >
-                      {carts.map((cart) => (
-                        <CartItem
-                          key={cart.id}
-                          cart={cart}
-                        />
-                      ))}
+                      {isLoading
+                        ? selectedIds.map((_, index) => (
+                          <Stack key={index} direction='column'>
+                            <Stack
+                              direction='row'
+                              spacing='4'
+                            >
+                              <Skeleton w='75px' h='75px' />
+                              <Box>
+                                <Skeleton w='150px' h='23px' mb='2' />
+                                <Skeleton w='100px' h='18px' mb='2' />
+                                <Skeleton w='80px' h='16px' />
+                              </Box>
+                            </Stack>
+                            <Flex pt='2' justifyContent='space-between'>
+                              <Skeleton w='60px' h='23px' />
+                              <Skeleton w='100px' h='23px' />
+                            </Flex>
+                          </Stack>
+                        ))
+                        : carts.map((cart) => (
+                          <CartItem
+                            key={cart.id}
+                            cart={cart}
+                          />
+                        ))
+                      }
                     </Stack>
                   </Stack>
                 </Stack>
