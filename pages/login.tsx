@@ -9,6 +9,7 @@ import {
   Heading,
   Text,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -21,22 +22,32 @@ import { Formik, Form, Field } from 'formik';
 import { UserCredential } from 'interfaces/user';
 import ApiClient from 'lib/api';
 import AuthAPI from 'lib/api/auth';
+import useStore from 'store';
 import buttonStyles from 'styles/forms/buttons.module.scss';
 
 export default function LoginPage() {
   const router = useRouter();
+  const isLoggedIn = useStore((state) => state.isLoggedIn());
+  let callbackUrl = router.query.continue as string;
+  callbackUrl = callbackUrl ? decodeURIComponent(callbackUrl) : '/';
 
   async function handleLogin(values: UserCredential, { setSubmitting }: any) {
     try {
       const { data } = await AuthAPI.signIn(values);
       ApiClient.saveToken(data);
-      window.location.href = '/';
+      window.location.href = callbackUrl;
     } catch (error) {
       console.log(error);
     } finally {
       setSubmitting(false);
     }
   }
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      window.location.href = callbackUrl;
+    }
+  }, [isLoggedIn]);
 
   return (
     <>

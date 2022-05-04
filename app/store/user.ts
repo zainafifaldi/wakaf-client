@@ -5,6 +5,7 @@ import { StoreState } from '.';
 
 export interface UserState {
   user: AuthUser;
+  isLoggedIn: () => boolean;
   setUser: (user: AuthUser) => void;
 }
 
@@ -17,6 +18,7 @@ const createUserState = (set: SetState<StoreState>, get: GetState<StoreState>) =
     address: '',
     token: '',
   },
+  isLoggedIn: () => !!get().user.user_id,
   setUser: (user: AuthUser) => set(() => ({ user })),
 });
 

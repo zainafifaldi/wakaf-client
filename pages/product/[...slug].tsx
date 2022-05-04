@@ -52,6 +52,7 @@ export async function getServerSideProps({ res, params }) {
 export default function ProductPage({ product }) {
   const [selectedImage, setSelectedImage] = useState<string>(product.images[0]?.image_url);
   const [quantity, setQuantity] = useState<number>(1);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const isOutOfStock = product.stock === 0;
   const totalAmount = product.price * quantity;
   const getCartCount = useStore((state) => state.getCartCount);
@@ -61,6 +62,7 @@ export default function ProductPage({ product }) {
   }
 
   async function addToCart() {
+    setIsSubmitting(true);
     try {
       await CartAPI.addToCart({
         quantity,
@@ -70,6 +72,8 @@ export default function ProductPage({ product }) {
       getCartCount();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -209,6 +213,7 @@ export default function ProductPage({ product }) {
                 color='white'
                 textTransform='uppercase'
                 isDisabled={isOutOfStock}
+                isLoading={isSubmitting}
                 _hover={{
                   transform: 'translateY(2px)',
                   boxShadow: 'lg',

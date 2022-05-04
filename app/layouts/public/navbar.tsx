@@ -27,38 +27,42 @@ interface NavLinkProps {
   children: ReactNode;
 }
 
-const NavLink = (
-  { href, counter, children }: NavLinkProps
-) => (
-  <NextLink href={href} passHref>
-    <Link
-      px='2'
-      py='1'
-      pos='relative'
-      rounded='md'
-      color='white'
-      _hover={{
-        bg: 'green.600',
-      }}
-    >
-      {children}
-      {!!counter && (
-        <Badge
-          pos='absolute'
-          top='-1'
-          right='-1'
-          variant='solid'
-          colorScheme='red'
-        >
-          {counter}
-        </Badge>
-      )}
-    </Link>
-  </NextLink>
-);
+function NavLink({ href, counter, children }: NavLinkProps) {
+  const displayedCounter = counter > 99 ? '99+' : counter;
+
+  return (
+    <NextLink href={href} passHref>
+      <Link
+        h='63px'
+        px='4'
+        pos='relative'
+        display='flex'
+        alignItems='center'
+        color='white'
+        _hover={{
+          bg: 'green.600',
+        }}
+      >
+        {children}
+        {!!counter && (
+          <Badge
+            pos='absolute'
+            top='2'
+            right='1'
+            variant='solid'
+            colorScheme='red'
+          >
+            {displayedCounter}
+          </Badge>
+        )}
+      </Link>
+    </NextLink>
+  )
+};
 
 export default function NavbarPublicLayout() {
   const user = useStore((state) => state.user);
+  const isLoggedIn = useStore((state) => state.isLoggedIn());
   const cartCount = useStore((state) => state.cartCount);
 
   return (
@@ -77,20 +81,22 @@ export default function NavbarPublicLayout() {
         </NavLink>
 
         <Flex alignItems='center'>
-          <Stack direction='row' spacing='7'>
+          <Stack direction='row' spacing='1'>
             <NavLink href='/cart' counter={cartCount}>
               <Icon as={BiCartAlt} />
             </NavLink>
 
-            {user?.user_id ?
-              (
-                <Menu>
+            {isLoggedIn
+              ? <Menu>
                   <MenuButton
-                    as={Button}
-                    rounded='full'
-                    variant='link'
+                    as={Link}
+                    px='4'
+                    display='flex'
+                    alignItems='center'
                     cursor='pointer'
-                    minW='0'
+                    _hover={{
+                      bg: 'green.600',
+                    }}
                   >
                     <Icon as={BiUser} color='white' />
                   </MenuButton>
@@ -114,13 +120,11 @@ export default function NavbarPublicLayout() {
                     </NextLink>
                   </MenuList>
                 </Menu>
-              )
-              :
-              (
-                <NavLink href='/login'>
-                  Sign In
+              : <NavLink href='/login'>
+                  <Text fontSize='sm'>
+                    Sign In
+                  </Text>
                 </NavLink>
-              )
             }
           </Stack>
         </Flex>

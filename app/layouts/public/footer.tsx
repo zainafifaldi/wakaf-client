@@ -70,15 +70,16 @@ export default function SmallWithLogoLeft() {
     >
       <Container
         as={Stack}
-        maxW='6xl'
+        maxW='5xl'
         py='4'
+        px='0'
         direction={{ base: 'column', md: 'row' }}
         spacing='4'
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
         <Logo />
-        <Text>© {new Date().getFullYear()} Pondok Saif Al-Ulum. All rights reserved</Text>
+        <Text fontSize='sm'>© {new Date().getFullYear()} Pondok Saif Al-Ulum. All rights reserved</Text>
         <Stack direction='row' spacing='6'>
           <SocialButton label={'Instagram'} href='https://www.instagram.com/pondok.saifalulum'>
             <FaInstagram />

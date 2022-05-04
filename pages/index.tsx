@@ -108,7 +108,7 @@ export default function HomePage() {
         bg='white'
         boxShadow='2xl'
       >
-        <BannerSlider banners={ banners } />
+        <BannerSlider banners={banners} />
         <Flex alignItems='stretch'>
           <Box
             w='250px'

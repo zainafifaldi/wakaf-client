@@ -29,6 +29,7 @@ import PaymentMethod from 'components/Checkout/PaymentMethod';
 export default function CheckoutPage() {
   const router = useRouter();
   const user = useStore((state) => state.user);
+  const isLoggedIn = useStore((state) => state.isLoggedIn());
   const [carts, setCarts] = useState<any[]>([]);
   const [selfDonate, setSelfDonate] = useState<boolean>(false);
 
@@ -90,9 +91,20 @@ export default function CheckoutPage() {
   }
 
   useEffect(() => {
-    if (!router.isReady) return;
+    const ids = router.query.ids;
+    const selectedIds = Array.isArray(ids) ? ids : [ids];
 
-    const selectedIds = Array.isArray(router.query.ids) ? router.query.ids : [router.query.ids];
+    if (!router.isReady) {
+      return;
+    } else if (!ids || selectedIds.length === 0) {
+      router.replace('/cart');
+      return;
+    } else if (!isLoggedIn) {
+      const callbackUrl = encodeURIComponent(router.asPath);
+      router.replace(`/login?continue=${callbackUrl}`);
+      return;
+    }
+
     CartAPI.getCarts({ selected_ids: selectedIds }).then(({ data }) => {
       setCarts(data);
     }).catch(() => {
@@ -147,6 +159,7 @@ export default function CheckoutPage() {
                             <Input
                               id='donor-name'
                               placeholder='Nama Pewakaf'
+                              variant='filled'
                               isDisabled={selfDonate}
                               {...field}
                             />
@@ -161,6 +174,7 @@ export default function CheckoutPage() {
                             <Input
                               id='donor-phone-number'
                               placeholder='Nomor HP Pewakaf'
+                              variant='filled'
                               isDisabled={selfDonate}
                               {...field}
                             />
@@ -175,6 +189,7 @@ export default function CheckoutPage() {
                             <Input
                               id='donor-email'
                               placeholder='Nomor HP Pewakaf'
+                              variant='filled'
                               isDisabled={selfDonate}
                               {...field}
                             />
@@ -233,7 +248,7 @@ export default function CheckoutPage() {
                       bg='gray.900'
                       color='white'
                       textTransform='uppercase'
-                      isDisabled={context.isSubmitting}
+                      isLoading={context.isSubmitting}
                       _hover={{
                         transform: 'translateY(2px)',
                         boxShadow: 'lg',

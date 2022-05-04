@@ -13,6 +13,15 @@ const settings = {
   autoplaySpeed: 5000,
   slidesToShow: 1,
   slidesToScroll: 1,
+  appendDots: (dots) => (
+    <Box
+      sx={{
+        bottom: '12px !important',
+      }}
+    >
+      {dots}
+    </Box>
+  ),
 };
 
 export default function BannerSlider({ banners }) {
@@ -69,9 +78,9 @@ export default function BannerSlider({ banners }) {
         {banners.map((banner, index) => (
           <Box
             key={index}
-            height='6xl'
+            height='400px'
             pos='relative'
-            backgroundPosition='center'
+            backgroundPosition='top center'
             backgroundRepeat='no-repeat'
             backgroundSize='cover'
             backgroundImage={`url(${banner.image_url})`}

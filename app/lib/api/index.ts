@@ -62,8 +62,8 @@ class ApiClient implements RequestMethod {
 
     if (this.isFetchingToken) {
       return new Promise((resolve) => {
-        this.eventBus.on(successEvent, (response) => {
-          resolve(response);
+        this.eventBus.on(successEvent, (token) => {
+          resolve(token);
         });
       });
     }
@@ -73,7 +73,7 @@ class ApiClient implements RequestMethod {
     try {
       const { data: response } = await axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/guest_in`);
       this.saveToken(response.data);
-      this.eventBus.emit(successEvent, response.data);
+      this.eventBus.emit(successEvent, response.data.token);
       return response.data.token;
     } catch (error) {
       throw error;

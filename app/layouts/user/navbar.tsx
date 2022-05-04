@@ -7,8 +7,6 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
-import useStore from 'store';
-
 interface NavLinkProps {
   href: string;
   counter?: number;
@@ -35,8 +33,6 @@ const NavLink = (
 );
 
 export default function NavbarPublicLayout() {
-  const user = useStore((state) => state.user);
-
   return (
     <Box
       pos='relative'
