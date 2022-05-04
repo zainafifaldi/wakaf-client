@@ -1,0 +1,78 @@
+import {
+  AspectRatio,
+  Stack,
+  Box,
+  Text,
+  Flex,
+  Link,
+  IconButton,
+  Checkbox,
+  Image,
+  Spacer,
+} from '@chakra-ui/react';
+import { BiTrash } from 'react-icons/bi';
+import NextLink from 'next/link';
+
+import { IMAGE_PLACEHOLDER } from 'lib/constants';
+import { productUrl } from 'helpers/product';
+import { money } from 'helpers/number';
+import NumberInput from 'components/Form/NumberInput';
+
+export default function CartItem({ cart, isSelected, onToggleSelected, onDelete, onQuantityChange }) {
+  const isOutOfStock = cart.product.stock === 0;
+
+  return (
+    <Stack key={cart.id} direction='column'>
+      <Stack direction='row' spacing='4'>
+        <Checkbox
+          isChecked={isSelected}
+          isDisabled={isOutOfStock || cart.quantity > cart.product.stock}
+          onChange={() => onToggleSelected(cart.id)}
+        />
+        <NextLink href={productUrl(cart.product)} passHref>
+          <Link>
+            <AspectRatio w='75px' ratio={1}>
+              <Image
+                src={cart.product.image?.image_url}
+                fallbackSrc={IMAGE_PLACEHOLDER}
+                alt={cart.product.name}
+                fit='cover'
+                align='center'
+              />
+            </AspectRatio>
+          </Link>
+        </NextLink>
+        <Box>
+          <NextLink href={productUrl(cart.product)} passHref>
+            <Link>
+              {cart.product.name}
+            </Link>
+          </NextLink>
+          <Text fontSize='sm' fontWeight='700'>
+            {money(cart.product.price)}
+          </Text>
+        </Box>
+      </Stack>
+      <Flex>
+        <Spacer />
+        <IconButton
+          aria-label='Delete item'
+          size='sm'
+          colorScheme='red'
+          icon={<BiTrash />}
+          onClick={() => onDelete(cart.id)}
+        />
+        <Box maxW='150px' ml='5'>
+          <NumberInput
+            value={cart.quantity}
+            min={1}
+            max={cart.product.stock}
+            invalid={cart.quantity > cart.product.stock}
+            size='sm'
+            onChange={(quantity) => onQuantityChange(cart, quantity)}
+          />
+        </Box>
+      </Flex>
+    </Stack>
+  )
+}

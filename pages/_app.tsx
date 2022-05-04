@@ -4,7 +4,6 @@ import { FC, useEffect } from 'react';
 
 import useStore from 'store';
 import ApiClient from 'lib/api';
-import CartAPI from 'lib/api/carts';
 import 'styles/global.scss';
 
 const colors = {
@@ -31,19 +30,12 @@ const Noop: FC = ({ children }) => <>{children}</>
 export default function App({ Component, pageProps }: AppProps) {
   const Layout = (Component as any).Layout || Noop;
   const setUser = useStore((state) => state.setUser);
-  const setCartCount = useStore((state) => state.setCartCount);
+  const getCartCount = useStore((state) => state.getCartCount);
 
   useEffect(() => {
     const user = ApiClient.token;
     setUser(user);
-
-    if (user?.user_id) {
-      CartAPI.getCarts({ per_page: 1 }).then(({ meta }) => {
-        setCartCount(meta.total);
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
+    getCartCount();
   }, []);
 
   return (

@@ -11,6 +11,7 @@ export default function NumberInput({
   max,
   size = 'md',
   disabled = false,
+  invalid = false,
   onChange = (value) => {},
 }) {
   const {
@@ -24,6 +25,7 @@ export default function NumberInput({
     step: 1,
     precision: 0,
     isDisabled: disabled,
+    isInvalid: invalid,
     onChange: (_, value) => onChange(value),
   });
 
@@ -39,6 +41,7 @@ export default function NumberInput({
       <Input
         size={size}
         textAlign='center'
+        isInvalid={invalid}
         {...input}
       />
       <Button size={size} {...inc}>

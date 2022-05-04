@@ -1,7 +1,7 @@
 import create from 'zustand';
 
-import createUserState, { UserState } from './createUserState';
-import createCartState, { CartState } from './createCartState';
+import createUserState, { UserState } from './user';
+import createCartState, { CartState } from './cart';
 
 export type StoreState = UserState & CartState;
 

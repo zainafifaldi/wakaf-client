@@ -86,8 +86,7 @@ class ApiClient implements RequestMethod {
     const token = this.token.token;
 
     if (
-      scope === 'user' &&
-      this.isLogin &&
+      scope.includes('user') &&
       this.isTokenExpired
     ) {
       this.destroyToken();
@@ -113,7 +112,7 @@ class ApiClient implements RequestMethod {
   get isTokenExpired() {
     const expiresIn = this.token.expire_time || 3600;
     const now = Date.now();
-    return new Date(expiresIn).getTime() < now;
+    return this.isLogin && new Date(expiresIn).getTime() < now;
   }
 
   get token() {

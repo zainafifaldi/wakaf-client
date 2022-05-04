@@ -22,6 +22,7 @@ import ProductAPI from 'lib/api/products';
 import CartAPI from 'lib/api/carts';
 import { money } from 'helpers/number';
 import PublicLayout from 'layouts/public/index';
+import useStore from 'store';
 import NumberInput from 'components/Form/NumberInput';
 
 export async function getServerSideProps({ res, params }) {
@@ -53,6 +54,7 @@ export default function ProductPage({ product }) {
   const [quantity, setQuantity] = useState<number>(1);
   const isOutOfStock = product.stock === 0;
   const totalAmount = product.price * quantity;
+  const getCartCount = useStore((state) => state.getCartCount);
 
   function handleQuantityChange(value: number) {
     setQuantity(value);
@@ -64,6 +66,8 @@ export default function ProductPage({ product }) {
         quantity,
         product_id: product.id,
       });
+
+      getCartCount();
     } catch (error) {
       console.log(error);
     }

@@ -1,33 +1,25 @@
 import { useEffect, useState } from 'react';
 import {
-  AspectRatio,
   Flex,
   Spacer,
   Stack,
   StackDivider,
   Container,
-  Image,
   Box,
   Text,
   Checkbox,
-  IconButton,
   Button,
-  Link,
   Skeleton,
 } from '@chakra-ui/react';
-import { BiTrash } from 'react-icons/bi';
 import Head from 'next/head';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import debounce from 'lodash/debounce';
 
-import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { Cart } from 'interfaces/cart';
 import CartAPI from 'lib/api/carts';
 import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
-import { productUrl } from 'helpers/product';
-import NumberInput from 'components/Form/NumberInput';
+import CartItem from 'components/Cart/CartItem';
 
 export default function CartPage() {
   const router = useRouter();
@@ -168,57 +160,16 @@ export default function CartPage() {
                   </Stack>
                 ))
                 : carts.map((cart) => (
-                  <Stack key={cart.id} direction='column'>
-                    <Stack direction='row' spacing='4'>
-                      <Checkbox
-                        isChecked={selected.includes(cart.id)}
-                        onChange={() => toggleSelected(cart.id)}
-                      />
-                      <NextLink href={productUrl(cart.product)} passHref>
-                        <Link>
-                          <AspectRatio w='75px' ratio={1}>
-                            <Image
-                              src={cart.product.image?.image_url}
-                              fallbackSrc={IMAGE_PLACEHOLDER}
-                              alt={cart.product.name}
-                              fit='cover'
-                              align='center'
-                            />
-                          </AspectRatio>
-                        </Link>
-                      </NextLink>
-                      <Box>
-                        <NextLink href={productUrl(cart.product)} passHref>
-                          <Link>
-                            {cart.product.name}
-                          </Link>
-                        </NextLink>
-                        <Text fontSize='sm' fontWeight='700'>
-                          {money(cart.product.price)}
-                        </Text>
-                      </Box>
-                    </Stack>
-                    <Flex>
-                      <Spacer />
-                      <IconButton
-                        aria-label='Delete item'
-                        size='sm'
-                        colorScheme='red'
-                        icon={<BiTrash />}
-                        onClick={() => handleDelete(cart.id)}
-                      />
-                      <Box maxW='150px' ml='5'>
-                        <NumberInput
-                          value={cart.quantity}
-                          min={1}
-                          max={cart.product.stock}
-                          size='sm'
-                          onChange={(quantity) => handleQuantityChange(cart, quantity)}
-                        />
-                      </Box>
-                    </Flex>
-                  </Stack>
-              ))}
+                  <CartItem
+                    key={cart.id}
+                    cart={cart}
+                    isSelected={selected.includes(cart.id)}
+                    onToggleSelected={toggleSelected}
+                    onDelete={handleDelete}
+                    onQuantityChange={handleQuantityChange}
+                  />
+                ))
+              }
             </Stack>
           </Stack>
           <Box>
