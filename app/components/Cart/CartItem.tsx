@@ -13,22 +13,37 @@ import {
 import { BiTrash } from 'react-icons/bi';
 import NextLink from 'next/link';
 
+import { Cart } from 'interfaces/cart';
 import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { productUrl } from 'helpers/product';
 import { money } from 'helpers/number';
 import NumberInput from 'components/Form/NumberInput';
 
-export default function CartItem({ cart, isSelected, onToggleSelected, onDelete, onQuantityChange }) {
+interface CartItemProps {
+  cart: Cart;
+  isSelected?: boolean;
+  editable?: boolean;
+  onToggleSelected?: Function;
+  onDelete?: Function;
+  onQuantityChange?: Function;
+}
+
+export default function CartItem(
+  { cart, isSelected, editable, onToggleSelected, onDelete, onQuantityChange }: CartItemProps
+) {
+  const totalAmount = cart.quantity * cart.product.price;
   const isOutOfStock = cart.product.stock === 0;
 
   return (
     <Stack key={cart.id} direction='column'>
       <Stack direction='row' spacing='4'>
-        <Checkbox
-          isChecked={isSelected}
-          isDisabled={isOutOfStock || cart.quantity > cart.product.stock}
-          onChange={() => onToggleSelected(cart.id)}
-        />
+        {editable && (
+          <Checkbox
+            isChecked={isSelected}
+            isDisabled={isOutOfStock || cart.quantity > cart.product.stock}
+            onChange={() => onToggleSelected(cart.id)}
+          />
+        )}
         <NextLink href={productUrl(cart.product)} passHref>
           <Link>
             <AspectRatio w='75px' ratio={1}>
@@ -51,28 +66,39 @@ export default function CartItem({ cart, isSelected, onToggleSelected, onDelete,
           <Text fontSize='sm' fontWeight='700'>
             {money(cart.product.price)}
           </Text>
+          {!editable && (
+            <Text color='gray.500' fontSize='xs'>
+              {cart.quantity} barang
+            </Text>
+          )}
         </Box>
       </Stack>
-      <Flex>
-        <Spacer />
-        <IconButton
-          aria-label='Delete item'
-          size='sm'
-          colorScheme='red'
-          icon={<BiTrash />}
-          onClick={() => onDelete(cart.id)}
-        />
-        <Box maxW='150px' ml='5'>
-          <NumberInput
-            value={cart.quantity}
-            min={1}
-            max={cart.product.stock}
-            invalid={cart.quantity > cart.product.stock}
-            size='sm'
-            onChange={(quantity) => onQuantityChange(cart, quantity)}
-          />
-        </Box>
-      </Flex>
+      {editable
+        ? <Flex>
+            <Spacer />
+            <IconButton
+              aria-label='Delete item'
+              size='sm'
+              colorScheme='red'
+              icon={<BiTrash />}
+              onClick={() => onDelete(cart.id)}
+            />
+            <Box maxW='150px' ml='5'>
+              <NumberInput
+                value={cart.quantity}
+                min={1}
+                max={cart.product.stock}
+                invalid={cart.quantity > cart.product.stock}
+                size='sm'
+                onChange={(quantity) => onQuantityChange(cart, quantity)}
+              />
+            </Box>
+          </Flex>
+        : <Flex pt='2' justifyContent='space-between' fontSize='sm'>
+            <Text fontWeight='500'>Subtotal</Text>
+            <Text fontWeight='700'>{money(totalAmount)}</Text>
+          </Flex>
+      }
     </Stack>
   )
 }

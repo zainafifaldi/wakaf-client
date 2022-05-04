@@ -8,7 +8,6 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -60,7 +59,7 @@ export default function LoginPage() {
           </Stack>
           <Box
             rounded='lg'
-            bg={useColorModeValue('white', 'gray.700')}
+            bg='white'
             boxShadow='lg'
             p='8'
           >

@@ -15,7 +15,6 @@ import {
   Heading,
   Text,
   Textarea,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -73,7 +72,7 @@ export default function RegisterPage() {
           </Stack>
           <Box
             rounded='lg'
-            bg={useColorModeValue('white', 'gray.700')}
+            bg='white'
             boxShadow='lg'
             p='8'
           >

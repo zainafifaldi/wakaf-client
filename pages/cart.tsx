@@ -32,13 +32,14 @@ export default function CartPage() {
     return acc + (cart.product.price * cart.quantity);
   }, 0);
 
-  const isAllSelected = selected.length && selected.length === carts.length;
+  const validCartItems = carts.filter((cart) => cart.quantity <= cart.product.stock);
+  const isAllSelected = selected.length && validCartItems.every((cart) => selected.includes(cart.id));
 
   function toggleSelectAll() {
     if (isAllSelected) {
       setSelected([]);
     } else {
-      setSelected(carts.map((cart) => cart.id));
+      setSelected(validCartItems.map((cart) => cart.id));
     }
   }
 
@@ -162,6 +163,7 @@ export default function CartPage() {
                 : carts.map((cart) => (
                   <CartItem
                     key={cart.id}
+                    editable
                     cart={cart}
                     isSelected={selected.includes(cart.id)}
                     onToggleSelected={toggleSelected}
@@ -177,6 +179,7 @@ export default function CartPage() {
               pos='sticky'
               top='6'
               w='sm'
+              bg='white'
               borderWidth='1px'
               borderRadius='md'
               overflow='hidden'
@@ -204,6 +207,7 @@ export default function CartPage() {
                 bg='gray.900'
                 color='white'
                 textTransform='uppercase'
+                isDisabled={!selected.length}
                 _hover={{
                   transform: 'translateY(2px)',
                   boxShadow: 'lg',

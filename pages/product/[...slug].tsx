@@ -208,7 +208,7 @@ export default function ProductPage({ product }) {
                 bg='gray.900'
                 color='white'
                 textTransform='uppercase'
-                disabled={isOutOfStock}
+                isDisabled={isOutOfStock}
                 _hover={{
                   transform: 'translateY(2px)',
                   boxShadow: 'lg',

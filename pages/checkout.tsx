@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
 import {
-  AspectRatio,
   Flex,
   Spacer,
   Stack,
   StackDivider,
   Container,
-  Image,
   Box,
   Text,
   Checkbox,
   Button,
-  RadioGroup,
-  Radio,
   FormControl,
   FormLabel,
   Input,
@@ -24,11 +20,15 @@ import { Formik, Form, Field } from 'formik';
 
 import CartAPI from 'lib/api/carts';
 import TransactionAPI from 'lib/api/transactions';
-import PublicLayout from 'layouts/public/index';
+import UserLayout from 'layouts/user/index';
 import { money } from 'helpers/number';
+import useStore from 'store';
+import CartItem from 'components/Cart/CartItem';
+import PaymentMethod from 'components/Checkout/PaymentMethod';
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const user = useStore((state) => state.user);
   const [carts, setCarts] = useState<any[]>([]);
   const [selfDonate, setSelfDonate] = useState<boolean>(false);
 
@@ -60,11 +60,32 @@ export default function CheckoutPage() {
       const { data } = await TransactionAPI.createTransaction({
         ...values,
         cart_ids: cartIds,
+        payment_method: 'transfer',
+        bank_name: 'muamalat',
       });
+      router.push(`/transaction/${data.id}`);
     } catch (error) {
       console.log(error);
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  function handleSelfDonate(selfDonate, context) {
+    const { setValues } = context;
+    setSelfDonate(selfDonate);
+    if (selfDonate) {
+      setValues({
+        donor_name: user.name,
+        donor_email: user.email,
+        donor_phone_number: user.phone_number,
+      });
+    } else {
+      setValues({
+        donor_name: '',
+        donor_email: '',
+        donor_phone_number: '',
+      });
     }
   }
 
@@ -90,12 +111,10 @@ export default function CheckoutPage() {
             donor_name: '',
             donor_email: '',
             donor_phone_number: '',
-            payment_method: 'transfer',
-            bank_name: 'muamalat',
           }}
           onSubmit={handleCheckout}
         >
-          {({ isSubmitting }) => (
+          {(context) => (
             <Form>
               <Stack
                 direction='row'
@@ -112,13 +131,11 @@ export default function CheckoutPage() {
                   <Stack
                     direction='column'
                     spacing='6'
-                    divider={
-                      <StackDivider borderColor='gray.200' _dark={{ borderColor: 'gray.600' }} />
-                    }
+                    divider={<StackDivider borderWidth='3px' borderColor='gray.200' />}
                   >
                     <Checkbox
                       isChecked={selfDonate}
-                      onChange={(e) => setSelfDonate(e.target.checked)}
+                      onChange={(e) => handleSelfDonate(e.target.checked, context)}
                     >
                       Berwakaf untuk diri sendiri
                     </Checkbox>
@@ -127,7 +144,12 @@ export default function CheckoutPage() {
                         {({ field, form }) => (
                           <FormControl isInvalid={form.errors.donor_name && form.touched.donor_name}>
                             <FormLabel htmlFor='donor-name'>Nama Pewakaf</FormLabel>
-                            <Input id='donor-name' placeholder='Nama Pewakaf' {...field} />
+                            <Input
+                              id='donor-name'
+                              placeholder='Nama Pewakaf'
+                              isDisabled={selfDonate}
+                              {...field}
+                            />
                             <FormErrorMessage>{form.errors.donor_name}</FormErrorMessage>
                           </FormControl>
                         )}
@@ -136,7 +158,12 @@ export default function CheckoutPage() {
                         {({ field, form }) => (
                           <FormControl isInvalid={form.errors.donor_phone_number && form.touched.donor_phone_number}>
                             <FormLabel htmlFor='donor-phone-number'>Nomor HP Pewakaf</FormLabel>
-                            <Input id='donor-phone-number' placeholder='Nomor HP Pewakaf' {...field} />
+                            <Input
+                              id='donor-phone-number'
+                              placeholder='Nomor HP Pewakaf'
+                              isDisabled={selfDonate}
+                              {...field}
+                            />
                             <FormErrorMessage>{form.errors.donor_phone_number}</FormErrorMessage>
                           </FormControl>
                         )}
@@ -145,73 +172,41 @@ export default function CheckoutPage() {
                         {({ field, form }) => (
                           <FormControl isInvalid={form.errors.donor_email && form.touched.donor_email}>
                             <FormLabel htmlFor='donor-email'>Email Pewakaf</FormLabel>
-                            <Input id='donor-email' placeholder='Nomor HP Pewakaf' {...field} />
+                            <Input
+                              id='donor-email'
+                              placeholder='Nomor HP Pewakaf'
+                              isDisabled={selfDonate}
+                              {...field}
+                            />
                             <FormErrorMessage>{form.errors.donor_email}</FormErrorMessage>
                           </FormControl>
                         )}
                       </Field>
                     </Stack>
 
-                    <Box>
-                      <Text
-                        fontWeight='500'
-                        fontSize='xl'
-                        mb='6'
-                      >
-                        Metode pembayaran
-                      </Text>
-                      <RadioGroup defaultValue='muamalat'>
-                        <Radio value='muamalat'>
-                          <Stack direction='row' spacing='4'>
-                            <AspectRatio w='75px' ratio={1}>
-                              <Image
-                                src='https://via.placeholder.com/75'
-                                alt='Bank Muamalat'
-                                fit='cover'
-                                align='center'
-                              />
-                            </AspectRatio>
-                            <Box>
-                              <Text>
-                                Bank Muamalat
-                              </Text>
-                              <Text fontSize='sm'>
-                                12361273661 (Yayasan Sukma Sejati)
-                              </Text>
-                            </Box>
-                          </Stack>
-                        </Radio>
-                      </RadioGroup>
-                    </Box>
+                    <PaymentMethod />
 
-                    {carts.map((cart) => (
-                      <Stack key={cart.id} direction='row' spacing='4'>
-                        <AspectRatio w='75px' ratio={1}>
-                          <Image
-                            src={cart.product.image.image_url}
-                            fallbackSrc='https://via.placeholder.com/75'
-                            alt={cart.product.name}
-                            fit='cover'
-                            align='center'
-                          />
-                        </AspectRatio>
-                        <Box>
-                          <Text>
-                            {cart.product.name}
-                          </Text>
-                          <Text fontSize='sm'>
-                            {money(cart.product.price)}
-                          </Text>
-                        </Box>
-                      </Stack>
-                    ))}
+                    <Stack
+                      spacing='4'
+                      divider={<StackDivider borderColor='gray.200' />}
+                    >
+                      {carts.map((cart) => (
+                        <CartItem
+                          key={cart.id}
+                          cart={cart}
+                        />
+                      ))}
+                    </Stack>
                   </Stack>
                 </Stack>
                 <Box>
                   <Box
+                    pos='sticky'
+                    top='6'
                     w='sm'
+                    bg='white'
                     borderWidth='1px'
-                    borderRadius='lg'
+                    borderRadius='md'
                     overflow='hidden'
                     p='6'
                   >
@@ -226,7 +221,7 @@ export default function CheckoutPage() {
                         Total harga ({carts.length} barang)
                       </Text>
                       <Spacer />
-                      <Text fontWeight='500'>
+                      <Text fontWeight='700'>
                         {money(totalAmount)}
                       </Text>
                     </Flex>
@@ -238,10 +233,7 @@ export default function CheckoutPage() {
                       bg='gray.900'
                       color='white'
                       textTransform='uppercase'
-                      _dark={{
-                        bg: 'gray.50',
-                        color: 'gray.900',
-                      }}
+                      isDisabled={context.isSubmitting}
                       _hover={{
                         transform: 'translateY(2px)',
                         boxShadow: 'lg',
@@ -260,4 +252,4 @@ export default function CheckoutPage() {
   );
 }
 
-CheckoutPage.Layout = PublicLayout;
+CheckoutPage.Layout = UserLayout;
