@@ -60,7 +60,7 @@ export default function CheckoutPage() {
       const { data } = await TransactionAPI.createTransaction({
         ...values,
         cart_ids: cartIds,
-        payment_method: 'transfer',
+        payment_method: 'bank_transfer',
         bank_name: 'muamalat',
       });
       router.push(`/transaction/${data.id}`);
