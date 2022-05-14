@@ -17,7 +17,7 @@ const NavLink = (
 ) => (
   <NextLink href={href} passHref>
     <Link
-      h='63px'
+      h='14'
       px='4'
       pos='relative'
       display='flex'
@@ -41,7 +41,7 @@ export default function Navbar() {
       px='4'
       zIndex='1'
     >
-      <Flex h='14' alignItems='center' justifyContent='space-between'>
+      <Flex alignItems='center' justifyContent='space-between'>
         <NavLink href='/'>
           <Text fontWeight='500'>
             Pondok Saif Al-Ulum

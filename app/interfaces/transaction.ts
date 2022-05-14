@@ -1,3 +1,4 @@
+import { Invoice } from './invoice';
 import { Product } from './product';
 
 export interface TransactionPayload {
@@ -26,6 +27,7 @@ export interface Transaction {
   donor_phone_number: string;
   donor_email: string;
   products: TransactionProduct[];
+  invoice?: Invoice;
   state: string;
   created_at: string;
   updated_at: string;

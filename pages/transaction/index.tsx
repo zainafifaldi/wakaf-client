@@ -26,7 +26,9 @@ export default function TransactionPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    TransactionAPI.getTransactions().then(({ data }) => {
+    TransactionAPI.getTransactions({
+      with_invoice: true
+    }).then(({ data }) => {
       setTransactions(data);
     }).catch(() => {
       setTransactions([]);

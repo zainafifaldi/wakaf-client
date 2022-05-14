@@ -20,8 +20,6 @@ const theme = extendTheme({
     global: () => ({
       body: {
         bg: 'gray.50',
-        fontSize: '16px',
-        lineHeight: 'base',
       },
     }),
   },

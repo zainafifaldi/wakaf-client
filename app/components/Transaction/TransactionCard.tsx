@@ -16,6 +16,7 @@ import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { money } from 'helpers/number';
 import { shortDate } from 'helpers/date';
 import { productUrl } from 'helpers/product';
+import { stateLabel } from 'helpers/invoice';
 
 interface TransactionCardProps {
   transaction: Transaction;
@@ -39,11 +40,11 @@ export default function TransactionCard({ transaction, onOpen }: TransactionCard
     >
       <Flex direction='row'>
         <Text color='gray.500'>
-          {transaction.transaction_number}
+          {transaction.invoice.invoice_number}
         </Text>
         <Box ml='2'>
           <Badge>
-            {transaction.state}
+            {stateLabel(transaction.invoice.state)}
           </Badge>
         </Box>
         <Spacer />
@@ -79,7 +80,7 @@ export default function TransactionCard({ transaction, onOpen }: TransactionCard
           </Text>
           {totalProducts > 1 && (
             <Text mt='2' color='gray.500' fontSize='xs'>
-              + {totalProducts - 1} wakaf lainnya
+              + {totalProducts - 1} barang lainnya
             </Text>
           )}
         </Box>

@@ -32,7 +32,7 @@ function NavLink({ href, counter, children }: NavLinkProps) {
   return (
     <NextLink href={href} passHref>
       <Link
-        h='63px'
+        h='14'
         px='4'
         pos='relative'
         display='flex'
@@ -72,7 +72,7 @@ export default function Navbar() {
       px='4'
       zIndex='1'
     >
-      <Flex h='14' alignItems='center' justifyContent='space-between'>
+      <Flex alignItems='center' justifyContent='space-between'>
         <NavLink href='/'>
           <Text fontWeight='500'>
             Pondok Saif Al-Ulum
@@ -104,10 +104,10 @@ export default function Navbar() {
                       <Icon as={BiUser} color='white' w='5' h='5' />
                     </MenuButton>
                     <MenuList alignItems='center' zIndex='2'>
-                      <Flex p='4'>
+                      <Flex px='4' py='2' alignItems="center">
                         <Avatar
                           size='md'
-                          src='https://avatars.dicebear.com/api/male/username.svg'
+                          src={`https://avatars.dicebear.com/api/micah/${user.name}.svg`}
                         />
                         <Text fontWeight='700' ml="4">
                           {user.name}

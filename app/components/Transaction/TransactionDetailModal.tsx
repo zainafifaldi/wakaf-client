@@ -15,16 +15,14 @@ import {
   Link,
   Image,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 
-import { Invoice } from 'interfaces/invoice';
 import { Transaction } from 'interfaces/transaction';
-import InvoiceAPI from 'lib/api/invoices';
 import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { dateTime } from 'helpers/date';
 import { money } from 'helpers/number';
 import { productUrl } from 'helpers/product';
+import { paymentMethod, stateLabel } from 'helpers/invoice';
 
 interface TransactionDetailModalProps {
   transaction: Transaction;
@@ -37,24 +35,6 @@ export default function TransactionDetailModal({
   onClose,
   isOpen,
 }: TransactionDetailModalProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [invoice, setInvoice] = useState<Invoice | null>(null);
-  const totalAmount = transaction.products.reduce(
-    (total, product) => total + product.price * product.quantity,
-    0
-  );
-
-  useEffect(() => {
-    setIsLoading(true);
-    InvoiceAPI.getInvoiceByTransactionId(transaction.id).then(({ data }) => {
-      setInvoice(data);
-    }).catch(() => {
-      setInvoice(null);
-    }).finally(() => {
-      setIsLoading(false);
-    });
-  }, [isOpen]);
-
   return (
     <>
       <Modal
@@ -77,8 +57,8 @@ export default function TransactionDetailModal({
                 divider={<StackDivider borderStyle='dashed' borderColor='gray.200' />}
               >
                 <Flex justifyContent='space-between'>
-                  <Text fontWeight='500'>
-                    {transaction.state}
+                  <Text fontWeight='700'>
+                    {stateLabel(transaction.invoice.state)}
                   </Text>
                   <Box>
                   </Box>
@@ -86,10 +66,10 @@ export default function TransactionDetailModal({
                 <Box>
                   <Flex justifyContent='space-between'>
                     <Text color='gray.500'>
-                      No. Transaksi
+                      No. Invoice
                     </Text>
                     <Text fontWeight='700'>
-                      {transaction.transaction_number}
+                      {transaction.invoice.invoice_number}
                     </Text>
                   </Flex>
                   <Flex justifyContent='space-between'>
@@ -203,7 +183,7 @@ export default function TransactionDetailModal({
                     </Text>
                     <Spacer />
                     <Text>
-                      {transaction.donor_name}
+                      {paymentMethod(transaction.invoice)}
                     </Text>
                   </Stack>
                   <Stack direction='row'>
@@ -212,7 +192,7 @@ export default function TransactionDetailModal({
                     </Text>
                     <Spacer />
                     <Text>
-                      {money(totalAmount)}
+                      {money(transaction.invoice.amount)}
                     </Text>
                   </Stack>
                   <Stack direction='row'>
@@ -221,7 +201,7 @@ export default function TransactionDetailModal({
                     </Text>
                     <Spacer />
                     <Text fontWeight='700'>
-                      {money(totalAmount)}
+                      {money(transaction.invoice.amount)}
                     </Text>
                   </Stack>
                 </Stack>

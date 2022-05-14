@@ -174,6 +174,7 @@ export default function HomePage() {
                 <Input
                   value={query}
                   p='2'
+                  fontSize='md'
                   variant='unstyled'
                   placeholder='Cari wakaf...'
                   fontWeight='700'
