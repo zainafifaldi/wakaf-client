@@ -10,19 +10,19 @@ import Footer from 'components/Footer';
 export default function Layout({ children }) {
   return (
     <Flex
-      direction='column'
-      justifyContent='space-between'
-      minH='100vh'
+      direction="column"
+      justifyContent="space-between"
+      minH="100vh"
     >
       <Box>
         <Navbar />
         <Box
-          bg='green.500'
-          pt='7'
-          pb='9'
-          color='white'
-          textAlign='center'
-          pos='relative'
+          bg="green.500"
+          pt="7"
+          pb="9"
+          color="white"
+          textAlign="center"
+          pos="relative"
           _before={{
             content: '""',
             pos: 'absolute',
@@ -35,8 +35,8 @@ export default function Layout({ children }) {
           }}
         >
           <Text
-            fontSize='3xl'
-            fontWeight='700'
+            fontSize="3xl"
+            fontWeight="700"
           >
             Berwakaf Semudah Belanja Online!
           </Text>

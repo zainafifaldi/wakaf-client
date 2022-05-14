@@ -39,7 +39,7 @@ export default function TransactionDetailModal({
     <>
       <Modal
         isCentered
-        size='lg'
+        size="lg"
         onClose={onClose}
         isOpen={isOpen}
       >
@@ -49,31 +49,31 @@ export default function TransactionDetailModal({
             Detail Transaksi
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pt='0' px='0'>
-            <Stack divider={<StackDivider borderWidth='5px' borderColor='gray.200' />}>
+          <ModalBody pt="0" px="0">
+            <Stack divider={<StackDivider borderWidth="5px" borderColor="gray.200" />}>
               <Stack
-                px='6'
-                py='2'
-                divider={<StackDivider borderStyle='dashed' borderColor='gray.200' />}
+                px="6"
+                py="2"
+                divider={<StackDivider borderStyle="dashed" borderColor="gray.200" />}
               >
-                <Flex justifyContent='space-between'>
-                  <Text fontWeight='700'>
+                <Flex justifyContent="space-between">
+                  <Text fontWeight="700">
                     {stateLabel(transaction.invoice.state)}
                   </Text>
                   <Box>
                   </Box>
                 </Flex>
                 <Box>
-                  <Flex justifyContent='space-between'>
-                    <Text color='gray.500'>
+                  <Flex justifyContent="space-between">
+                    <Text color="gray.500">
                       No. Invoice
                     </Text>
-                    <Text fontWeight='700'>
+                    <Text fontWeight="700">
                       {transaction.invoice.invoice_number}
                     </Text>
                   </Flex>
-                  <Flex justifyContent='space-between'>
-                    <Text color='gray.500'>
+                  <Flex justifyContent="space-between">
+                    <Text color="gray.500">
                       Tanggal Transaksi
                     </Text>
                     <Text>
@@ -83,57 +83,57 @@ export default function TransactionDetailModal({
                 </Box>
               </Stack>
 
-              <Stack px='6' py='2' spacing='2'>
-                <Text fontWeight='700'>
+              <Stack px="6" py="2" spacing="2">
+                <Text fontWeight="700">
                   Detail Produk
                 </Text>
                 {transaction.products.map((product) => (
                   <Stack
                     key={product.id}
-                    direction='row'
-                    borderWidth='1px'
-                    borderRadius='md'
-                    spacing='4'
-                    p='4'
+                    direction="row"
+                    borderWidth="1px"
+                    borderRadius="md"
+                    spacing="4"
+                    p="4"
                   >
                     <NextLink href={productUrl(product)} passHref>
                       <Link>
-                        <AspectRatio w='50px' ratio={1}>
+                        <AspectRatio w="50px" ratio={1}>
                           <Image
                             src={product.image_urls?.[0]}
                             fallbackSrc={IMAGE_PLACEHOLDER}
                             alt={product.name}
-                            fit='cover'
-                            align='center'
-                            borderRadius='md'
+                            fit="cover"
+                            align="center"
+                            borderRadius="md"
                           />
                         </AspectRatio>
                       </Link>
                     </NextLink>
                     <Box>
                       <NextLink href={productUrl(product)} passHref>
-                        <Link fontWeight='700'>
+                        <Link fontWeight="700">
                           {product.name}
                         </Link>
                       </NextLink>
-                      <Text color='gray.500' fontSize='sm'>
+                      <Text color="gray.500" fontSize="sm">
                         {product.quantity} barang x {money(product.price)}
                       </Text>
                     </Box>
                     <Spacer />
                     <Flex
-                      justifyContent='flex-end'
-                      w='150px'
-                      pl='4'
-                      alignItems='center'
-                      borderLeftWidth='1px'
-                      borderLeftStyle='dashed'
+                      justifyContent="flex-end"
+                      w="150px"
+                      pl="4"
+                      alignItems="center"
+                      borderLeftWidth="1px"
+                      borderLeftStyle="dashed"
                     >
-                      <Box textAlign='right'>
-                        <Text color='gray.500' fontSize='sm'>
+                      <Box textAlign="right">
+                        <Text color="gray.500" fontSize="sm">
                           Total Harga
                         </Text>
-                        <Text fontWeight='700'>
+                        <Text fontWeight="700">
                           {money(product.quantity * product.price)}
                         </Text>
                       </Box>
@@ -142,28 +142,28 @@ export default function TransactionDetailModal({
                 ))}
               </Stack>
 
-              <Stack px='6' py='2' spacing='2'>
-                <Text fontWeight='700'>
+              <Stack px="6" py="2" spacing="2">
+                <Text fontWeight="700">
                   Info Pewakaf
                 </Text>
-                <Stack direction='row' divider={<Text mx='2'>:</Text>}>
-                  <Text color='gray.500' minW='180px'>
+                <Stack direction="row" divider={<Text mx="2">:</Text>}>
+                  <Text color="gray.500" minW="180px">
                     Nama Pewakaf
                   </Text>
                   <Text>
                     {transaction.donor_name}
                   </Text>
                 </Stack>
-                <Stack direction='row' divider={<Text mx='2'>:</Text>}>
-                  <Text color='gray.500' minW='180px'>
+                <Stack direction="row" divider={<Text mx="2">:</Text>}>
+                  <Text color="gray.500" minW="180px">
                     Nomor HP Pewakaf
                   </Text>
                   <Text>
                     {transaction.donor_phone_number}
                   </Text>
                 </Stack>
-                <Stack direction='row' divider={<Text mx='2'>:</Text>}>
-                  <Text color='gray.500' minW='180px'>
+                <Stack direction="row" divider={<Text mx="2">:</Text>}>
+                  <Text color="gray.500" minW="180px">
                     Email Pewakaf
                   </Text>
                   <Text>
@@ -172,13 +172,13 @@ export default function TransactionDetailModal({
                 </Stack>
               </Stack>
 
-              <Stack px='6' py='2' spacing='2'>
-                <Text fontWeight='700'>
+              <Stack px="6" py="2" spacing="2">
+                <Text fontWeight="700">
                   Rincian Pembayaran
                 </Text>
-                <Stack divider={<StackDivider borderStyle='dashed' />}>
-                  <Stack direction='row'>
-                    <Text color='gray.500'>
+                <Stack divider={<StackDivider borderStyle="dashed" />}>
+                  <Stack direction="row">
+                    <Text color="gray.500">
                       Metode Pembayaran
                     </Text>
                     <Spacer />
@@ -186,8 +186,8 @@ export default function TransactionDetailModal({
                       {paymentMethod(transaction.invoice)}
                     </Text>
                   </Stack>
-                  <Stack direction='row'>
-                    <Text color='gray.500'>
+                  <Stack direction="row">
+                    <Text color="gray.500">
                       Total Harga ({transaction.products.length} barang)
                     </Text>
                     <Spacer />
@@ -195,12 +195,12 @@ export default function TransactionDetailModal({
                       {money(transaction.invoice.amount)}
                     </Text>
                   </Stack>
-                  <Stack direction='row'>
-                    <Text fontWeight='700'>
+                  <Stack direction="row">
+                    <Text fontWeight="700">
                       Total Wakaf
                     </Text>
                     <Spacer />
-                    <Text fontWeight='700'>
+                    <Text fontWeight="700">
                       {money(transaction.invoice.amount)}
                     </Text>
                   </Stack>

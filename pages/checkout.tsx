@@ -35,9 +35,6 @@ export default function CheckoutPage() {
   const [carts, setCarts] = useState<any[]>([]);
   const [selfDonate, setSelfDonate] = useState<boolean>(false);
 
-  const ids = router.query.ids;
-  const selectedIds = Array.isArray(ids) ? ids : [ids];
-
   const totalAmount = carts.reduce((acc, cart) => {
     return acc + (cart.product.price * cart.quantity);
   }, 0);
@@ -69,6 +66,7 @@ export default function CheckoutPage() {
         payment_method: 'bank_transfer',
         bank_name: 'muamalat',
       });
+      localStorage.removeItem('wakaf-checkout-items');
       router.replace(`/transaction/${data.id}`);
     } catch (error) {
       console.log(error);
@@ -96,9 +94,10 @@ export default function CheckoutPage() {
   }
 
   useEffect(() => {
+    const checkoutItemIds = JSON.parse(localStorage.getItem('wakaf-checkout-items'));
     if (!router.isReady) {
       return;
-    } else if (!ids || selectedIds.length === 0) {
+    } else if (!checkoutItemIds || checkoutItemIds.length === 0) {
       router.replace('/cart');
       return;
     } else if (!isLoggedIn) {
@@ -108,7 +107,7 @@ export default function CheckoutPage() {
     }
 
     setIsLoading(true);
-    CartAPI.getCarts({ selected_ids: selectedIds }).then(({ data }) => {
+    CartAPI.getCarts({ selected_ids: checkoutItemIds }).then(({ data }) => {
       setCarts(data);
     }).catch(() => {
       router.replace('/');
@@ -122,7 +121,7 @@ export default function CheckoutPage() {
       <Head>
         <title>Checkout | Wakaf</title>
       </Head>
-      <Container maxW='5xl' py='8'>
+      <Container maxW="5xl" py="8">
         <Formik
           initialValues={{
             donor_name: '',
@@ -134,21 +133,21 @@ export default function CheckoutPage() {
           {(context) => (
             <Form>
               <Stack
-                direction='row'
-                spacing='12'
+                direction="row"
+                spacing="12"
               >
-                <Stack w='full' direction='column' spacing='6'>
+                <Stack w="full" direction="column" spacing="6">
                   <Text
-                    fontWeight='500'
-                    fontSize='xl'
+                    fontWeight="500"
+                    fontSize="xl"
                   >
                     Checkout
                   </Text>
 
                   <Stack
-                    direction='column'
-                    spacing='6'
-                    divider={<StackDivider borderWidth='3px' borderColor='gray.200' />}
+                    direction="column"
+                    spacing="6"
+                    divider={<StackDivider borderWidth="3px" borderColor="gray.200" />}
                   >
                     <Checkbox
                       isChecked={selfDonate}
@@ -157,14 +156,14 @@ export default function CheckoutPage() {
                       Berwakaf untuk diri sendiri
                     </Checkbox>
                     <Stack>
-                      <Field name='donor_name' validate={validateDonorName}>
+                      <Field name="donor_name" validate={validateDonorName}>
                         {({ field, form }) => (
                           <FormControl isInvalid={form.errors.donor_name && form.touched.donor_name}>
-                            <FormLabel htmlFor='donor-name'>Nama Pewakaf</FormLabel>
+                            <FormLabel htmlFor="donor-name">Nama Pewakaf</FormLabel>
                             <Input
-                              id='donor-name'
-                              placeholder='Nama Pewakaf'
-                              variant='filled'
+                              id="donor-name"
+                              placeholder="Nama Pewakaf"
+                              variant="filled"
                               isDisabled={selfDonate}
                               {...field}
                             />
@@ -172,14 +171,14 @@ export default function CheckoutPage() {
                           </FormControl>
                         )}
                       </Field>
-                      <Field name='donor_phone_number' validate={validateDonorPhone}>
+                      <Field name="donor_phone_number" validate={validateDonorPhone}>
                         {({ field, form }) => (
                           <FormControl isInvalid={form.errors.donor_phone_number && form.touched.donor_phone_number}>
-                            <FormLabel htmlFor='donor-phone-number'>Nomor HP Pewakaf</FormLabel>
+                            <FormLabel htmlFor="donor-phone-number">Nomor HP Pewakaf</FormLabel>
                             <Input
-                              id='donor-phone-number'
-                              placeholder='Nomor HP Pewakaf'
-                              variant='filled'
+                              id="donor-phone-number"
+                              placeholder="Nomor HP Pewakaf"
+                              variant="filled"
                               isDisabled={selfDonate}
                               {...field}
                             />
@@ -187,14 +186,14 @@ export default function CheckoutPage() {
                           </FormControl>
                         )}
                       </Field>
-                      <Field name='donor_email' validate={validateDonorEmail}>
+                      <Field name="donor_email" validate={validateDonorEmail}>
                         {({ field, form }) => (
                           <FormControl isInvalid={form.errors.donor_email && form.touched.donor_email}>
-                            <FormLabel htmlFor='donor-email'>Email Pewakaf</FormLabel>
+                            <FormLabel htmlFor="donor-email">Email Pewakaf</FormLabel>
                             <Input
-                              id='donor-email'
-                              placeholder='Nomor HP Pewakaf'
-                              variant='filled'
+                              id="donor-email"
+                              placeholder="Nomor HP Pewakaf"
+                              variant="filled"
                               isDisabled={selfDonate}
                               {...field}
                             />
@@ -207,29 +206,27 @@ export default function CheckoutPage() {
                     <PaymentMethod />
 
                     <Stack
-                      spacing='4'
-                      divider={<StackDivider borderColor='gray.200' />}
+                      spacing="4"
+                      divider={<StackDivider borderColor="gray.200" />}
                     >
                       {isLoading
-                        ? selectedIds.map((_, index) => (
-                          <Stack key={index} direction='column'>
+                        ? <Stack direction="column">
                             <Stack
-                              direction='row'
-                              spacing='4'
+                              direction="row"
+                              spacing="4"
                             >
-                              <Skeleton w='75px' h='75px' />
+                              <Skeleton w="75px" h="75px" />
                               <Box>
-                                <Skeleton w='150px' h='23px' mb='2' />
-                                <Skeleton w='100px' h='18px' mb='2' />
-                                <Skeleton w='80px' h='16px' />
+                                <Skeleton w="150px" h="23px" mb="2" />
+                                <Skeleton w="100px" h="18px" mb="2" />
+                                <Skeleton w="80px" h="16px" />
                               </Box>
                             </Stack>
-                            <Flex pt='2' justifyContent='space-between'>
-                              <Skeleton w='60px' h='23px' />
-                              <Skeleton w='100px' h='23px' />
+                            <Flex pt="2" justifyContent="space-between">
+                              <Skeleton w="60px" h="23px" />
+                              <Skeleton w="100px" h="23px" />
                             </Flex>
                           </Stack>
-                        ))
                         : carts.map((cart) => (
                           <CartItem
                             key={cart.id}
@@ -242,38 +239,38 @@ export default function CheckoutPage() {
                 </Stack>
                 <Box>
                   <Box
-                    pos='sticky'
-                    top='6'
-                    w='sm'
-                    bg='white'
-                    borderWidth='1px'
-                    borderRadius='md'
-                    overflow='hidden'
-                    p='6'
+                    pos="sticky"
+                    top="6"
+                    w="sm"
+                    bg="white"
+                    borderWidth="1px"
+                    borderRadius="md"
+                    overflow="hidden"
+                    p="6"
                   >
                     <Text
-                      fontWeight='500'
-                      fontSize='xl'
+                      fontWeight="500"
+                      fontSize="xl"
                     >
                       Ringkasan belanja
                     </Text>
-                    <Flex mt='6'>
-                      <Text fontWeight='500'>
+                    <Flex mt="6">
+                      <Text fontWeight="500">
                         Total harga ({carts.length} barang)
                       </Text>
                       <Spacer />
-                      <Text fontWeight='700'>
+                      <Text fontWeight="700">
                         {money(totalAmount)}
                       </Text>
                     </Flex>
                     <Button
-                      type='submit'
-                      rounded='none'
-                      w='full'
-                      mt='6'
-                      bg='gray.900'
-                      color='white'
-                      textTransform='uppercase'
+                      type="submit"
+                      rounded="none"
+                      w="full"
+                      mt="6"
+                      bg="gray.900"
+                      color="white"
+                      textTransform="uppercase"
                       isLoading={context.isSubmitting}
                       _hover={{
                         transform: 'translateY(2px)',

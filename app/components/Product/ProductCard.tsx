@@ -24,7 +24,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <LinkBox>
-      <Box role='group' overflow='hidden' pos='relative'>
+      <Box role="group" overflow="hidden" pos="relative">
         <AspectRatio
           ratio={1}
           _groupHover={{
@@ -36,32 +36,32 @@ export default function ProductCard({ product }: ProductCardProps) {
             src={product.image?.image_url}
             fallbackSrc={IMAGE_PLACEHOLDER}
             alt={product.name}
-            fit='cover'
-            align='center'
+            fit="cover"
+            align="center"
             filter={isOutOfStock ? 'grayscale(100%)' : 'none'}
           />
         </AspectRatio>
 
         {isOutOfStock && (
           <Badge
-            pos='absolute'
-            px='2'
-            top='2'
-            right='2'
-            zIndex='1'
+            pos="absolute"
+            px="2"
+            top="2"
+            right="2"
+            zIndex="1"
           >
             Stok habis
           </Badge>
         )}
 
         <Flex
-          p='4'
-          pos='absolute'
-          top='0'
-          bottom='0'
-          left='0'
-          right='0'
-          alignItems='flex-end'
+          p="4"
+          pos="absolute"
+          top="0"
+          bottom="0"
+          left="0"
+          right="0"
+          alignItems="flex-end"
           _before={{
             content: '""',
             pos: 'absolute',
@@ -80,12 +80,12 @@ export default function ProductCard({ product }: ProductCardProps) {
             }
           }}
         >
-          <Box minW='0' zIndex='1'>
+          <Box minW="0" zIndex="1">
             <Box
-              mb='1'
-              fontWeight='700'
-              lineHeight='tight'
-              color='white'
+              mb="1"
+              fontWeight="700"
+              lineHeight="tight"
+              color="white"
             >
               <NextLink href={productUrl(product)} passHref>
                 <LinkOverlay>
@@ -95,8 +95,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             </Box>
 
             <Text
-              color='white'
-              fontSize='sm'
+              color="white"
+              fontSize="sm"
             >
               {money(product.price)}
             </Text>

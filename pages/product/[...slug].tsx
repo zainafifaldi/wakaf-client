@@ -94,41 +94,41 @@ export default function ProductPage({ product }) {
         <title>{product.name} | Wakaf</title>
       </Head>
       <Container
-        maxW='5xl'
-        p='6'
-        mb='20'
-        bg='white'
-        boxShadow='2xl'
+        maxW="5xl"
+        p="6"
+        mb="20"
+        bg="white"
+        boxShadow="2xl"
       >
         <SimpleGrid
           columns={{ base: 1, lg: 2 }}
-          spacing='6'
+          spacing="6"
         >
-          <Stack direction='column' spacing='4'>
+          <Stack direction="column" spacing="4">
             <AspectRatio ratio={1}>
               <Image
-                rounded='md'
+                rounded="md"
                 alt={product.name}
                 src={selectedImage}
                 fallbackSrc={IMAGE_PLACEHOLDER}
-                fit='cover'
-                align='center'
+                fit="cover"
+                align="center"
               />
             </AspectRatio>
 
             {product.images.length > 1 && (
               <SimpleGrid
                 columns={{ base: 4, md: 6, lg: 5 }}
-                spacing='3'
+                spacing="3"
               >
                 {product.images.map((image) => (
                   <AspectRatio
                     key={image.id}
                     ratio={1}
-                    rounded='md'
-                    cursor='pointer'
-                    overflow='hidden'
-                    borderWidth='2px'
+                    rounded="md"
+                    cursor="pointer"
+                    overflow="hidden"
+                    borderWidth="2px"
                     borderColor={selectedImage === image.image_url ? 'green.500' : 'transparent'}
                     onClick={() => setSelectedImage(image.image_url)}
                   >
@@ -136,11 +136,11 @@ export default function ProductPage({ product }) {
                       alt={product.name}
                       src={image.image_url}
                       fallbackSrc={IMAGE_PLACEHOLDER}
-                      boxSize='100px'
-                      fit='cover'
-                      align='center'
-                      mb='6'
-                      mr='6'
+                      boxSize="100px"
+                      fit="cover"
+                      align="center"
+                      mb="6"
+                      mr="6"
                     />
                   </AspectRatio>
                 ))}
@@ -148,25 +148,25 @@ export default function ProductPage({ product }) {
             )}
           </Stack>
           <Stack spacing={{ base: 6, md: 10 }}>
-            <Box as='header'>
+            <Box as="header">
               {isOutOfStock && (
-                <Alert status='warning' mb='2'>
+                <Alert status="warning" mb="2">
                   <AlertIcon />
                   Stok tidak tersedia
                 </Alert>
               )}
 
               <Heading
-                lineHeight='1.1'
-                fontWeight='600'
+                lineHeight="1.1"
+                fontWeight="600"
                 fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
               >
                 {product.name}
               </Heading>
               <Text
-                color='gray.900'
-                fontWeight='300'
-                fontSize='2xl'
+                color="gray.900"
+                fontWeight="300"
+                fontSize="2xl"
               >
                 {money(product.price)}
               </Text>
@@ -174,9 +174,9 @@ export default function ProductPage({ product }) {
 
             <Stack
               spacing={{ base: 4, sm: 6 }}
-              direction='column'
+              direction="column"
               divider={
-                <StackDivider borderColor='gray.200' />
+                <StackDivider borderColor="gray.200" />
               }
             >
               <Text>
@@ -185,14 +185,14 @@ export default function ProductPage({ product }) {
             </Stack>
 
             <Stack
-              p='4'
-              borderWidth='1px'
-              borderRadius='md'
-              direction='column'
-              spacing='4'
+              p="4"
+              borderWidth="1px"
+              borderRadius="md"
+              direction="column"
+              spacing="4"
             >
               <Stack>
-                <HStack spacing='6'>
+                <HStack spacing="6">
                   <NumberInput
                     value={quantity}
                     min={1}
@@ -202,27 +202,27 @@ export default function ProductPage({ product }) {
                   />
                   {!isOutOfStock && (
                     <Box>
-                      Stok <Text as='span' fontWeight='700'>{product.stock}</Text>
+                      Stok <Text as="span" fontWeight="700">{product.stock}</Text>
                     </Box>
                   )}
                 </HStack>
-                <Text fontSize='sm' color='gray.400'>
+                <Text fontSize="sm" color="gray.400">
                   Maks. pembelian {product.stock} pcs
                 </Text>
               </Stack>
-              <Flex justifyContent='space-between'>
+              <Flex justifyContent="space-between">
                 <Text>Subtotal</Text>
-                <Text fontWeight='700'>{ money(totalAmount) }</Text>
+                <Text fontWeight="700">{ money(totalAmount) }</Text>
               </Flex>
               <Button
-                rounded='none'
-                w='full'
-                mt='8'
-                size='lg'
-                py='7'
-                bg='gray.900'
-                color='white'
-                textTransform='uppercase'
+                rounded="none"
+                w="full"
+                mt="8"
+                size="lg"
+                py="7"
+                bg="gray.900"
+                color="white"
+                textTransform="uppercase"
                 isDisabled={isOutOfStock}
                 isLoading={isSubmitting}
                 _hover={{

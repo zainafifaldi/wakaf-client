@@ -44,13 +44,13 @@ export default function NumberInput({
   const input = getInputProps();
 
   return (
-    <HStack maxW='320px'>
+    <HStack maxW="320px">
       <Button size={size} {...dec}>
         -
       </Button>
       <Input
         size={size}
-        textAlign='center'
+        textAlign="center"
         isInvalid={isInvalid}
         {...input}
       />

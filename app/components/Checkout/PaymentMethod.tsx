@@ -12,33 +12,33 @@ export default function PaymentMethod() {
   return (
     <Box>
       <Text
-        fontWeight='500'
-        fontSize='xl'
-        mb='6'
+        fontWeight="500"
+        fontSize="xl"
+        mb="6"
       >
         Metode pembayaran
       </Text>
-      <RadioGroup defaultValue='muamalat'>
+      <RadioGroup defaultValue="muamalat">
         <Radio
-          w='full'
-          value='muamalat'
-          flexDirection='row-reverse'
-          justifyContent='space-between'
+          w="full"
+          value="muamalat"
+          flexDirection="row-reverse"
+          justifyContent="space-between"
         >
-          <Stack direction='row' spacing='4' ml='-2'>
-            <AspectRatio w='50px' ratio={1}>
+          <Stack direction="row" spacing="4" ml="-2">
+            <AspectRatio w="50px" ratio={1}>
               <Image
-                src='/images/payment/bank_muamalat.svg'
-                alt='Bank Muamalat'
-                fit='cover'
-                align='center'
+                src="/images/payment/bank_muamalat.svg"
+                alt="Bank Muamalat"
+                fit="cover"
+                align="center"
               />
             </AspectRatio>
             <Box>
-              <Text fontWeight='500'>
+              <Text fontWeight="500">
                 Bank Muamalat
               </Text>
-              <Text fontSize='sm'>
+              <Text fontSize="sm">
                 12361273661 (Yayasan Sukma Sejati)
               </Text>
             </Box>

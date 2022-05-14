@@ -43,20 +43,20 @@ export default function TransactionPage() {
         <title>Daftar Transaksi | Wakaf</title>
       </Head>
       <Container
-        maxW='5xl'
-        p='6'
-        mb='20'
-        bg='white'
-        boxShadow='2xl'
+        maxW="5xl"
+        p="6"
+        mb="20"
+        bg="white"
+        boxShadow="2xl"
       >
-        <Stack w='full' direction='column' spacing='6'>
-          <Text fontWeight='500' fontSize='xl'>
+        <Stack w="full" direction="column" spacing="6">
+          <Text fontWeight="500" fontSize="xl">
             Daftar Transaksi Saya
           </Text>
 
           <Stack
-            direction='column'
-            spacing='6'
+            direction="column"
+            spacing="6"
           >
             {transactions.map((transaction) => (
               <TransactionCard

@@ -56,8 +56,8 @@ export default function CartItem({
   }
 
   return (
-    <Stack key={cart.id} direction='column'>
-      <Stack direction='row' spacing='4'>
+    <Stack key={cart.id} direction="column">
+      <Stack direction="row" spacing="4">
         {editable && (
           <Checkbox
             isChecked={isSelected}
@@ -67,14 +67,14 @@ export default function CartItem({
         )}
         <NextLink href={productUrl(cart.product)} passHref>
           <Link>
-            <AspectRatio w='75px' ratio={1}>
+            <AspectRatio w="75px" ratio={1}>
               <Image
                 src={cart.product.image?.image_url}
                 fallbackSrc={IMAGE_PLACEHOLDER}
                 alt={cart.product.name}
-                fit='cover'
-                align='center'
-                borderRadius='md'
+                fit="cover"
+                align="center"
+                borderRadius="md"
               />
             </AspectRatio>
           </Link>
@@ -85,11 +85,11 @@ export default function CartItem({
               {cart.product.name}
             </Link>
           </NextLink>
-          <Text fontSize='sm' fontWeight='700'>
+          <Text fontSize="sm" fontWeight="700">
             {money(cart.product.price)}
           </Text>
           {!editable && (
-            <Text color='gray.500' fontSize='xs'>
+            <Text color="gray.500" fontSize="xs">
               {cart.quantity} barang
             </Text>
           )}
@@ -99,28 +99,28 @@ export default function CartItem({
         ? <Flex>
             <Spacer />
             <IconButton
-              aria-label='Delete item'
-              size='sm'
-              colorScheme='red'
+              aria-label="Delete item"
+              size="sm"
+              colorScheme="red"
               isLoading={isUpdating}
               icon={<BiTrash />}
               onClick={handleDelete}
             />
-            <Box maxW='150px' ml='5'>
+            <Box maxW="150px" ml="5">
               <NumberInput
                 value={cart.quantity}
                 min={1}
                 max={cart.product.stock}
                 isDisabled={isUpdating}
                 isInvalid={cart.quantity > cart.product.stock}
-                size='sm'
+                size="sm"
                 onChange={(quantity) => onQuantityChange(cart, quantity)}
               />
             </Box>
           </Flex>
-        : <Flex pt='2' justifyContent='space-between' fontSize='sm'>
-            <Text fontWeight='500'>Subtotal</Text>
-            <Text fontWeight='700'>{money(totalAmount)}</Text>
+        : <Flex pt="2" justifyContent="space-between" fontSize="sm">
+            <Text fontWeight="500">Subtotal</Text>
+            <Text fontWeight="700">{money(totalAmount)}</Text>
           </Flex>
       }
     </Stack>

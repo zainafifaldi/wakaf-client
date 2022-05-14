@@ -40,44 +40,44 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
 
   return (
     <Box
-      pos='relative'
-      height='400px'
-      width='full'
-      overflow='hidden'
+      pos="relative"
+      height="400px"
+      width="full"
+      overflow="hidden"
     >
       {/* CSS files for react-slick */}
       <link
-        rel='stylesheet'
-        type='text/css'
-        charSet='UTF-8'
-        href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
+        rel="stylesheet"
+        type="text/css"
+        charSet="UTF-8"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
       />
       <link
-        rel='stylesheet'
-        type='text/css'
-        href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
       {/* Left Icon */}
       <IconButton
-        aria-label='left-arrow'
-        variant='ghost'
-        pos='absolute'
+        aria-label="left-arrow"
+        variant="ghost"
+        pos="absolute"
         left={side}
         top={top}
-        transform='translate(0%, -50%)'
-        zIndex='1'
+        transform="translate(0%, -50%)"
+        zIndex="1"
         onClick={() => slider?.slickPrev()}>
         <ArrowBackIcon />
       </IconButton>
       {/* Right Icon */}
       <IconButton
-        aria-label='right-arrow'
-        variant='ghost'
-        pos='absolute'
+        aria-label="right-arrow"
+        variant="ghost"
+        pos="absolute"
         right={side}
         top={top}
-        transform='translate(0%, -50%)'
-        zIndex='1'
+        transform="translate(0%, -50%)"
+        zIndex="1"
         onClick={() => slider?.slickNext()}>
         <ArrowForwardIcon />
       </IconButton>
@@ -86,11 +86,11 @@ export default function BannerSlider({ banners }: BannerSliderProps) {
         {banners.map((banner, index) => (
           <Box
             key={index}
-            height='400px'
-            pos='relative'
-            backgroundPosition='top center'
-            backgroundRepeat='no-repeat'
-            backgroundSize='cover'
+            height="400px"
+            pos="relative"
+            backgroundPosition="top center"
+            backgroundRepeat="no-repeat"
+            backgroundSize="cover"
             backgroundImage={`url(${banner.image_url})`}
           />
         ))}

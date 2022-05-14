@@ -8,6 +8,7 @@ import {
   Button,
   Heading,
   Text,
+  Link,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import Head from 'next/head';
@@ -55,24 +56,24 @@ export default function LoginPage() {
         <title>Login | Wakaf</title>
       </Head>
       <Flex
-        minH='100vh'
-        align='center'
-        justify='center'
+        minH="100vh"
+        align="center"
+        justify="center"
       >
-        <Stack spacing='8' mx='auto' maxW='lg' py='12' px='6'>
-          <Stack align='center'>
-            <Heading fontSize='2xl'>
+        <Stack spacing="8" mx="auto" maxW="lg" py="12" px="6">
+          <Stack align="center">
+            <Heading fontSize="2xl">
               Halo :)
             </Heading>
-            <Text fontSize='sm' color='gray.600'>
+            <Text color="gray.600">
               Yuk masuk. Semoga harimu menyenangkan!
             </Text>
           </Stack>
           <Box
-            rounded='lg'
-            bg='white'
-            boxShadow='lg'
-            p='8'
+            rounded="lg"
+            bg="white"
+            boxShadow="lg"
+            p="8"
           >
             <Formik
               initialValues={{ email: '', password: '' }}
@@ -80,36 +81,36 @@ export default function LoginPage() {
             >
               {({ isSubmitting }) => (
                 <Form>
-                  <Stack spacing='4'>
-                    <Text fontSize='xs' color='gray.500' align='center'>
+                  <Stack spacing="4">
+                    <Text color="gray.500" align="center">
                       Masukkan data login kamu di sini...
                     </Text>
-                    <Stack spacing='4'>
-                      <Field name='email'>
+                    <Stack spacing="4">
+                      <Field name="email">
                         {({ field }) => (
-                          <InputGroup size='sm'>
-                            <InputLeftElement pointerEvents='none'>
-                              <CheckIcon color='gray.300' />
+                          <InputGroup>
+                            <InputLeftElement pointerEvents="none">
+                              <CheckIcon color="gray.300" />
                             </InputLeftElement>
                             <Input
-                              type='text'
-                              placeholder='Username'
-                              color='gray.600'
+                              type="text"
+                              placeholder="Username"
+                              color="gray.600"
                               {...field}
                             />
                           </InputGroup>
                         )}
                       </Field>
-                      <Field name='password'>
+                      <Field name="password">
                         {({ field }) => (
-                          <InputGroup size='sm'>
-                            <InputLeftElement pointerEvents='none'>
-                              <LockIcon color='gray.300' />
+                          <InputGroup>
+                            <InputLeftElement pointerEvents="none">
+                              <LockIcon color="gray.300" />
                             </InputLeftElement>
                             <Input
-                              type='password'
-                              placeholder='Password'
-                              color='gray.600'
+                              type="password"
+                              placeholder="Password"
+                              color="gray.600"
                               {...field}
                             />
                           </InputGroup>
@@ -117,9 +118,9 @@ export default function LoginPage() {
                       </Field>
                     </Stack>
                     <Button
-                      type='submit'
-                      bg='green.400'
-                      color='white'
+                      type="submit"
+                      bg="green.400"
+                      color="white"
                       isLoading={isSubmitting}
                       _hover={{
                         bg: 'green.500',
@@ -132,12 +133,12 @@ export default function LoginPage() {
               )}
             </Formik>
           </Box>
-          <NextLink href='/'>
-            <a className={buttonStyles.noUnderline}>
-              <Text color='green.400' fontSize='xs' _hover={{ color: 'green.600' }}>
+          <NextLink href="/" passHref>
+            <Link>
+              <Text color="green.400" _hover={{ color: 'green.600' }}>
                 Lupa password? Yuk hubungi admin di sini
               </Text>
-            </a>
+            </Link>
           </NextLink>
         </Stack>
       </Flex>

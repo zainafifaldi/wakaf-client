@@ -16,6 +16,16 @@ const colors = {
 
 const theme = extendTheme({
   colors,
+  components: {
+    Link: {
+      baseStyle: {
+        textDecor: 'none',
+        _hover: {
+          textDecor: 'none',
+        }
+      }
+    }
+  },
   styles: {
     global: () => ({
       body: {

@@ -102,36 +102,36 @@ export default function HomePage() {
         <title>Home | Wakaf</title>
       </Head>
       <Container
-        maxW='5xl'
-        px='0'
-        mb='20'
-        bg='white'
-        boxShadow='2xl'
+        maxW="5xl"
+        px="0"
+        mb="20"
+        bg="white"
+        boxShadow="2xl"
       >
         <BannerSlider banners={banners} />
-        <Flex alignItems='stretch'>
+        <Flex alignItems="stretch">
           <Box
-            w='250px'
-            borderRight='1px'
-            borderColor='gray.200'
+            w="250px"
+            borderRight="1px"
+            borderColor="gray.200"
           >
-            <Box pos='sticky' top='0'>
+            <Box pos="sticky" top="0">
               <Box
-                p='4'
-                bg='whitesmoke'
-                fontWeight='700'
-                borderBottom='1px'
-                borderColor='gray.200'
+                p="4"
+                bg="whitesmoke"
+                fontWeight="700"
+                borderBottom="1px"
+                borderColor="gray.200"
               >
                 Filter
               </Box>
-              <Box p='4'>
+              <Box p="4">
                 <Text
-                  fontSize='sm'
-                  fontWeight='800'
-                  letterSpacing='widest'
-                  textTransform='uppercase'
-                  mb='2'
+                  fontSize="sm"
+                  fontWeight="800"
+                  letterSpacing="widest"
+                  textTransform="uppercase"
+                  mb="2"
                 >
                   Urutkan
                 </Text>
@@ -139,10 +139,10 @@ export default function HomePage() {
                   {Object.keys(sortOptions).map((key) => (
                     <Text
                       key={key}
-                      py='1'
-                      cursor='pointer'
-                      color='gray.500'
-                      fontSize='sm'
+                      py="1"
+                      cursor="pointer"
+                      color="gray.500"
+                      fontSize="sm"
                       sx={sort === key
                         ? {
                             color: 'black',
@@ -163,21 +163,21 @@ export default function HomePage() {
             </Box>
           </Box>
 
-          <Stack flexGrow={1} spacing='0'>
+          <Stack flexGrow={1} spacing="0">
             <Box
-              p='2'
-              bg='whitesmoke'
-              borderBottom='1px'
-              borderColor='gray.200'
-              >
+              p="2"
+              bg="whitesmoke"
+              borderBottom="1px"
+              borderColor="gray.200"
+            >
               <InputGroup>
                 <Input
                   value={query}
-                  p='2'
-                  fontSize='md'
-                  variant='unstyled'
-                  placeholder='Cari wakaf...'
-                  fontWeight='700'
+                  p="2"
+                  fontSize="md"
+                  variant="unstyled"
+                  placeholder="Cari wakaf..."
+                  fontWeight="700"
                   onInput={handleSearchChange}
                   onKeyPress={handleSearch}
                 />
@@ -189,23 +189,23 @@ export default function HomePage() {
 
             <SimpleGrid
               columns={4}
-              gap='1'
-              mt='0'
+              gap="1"
+              mt="0"
             >
               {isLoading
                 ? Array(4).fill(null).map((_, index) => (
                   <AspectRatio key={index} ratio={1}>
                     <Box
-                      p='4'
-                      bg='gray.100'
-                      flexDir='column'
+                      p="4"
+                      bg="gray.100"
+                      flexDir="column"
                       sx={{
                         alignItems: 'flex-start !important',
                         justifyContent: 'flex-end !important',
                       }}
                     >
-                      <Skeleton h='23px' w='150px' maxW='full' mb='2' />
-                      <Skeleton h='18px' w='100px' />
+                      <Skeleton h="23px" w="150px" maxW="full" mb="2" />
+                      <Skeleton h="18px" w="100px" />
                     </Box>
                   </AspectRatio>
                 ))

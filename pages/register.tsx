@@ -39,7 +39,7 @@ export default function RegisterPage() {
   const isInvalidConfirmationPassword = (password !== '' && passwordConfirmation !== '' && password !== passwordConfirmation);
 
   async function handleRegister(values: User, { setSubmitting }: any) {
-    if(password != passwordConfirmation) return;
+    if (password != passwordConfirmation) return;
 
     try {
       const { data } = await AuthAPI.register(values);
@@ -57,24 +57,24 @@ export default function RegisterPage() {
         <title>Daftar | Wakaf</title>
       </Head>
       <Flex
-        minH='100vh'
-        align='center'
-        justify='center'
+        minH="100vh"
+        align="center"
+        justify="center"
       >
-        <Stack spacing='8' mx='auto' maxW='lg' py='12' px='6'>
-          <Stack align='center'>
-            <Heading fontSize='2xl'>
+        <Stack spacing="8" mx="auto" maxW="lg" py="12" px="6">
+          <Stack align="center">
+            <Heading fontSize="2xl">
               Daftar
             </Heading>
-            <Text fontSize='sm' color='gray.600'>
+            <Text fontSize="sm" color="gray.600">
               Daftar untuk dapat mengikuti program wakaf.
             </Text>
           </Stack>
           <Box
-            rounded='lg'
-            bg='white'
-            boxShadow='lg'
-            p='8'
+            rounded="lg"
+            bg="white"
+            boxShadow="lg"
+            p="8"
           >
             <Formik
               initialValues={{
@@ -90,12 +90,12 @@ export default function RegisterPage() {
                 <Form
                   onChange={(e) => {
                     const { name, value } = (e.target as HTMLInputElement)
-                    if(name == 'password')
+                    if (name == 'password')
                       setPassword(value)
                   }}
                   >
-                  <Stack spacing='4'>
-                    <Field name='name'>
+                  <Stack spacing="4">
+                    <Field name="name">
                       {({ field }) => (
                         <FormControl id="name" isRequired>
                           <FormLabel>Nama Lengkap</FormLabel>
@@ -103,7 +103,7 @@ export default function RegisterPage() {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name='email'>
+                    <Field name="email">
                       {({ field }) => (
                         <FormControl id="email" isRequired>
                           <FormLabel>Alamat Email</FormLabel>
@@ -111,7 +111,7 @@ export default function RegisterPage() {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name='phone_number'>
+                    <Field name="phone_number">
                       {({ field }) => (
                         <FormControl id="phone_number" isRequired>
                           <FormLabel>Nomor Handphone</FormLabel>
@@ -119,7 +119,7 @@ export default function RegisterPage() {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name='address'>
+                    <Field name="address">
                       {({ field }) => (
                         <FormControl id="address">
                           <FormLabel>Alamat</FormLabel>
@@ -129,7 +129,7 @@ export default function RegisterPage() {
                     </Field>
                     <HStack>
                       <Box>
-                        <Field name='password'>
+                        <Field name="password">
                           {({ field }) => (
                             <FormControl id="password" isRequired>
                               <FormLabel>Password</FormLabel>
@@ -138,9 +138,9 @@ export default function RegisterPage() {
                                   type={showPassword ? 'text' : 'password'}
                                   {...field}
                                   />
-                                <InputRightElement h={'full'}>
+                                <InputRightElement h="full">
                                   <Button
-                                    variant={'ghost'}
+                                    variant="ghost"
                                     onClick={() => setShowPassword((showPassword) => !showPassword)}>
                                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                                   </Button>
@@ -158,9 +158,9 @@ export default function RegisterPage() {
                               type={showPasswordConfirmation ? 'text' : 'password'}
                               onChange={(e) => setPasswordConfirmation(e.target.value)}
                               />
-                            <InputRightElement h={'full'}>
+                            <InputRightElement h="full">
                               <Button
-                                variant={'ghost'}
+                                variant="ghost"
                                 onClick={() => setShowPasswordConfirmation((showPasswordConfirmation) => !showPasswordConfirmation)}>
                                 {showPasswordConfirmation ? <ViewIcon /> : <ViewOffIcon />}
                               </Button>
@@ -173,22 +173,31 @@ export default function RegisterPage() {
                         </FormControl>
                       </Box>
                     </HStack>
-                    <Stack spacing={10} pt={2}>
+                    <Stack spacing="10" pt="2">
                       <Button
-                        type='submit'
-                        loadingText='Mendaftarkan'
-                        bg='green.400'
-                        color='white'
+                        type="submit"
+                        loadingText="Mendaftarkan"
+                        bg="green.500"
+                        color="white"
                         isLoading={props.isSubmitting}
                         _hover={{
-                          bg: 'green.500',
+                          bg: 'green.600',
                         }}>
                         Daftar
                       </Button>
                     </Stack>
-                    <Stack pt={6}>
-                      <Text align={'center'}>
-                        Sudah pernah mendaftar? <NextLink href=''><Link color={'green.400'} _hover={{ color: 'green.600' }}>Login di sini</Link></NextLink>
+                    <Stack pt="6">
+                      <Text align="center">
+                        Sudah pernah mendaftar?
+                        <NextLink href="" passHref>
+                          <Link
+                            ml="2"
+                            color="green.400"
+                            _hover={{ color: 'green.600' }}
+                          >
+                            Login di sini
+                          </Link>
+                        </NextLink>
                       </Text>
                     </Stack>
                   </Stack>

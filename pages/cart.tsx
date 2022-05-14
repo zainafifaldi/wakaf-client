@@ -76,12 +76,8 @@ export default function CartPage() {
   }, 500);
 
   function handleCheckout() {
-    router.push({
-      pathname: '/checkout',
-      query: {
-        ids: selected,
-      },
-    });
+    localStorage.setItem('wakaf-checkout-items', JSON.stringify(selected));
+    router.push('/checkout');
   }
 
   useEffect(() => {
@@ -101,28 +97,28 @@ export default function CartPage() {
         <title>Keranjang | Wakaf</title>
       </Head>
       <Container
-        maxW='5xl'
-        p='6'
-        mb='20'
-        bg='white'
-        boxShadow='2xl'
+        maxW="5xl"
+        p="6"
+        mb="20"
+        bg="white"
+        boxShadow="2xl"
       >
         <Stack
-          direction='row'
-          spacing='6'
+          direction="row"
+          spacing="6"
         >
-          <Stack w='full' direction='column' spacing='6'>
-            <Text fontWeight='500' fontSize='xl'>
+          <Stack w="full" direction="column" spacing="6">
+            <Text fontWeight="500" fontSize="xl">
               Keranjang Saya
             </Text>
 
             <Box
-              pos='sticky'
-              top='0'
-              py='4'
-              bg='white'
-              borderBottomWidth='3px'
-              zIndex='1'
+              pos="sticky"
+              top="0"
+              py="4"
+              bg="white"
+              borderBottomWidth="3px"
+              zIndex="1"
             >
               <Checkbox
                 isChecked={isAllSelected}
@@ -133,30 +129,30 @@ export default function CartPage() {
             </Box>
 
             <Stack
-              direction='column'
-              spacing='6'
+              direction="column"
+              spacing="6"
               divider={
-                <StackDivider borderColor='gray.200' />
+                <StackDivider borderColor="gray.200" />
               }
             >
               {isLoading
                 ? Array(2).fill(null).map((_, index) => (
-                  <Stack key={index} direction='column'>
+                  <Stack key={index} direction="column">
                     <Stack
-                      direction='row'
-                      spacing='4'
-                      pl='8'
+                      direction="row"
+                      spacing="4"
+                      pl="8"
                     >
-                      <Skeleton w='75px' h='75px' />
+                      <Skeleton w="75px" h="75px" />
                       <Box>
-                        <Skeleton w='150px' h='23px' mb='2' />
-                        <Skeleton w='100px' h='18px' />
+                        <Skeleton w="150px" h="23px" mb="2" />
+                        <Skeleton w="100px" h="18px" />
                       </Box>
                     </Stack>
                     <Flex>
                       <Spacer />
-                      <Skeleton w='36px' h='36px' />
-                      <Skeleton w='150px' h='36px' ml='5' />
+                      <Skeleton w="36px" h="36px" />
+                      <Skeleton w="150px" h="36px" ml="5" />
                     </Flex>
                   </Stack>
                 ))
@@ -176,37 +172,37 @@ export default function CartPage() {
           </Stack>
           <Box>
             <Box
-              pos='sticky'
-              top='6'
-              w='sm'
-              bg='white'
-              borderWidth='1px'
-              borderRadius='md'
-              overflow='hidden'
-              p='6'
+              pos="sticky"
+              top="6"
+              w="sm"
+              bg="white"
+              borderWidth="1px"
+              borderRadius="md"
+              overflow="hidden"
+              p="6"
             >
               <Text
-                fontWeight='500'
-                fontSize='xl'
+                fontWeight="500"
+                fontSize="xl"
               >
                 Ringkasan belanja
               </Text>
-              <Flex mt='6'>
-                <Text fontWeight='500'>
+              <Flex mt="6">
+                <Text fontWeight="500">
                   Total harga ({selected.length} barang)
                 </Text>
                 <Spacer />
-                <Text fontWeight='700'>
+                <Text fontWeight="700">
                   {money(totalAmount)}
                 </Text>
               </Flex>
               <Button
-                rounded='none'
-                w='full'
-                mt='6'
-                bg='gray.900'
-                color='white'
-                textTransform='uppercase'
+                rounded="none"
+                w="full"
+                mt="6"
+                bg="gray.900"
+                color="white"
+                textTransform="uppercase"
                 isDisabled={!selected.length}
                 _hover={{
                   transform: 'translateY(2px)',
