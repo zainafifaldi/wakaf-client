@@ -2,8 +2,8 @@ import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { FC, useEffect } from 'react';
 
-import useStore from 'store';
 import ApiClient from 'lib/api';
+import useStore from 'store';
 import 'styles/global.scss';
 
 const colors = {

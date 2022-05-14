@@ -21,11 +21,11 @@ import { Formik, Form, Field } from 'formik';
 
 import CartAPI from 'lib/api/carts';
 import TransactionAPI from 'lib/api/transactions';
-import UserLayout from 'layouts/user/index';
 import { money } from 'helpers/number';
-import useStore from 'store';
+import Layout from 'layouts/white';
 import CartItem from 'components/Cart/CartItem';
 import PaymentMethod from 'components/Checkout/PaymentMethod';
+import useStore from 'store';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -293,4 +293,4 @@ export default function CheckoutPage() {
   );
 }
 
-CheckoutPage.Layout = UserLayout;
+CheckoutPage.Layout = Layout;

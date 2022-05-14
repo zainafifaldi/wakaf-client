@@ -33,7 +33,7 @@ const NavLink = (
   </NextLink>
 );
 
-export default function NavbarPublicLayout() {
+export default function Navbar() {
   return (
     <Box
       pos='relative'

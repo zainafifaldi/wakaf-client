@@ -17,8 +17,8 @@ import debounce from 'lodash/debounce';
 
 import { Cart } from 'interfaces/cart';
 import CartAPI from 'lib/api/carts';
-import PublicLayout from 'layouts/public/index';
 import { money } from 'helpers/number';
+import Layout from 'layouts/default';
 import CartItem from 'components/Cart/CartItem';
 
 export default function CartPage() {
@@ -224,4 +224,4 @@ export default function CartPage() {
   );
 }
 
-CartPage.Layout = PublicLayout;
+CartPage.Layout = Layout;

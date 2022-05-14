@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { Product } from 'interfaces/product';
 import BannerAPI from 'lib/api/banners';
 import ProductAPI from 'lib/api/products';
-import PublicLayout from 'layouts/public/index';
+import Layout from 'layouts/default';
 import BannerSlider from 'components/BannerSlider';
 import ProductCard from 'components/Product/ProductCard';
 
@@ -223,4 +223,4 @@ export default function HomePage() {
   );
 }
 
-HomePage.Layout = PublicLayout;
+HomePage.Layout = Layout;

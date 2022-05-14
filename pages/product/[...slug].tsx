@@ -22,9 +22,9 @@ import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import ProductAPI from 'lib/api/products';
 import CartAPI from 'lib/api/carts';
 import { money } from 'helpers/number';
-import PublicLayout from 'layouts/public/index';
-import useStore from 'store';
+import Layout from 'layouts/default';
 import NumberInput from 'components/Form/NumberInput';
+import useStore from 'store';
 
 export async function getServerSideProps({ res, params }) {
   try {
@@ -241,4 +241,4 @@ export default function ProductPage({ product }) {
   );
 }
 
-ProductPage.Layout = PublicLayout;
+ProductPage.Layout = Layout;

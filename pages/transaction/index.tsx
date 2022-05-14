@@ -9,7 +9,7 @@ import Head from 'next/head';
 
 import { Transaction } from 'interfaces/transaction';
 import TransactionAPI from 'lib/api/transactions';
-import PublicLayout from 'layouts/public/index';
+import Layout from 'layouts/default';
 import TransactionCard from 'components/Transaction/TransactionCard';
 import TransactionDetailModal from 'components/Transaction/TransactionDetailModal';
 
@@ -78,4 +78,4 @@ export default function TransactionPage() {
   );
 }
 
-TransactionPage.Layout = PublicLayout;
+TransactionPage.Layout = Layout;

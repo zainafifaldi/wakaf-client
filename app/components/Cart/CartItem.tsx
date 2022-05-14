@@ -19,6 +19,7 @@ import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { productUrl } from 'helpers/product';
 import { money } from 'helpers/number';
 import NumberInput from 'components/Form/NumberInput';
+import useStore from 'store';
 
 interface CartItemProps {
   cart: Cart;
@@ -33,6 +34,7 @@ export default function CartItem(
   { cart, isSelected, editable, onToggleSelected, onDelete, onQuantityChange }: CartItemProps
 ) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const getCartCount = useStore((state) => state.getCartCount);
   const totalAmount = cart.quantity * cart.product.price;
   const isOutOfStock = cart.product.stock === 0;
 
@@ -40,6 +42,7 @@ export default function CartItem(
     setIsUpdating(true);
     try {
       await onDelete(cart.id);
+      getCartCount();
     } catch (error) {
       console.log(error);
     } finally {

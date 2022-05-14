@@ -1,6 +1,6 @@
 import Navbar from 'components/Navbar/NavbarWhite';
 
-export default function PublicLayout({ children }) {
+export default function Layout({ children }) {
   return (
     <>
       <Navbar />

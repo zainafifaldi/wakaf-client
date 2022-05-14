@@ -1,9 +1,9 @@
 import { Box, Text } from '@chakra-ui/react';
 
 import Navbar from 'components/Navbar/NavbarDefault';
-import Footer from './footer';
+import Footer from 'components/Footer';
 
-export default function PublicLayout({ children }) {
+export default function Layout({ children }) {
   return (
     <>
       <Navbar />

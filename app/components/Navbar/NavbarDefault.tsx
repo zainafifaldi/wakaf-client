@@ -59,7 +59,7 @@ function NavLink({ href, counter, children }: NavLinkProps) {
   )
 };
 
-export default function NavbarPublicLayout() {
+export default function Navbar() {
   const user = useStore((state) => state.user);
   const isLoggedIn = useStore((state) => state.isLoggedIn());
   const cartCount = useStore((state) => state.cartCount);
