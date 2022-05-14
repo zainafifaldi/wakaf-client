@@ -9,6 +9,12 @@ import {
 import { FaInstagram } from 'react-icons/fa';
 import { ReactNode } from 'react';
 
+interface SocialButtonProps {
+  children: ReactNode;
+  label: string;
+  href: string;
+}
+
 const Logo = (props: any) => {
   return (
     <svg
@@ -33,11 +39,7 @@ const SocialButton = ({
   children,
   label,
   href,
-}: {
-  children: ReactNode;
-  label: string;
-  href: string;
-}) => {
+}: SocialButtonProps) => {
   return (
     <chakra.button
       bg='blackAlpha.100'
@@ -62,7 +64,7 @@ const SocialButton = ({
   );
 };
 
-export default function SmallWithLogoLeft() {
+export default function Footer() {
   return (
     <Box
       bg='gray.800'
@@ -79,7 +81,7 @@ export default function SmallWithLogoLeft() {
         align={{ base: 'center', md: 'center' }}
       >
         <Logo />
-        <Text fontSize='sm'>© {new Date().getFullYear()} Pondok Saif Al-Ulum. All rights reserved</Text>
+        <Text fontSize='sm'>&copy; {new Date().getFullYear()} Pondok Saif Al-Ulum. All rights reserved</Text>
         <Stack direction='row' spacing='6'>
           <SocialButton label={'Instagram'} href='https://www.instagram.com/pondok.saifalulum'>
             <FaInstagram />

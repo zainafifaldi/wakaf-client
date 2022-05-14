@@ -5,15 +5,25 @@ import {
   useNumberInput,
 } from '@chakra-ui/react';
 
+interface NumberInputProps {
+  value: number;
+  min: number;
+  max: number;
+  size?: string;
+  isDisabled?: boolean;
+  isInvalid?: boolean;
+  onChange?: Function;
+}
+
 export default function NumberInput({
-  value = 0,
   min,
   max,
+  value = 0,
   size = 'md',
   isDisabled = false,
   isInvalid = false,
   onChange = (value) => {},
-}) {
+}: NumberInputProps) {
   const {
     getInputProps,
     getIncrementButtonProps,

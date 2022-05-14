@@ -24,7 +24,15 @@ const settings = {
   ),
 };
 
-export default function BannerSlider({ banners }) {
+interface Banner {
+  image_url: string;
+}
+
+interface BannerSliderProps {
+  banners: Banner[];
+}
+
+export default function BannerSlider({ banners }: BannerSliderProps) {
   const [slider, setSlider] = useState<Slider | null>(null);
 
   const top = useBreakpointValue({ base: '90%', md: '50%' });

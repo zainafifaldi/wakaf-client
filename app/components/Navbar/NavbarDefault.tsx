@@ -82,13 +82,13 @@ export default function Navbar() {
         <Flex alignItems='center'>
           <Stack direction='row' spacing='1'>
             <NavLink href='/cart' counter={cartCount}>
-              <Icon as={BiCartAlt} />
+              <Icon as={BiCartAlt} w='5' h='5' />
             </NavLink>
 
             {isLoggedIn
               ? <>
                   <NavLink href='/transaction'>
-                    <Icon as={BiDonateHeart} />
+                    <Icon as={BiDonateHeart} w='5' h='5' />
                   </NavLink>
                   <Menu>
                     <MenuButton
@@ -101,16 +101,18 @@ export default function Navbar() {
                         bg: 'green.600',
                       }}
                     >
-                      <Icon as={BiUser} color='white' />
+                      <Icon as={BiUser} color='white' w='5' h='5' />
                     </MenuButton>
                     <MenuList alignItems='center' zIndex='2'>
-                      <VStack my='4'>
+                      <Flex p='4'>
                         <Avatar
-                          size='xl'
+                          size='md'
                           src='https://avatars.dicebear.com/api/male/username.svg'
                         />
-                        <Text fontWeight='700'>{user.name}</Text>
-                      </VStack>
+                        <Text fontWeight='700' ml="4">
+                          {user.name}
+                        </Text>
+                      </Flex>
                       <MenuDivider />
                       <NextLink href='/logout' passHref>
                         <Link _hover={{ textDecor: 'none' }}>

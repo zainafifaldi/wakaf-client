@@ -10,11 +10,16 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
+import { Product } from 'interfaces/product';
 import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { money } from 'helpers/number';
 import { productUrl } from 'helpers/product';
 
-export default function ProductCard({ product }) {
+interface ProductCardProps {
+  product: Product;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
   const isOutOfStock = product.stock === 0;
 
   return (

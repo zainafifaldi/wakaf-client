@@ -30,9 +30,14 @@ interface CartItemProps {
   onQuantityChange?: Function;
 }
 
-export default function CartItem(
-  { cart, isSelected, editable, onToggleSelected, onDelete, onQuantityChange }: CartItemProps
-) {
+export default function CartItem({
+  cart,
+  isSelected,
+  editable,
+  onToggleSelected,
+  onDelete,
+  onQuantityChange,
+}: CartItemProps) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const getCartCount = useStore((state) => state.getCartCount);
   const totalAmount = cart.quantity * cart.product.price;
@@ -69,6 +74,7 @@ export default function CartItem(
                 alt={cart.product.name}
                 fit='cover'
                 align='center'
+                borderRadius='md'
               />
             </AspectRatio>
           </Link>

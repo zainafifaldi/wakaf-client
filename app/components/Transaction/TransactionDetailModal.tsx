@@ -16,14 +16,27 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import NextLink from 'next/link';
 
-import InvoiceAPI from 'lib/api/invoices';
 import { Invoice } from 'interfaces/invoice';
+import { Transaction } from 'interfaces/transaction';
+import InvoiceAPI from 'lib/api/invoices';
+import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { dateTime } from 'helpers/date';
 import { money } from 'helpers/number';
-import { IMAGE_PLACEHOLDER } from 'lib/constants';
+import { productUrl } from 'helpers/product';
 
-export default function TransactionDetailModal({ transaction, onClose, isOpen }) {
+interface TransactionDetailModalProps {
+  transaction: Transaction;
+  onClose?: () => void;
+  isOpen?: boolean;
+}
+
+export default function TransactionDetailModal({
+  transaction,
+  onClose,
+  isOpen,
+}: TransactionDetailModalProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const totalAmount = transaction.products.reduce(
@@ -103,22 +116,26 @@ export default function TransactionDetailModal({ transaction, onClose, isOpen })
                     spacing='4'
                     p='4'
                   >
-                    <Link>
-                      <AspectRatio w='50px' ratio={1}>
-                        <Image
-                          src={product.image_urls?.[0]}
-                          fallbackSrc={IMAGE_PLACEHOLDER}
-                          alt={product.name}
-                          fit='cover'
-                          align='center'
-                          borderRadius='md'
-                        />
-                      </AspectRatio>
-                    </Link>
+                    <NextLink href={productUrl(product)} passHref>
+                      <Link>
+                        <AspectRatio w='50px' ratio={1}>
+                          <Image
+                            src={product.image_urls?.[0]}
+                            fallbackSrc={IMAGE_PLACEHOLDER}
+                            alt={product.name}
+                            fit='cover'
+                            align='center'
+                            borderRadius='md'
+                          />
+                        </AspectRatio>
+                      </Link>
+                    </NextLink>
                     <Box>
-                      <Text fontWeight='700'>
-                        {product.name}
-                      </Text>
+                      <NextLink href={productUrl(product)} passHref>
+                        <Link fontWeight='700'>
+                          {product.name}
+                        </Link>
+                      </NextLink>
                       <Text color='gray.500' fontSize='sm'>
                         {product.quantity} barang x {money(product.price)}
                       </Text>

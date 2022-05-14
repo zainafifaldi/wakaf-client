@@ -9,7 +9,6 @@ import NextLink from 'next/link';
 
 interface NavLinkProps {
   href: string;
-  counter?: number;
   children: ReactNode;
 }
 

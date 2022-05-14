@@ -9,12 +9,20 @@ import {
   Spacer,
   Badge,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
+import { Transaction } from 'interfaces/transaction';
 import { IMAGE_PLACEHOLDER } from 'lib/constants';
 import { money } from 'helpers/number';
 import { shortDate } from 'helpers/date';
+import { productUrl } from 'helpers/product';
 
-export default function TransactionCard({ transaction, onOpen }) {
+interface TransactionCardProps {
+  transaction: Transaction;
+  onOpen?: Function;
+}
+
+export default function TransactionCard({ transaction, onOpen }: TransactionCardProps) {
   const firstProduct = transaction.products[0];
   const totalProducts = transaction.products.length;
   const totalAmount = transaction.products.reduce(
@@ -46,22 +54,26 @@ export default function TransactionCard({ transaction, onOpen }) {
         </Box>
       </Flex>
       <Stack direction='row' spacing='4'>
-        <Link>
-          <AspectRatio w='75px' ratio={1}>
-            <Image
-              src={firstProduct.image_urls?.[0]}
-              fallbackSrc={IMAGE_PLACEHOLDER}
-              alt={firstProduct.name}
-              fit='cover'
-              align='center'
-              borderRadius='md'
-            />
-          </AspectRatio>
-        </Link>
+        <NextLink href={productUrl(firstProduct)} passHref>
+          <Link>
+            <AspectRatio w='75px' ratio={1}>
+              <Image
+                src={firstProduct.image_urls?.[0]}
+                fallbackSrc={IMAGE_PLACEHOLDER}
+                alt={firstProduct.name}
+                fit='cover'
+                align='center'
+                borderRadius='md'
+              />
+            </AspectRatio>
+          </Link>
+        </NextLink>
         <Box>
-          <Text fontWeight='700'>
-            {firstProduct.name}
-          </Text>
+          <NextLink href={productUrl(firstProduct)} passHref>
+            <Link fontWeight='700'>
+              {firstProduct.name}
+            </Link>
+          </NextLink>
           <Text color='gray.500' fontSize='sm'>
             {firstProduct.quantity} barang x {money(firstProduct.price)}
           </Text>

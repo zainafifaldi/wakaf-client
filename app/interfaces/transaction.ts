@@ -16,6 +16,7 @@ export interface TransactionStatePayload {
 export interface TransactionProduct extends Product {
   image_urls: string[];
   state: string;
+  quantity: number;
 }
 
 export interface Transaction {
