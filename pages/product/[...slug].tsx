@@ -77,9 +77,6 @@ export default function ProductPage({ product }) {
         status: 'success',
         duration: 5000,
         isClosable: true,
-        containerStyle: {
-          fontSize: '0.875rem',
-        }
       });
     } catch (error) {
       console.log(error);
@@ -187,7 +184,7 @@ export default function ProductPage({ product }) {
             <Stack
               p="4"
               borderWidth="1px"
-              borderRadius="md"
+              rounded="md"
               direction="column"
               spacing="4"
             >

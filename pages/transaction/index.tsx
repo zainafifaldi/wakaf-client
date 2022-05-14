@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import {
   Stack,
   Container,
+  Box,
+  Flex,
   Text,
+  Spacer,
+  Skeleton,
   useDisclosure,
 } from '@chakra-ui/react';
 import Head from 'next/head';
@@ -58,13 +62,57 @@ export default function TransactionPage() {
             direction="column"
             spacing="6"
           >
-            {transactions.map((transaction) => (
-              <TransactionCard
-                key={transaction.id}
-                transaction={transaction}
-                onOpen={handleOpenTransaction}
-              />
-            ))}
+            {isLoading
+              ? Array(2).fill(null).map((_, index) => (
+                <Stack
+                  key={index}
+                  p="4"
+                  direction="column"
+                  borderWidth="1px"
+                  rounded="md"
+                  spacing="4"
+                >
+                  <Flex direction="row">
+                    <Skeleton w="150px" h="23px" mr="2" />
+                    <Skeleton w="100px" h="23px" />
+                    <Spacer />
+                    <Box w="250px" pl="4">
+                      <Skeleton w="100px" h="23px" />
+                    </Box>
+                  </Flex>
+                  <Stack direction="row" spacing="4">
+                    <Skeleton w="75px" h="75px" />
+                    <Box>
+                      <Skeleton w="150px" h="23px" mb="2" />
+                      <Skeleton w="100px" h="18px" />
+                    </Box>
+                    <Spacer />
+                    <Flex
+                      w="250px"
+                      pl="4"
+                      alignItems="center"
+                      borderLeftWidth="1px"
+                    >
+                      <Box>
+                        <Skeleton w="75px" h="18px" mb="2" />
+                        <Skeleton w="150px" h="23px" />
+                      </Box>
+                    </Flex>
+                  </Stack>
+                  <Flex>
+                    <Spacer />
+                    <Skeleton w="75px" h="23px" />
+                  </Flex>
+                </Stack>
+              ))
+              : transactions.map((transaction) => (
+                <TransactionCard
+                  key={transaction.id}
+                  transaction={transaction}
+                  onOpen={handleOpenTransaction}
+                />
+              ))
+            }
           </Stack>
         </Stack>
       </Container>

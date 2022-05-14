@@ -36,6 +36,7 @@ export default function TransactionCard({ transaction, onOpen }: TransactionCard
       p="4"
       direction="column"
       borderWidth="1px"
+      rounded="md"
       spacing="4"
     >
       <Flex direction="row">
@@ -64,7 +65,7 @@ export default function TransactionCard({ transaction, onOpen }: TransactionCard
                 alt={firstProduct.name}
                 fit="cover"
                 align="center"
-                borderRadius="md"
+                rounded="md"
               />
             </AspectRatio>
           </Link>

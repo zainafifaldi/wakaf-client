@@ -74,7 +74,7 @@ export default function CartItem({
                 alt={cart.product.name}
                 fit="cover"
                 align="center"
-                borderRadius="md"
+                rounded="md"
               />
             </AspectRatio>
           </Link>

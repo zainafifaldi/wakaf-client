@@ -244,7 +244,7 @@ export default function CheckoutPage() {
                     w="sm"
                     bg="white"
                     borderWidth="1px"
-                    borderRadius="md"
+                    rounded="md"
                     overflow="hidden"
                     p="6"
                   >
