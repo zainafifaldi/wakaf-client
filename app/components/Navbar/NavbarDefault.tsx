@@ -1,22 +1,21 @@
 import { ReactNode } from 'react';
 import {
+  VStack,
   Box,
   Flex,
   Avatar,
   Link,
-  Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
   Stack,
-  Center,
   Text,
   Icon,
   Badge,
 } from '@chakra-ui/react';
-import { BiCartAlt, BiUser } from 'react-icons/bi';
+import { BiCartAlt, BiDonateHeart, BiUser } from 'react-icons/bi';
 import NextLink from 'next/link';
 
 import useStore from 'store';
@@ -87,39 +86,42 @@ export default function NavbarPublicLayout() {
             </NavLink>
 
             {isLoggedIn
-              ? <Menu>
-                  <MenuButton
-                    as={Link}
-                    px='4'
-                    display='flex'
-                    alignItems='center'
-                    cursor='pointer'
-                    _hover={{
-                      bg: 'green.600',
-                    }}
-                  >
-                    <Icon as={BiUser} color='white' />
-                  </MenuButton>
-                  <MenuList alignItems='center' zIndex='2'>
-                    <Center>
-                      <Avatar
-                        size='2xl'
-                        src='https://avatars.dicebear.com/api/male/username.svg'
-                      />
-                    </Center>
-                    <Center my='4'>
-                      <Text>{user.name}</Text>
-                    </Center>
-                    <MenuDivider />
-                    <NextLink href='/logout' passHref>
-                      <Link _hover={{ textDecor: 'none' }}>
-                        <MenuItem fontSize='sm'>
-                          Logout
-                        </MenuItem>
-                      </Link>
-                    </NextLink>
-                  </MenuList>
-                </Menu>
+              ? <>
+                  <NavLink href='/transaction'>
+                    <Icon as={BiDonateHeart} />
+                  </NavLink>
+                  <Menu>
+                    <MenuButton
+                      as={Link}
+                      px='4'
+                      display='flex'
+                      alignItems='center'
+                      cursor='pointer'
+                      _hover={{
+                        bg: 'green.600',
+                      }}
+                    >
+                      <Icon as={BiUser} color='white' />
+                    </MenuButton>
+                    <MenuList alignItems='center' zIndex='2'>
+                      <VStack my='4'>
+                        <Avatar
+                          size='xl'
+                          src='https://avatars.dicebear.com/api/male/username.svg'
+                        />
+                        <Text fontWeight='700'>{user.name}</Text>
+                      </VStack>
+                      <MenuDivider />
+                      <NextLink href='/logout' passHref>
+                        <Link _hover={{ textDecor: 'none' }}>
+                          <MenuItem fontSize='sm'>
+                            Logout
+                          </MenuItem>
+                        </Link>
+                      </NextLink>
+                    </MenuList>
+                  </Menu>
+                </>
               : <NavLink href='/login'>
                   <Text fontSize='sm'>
                     Sign In

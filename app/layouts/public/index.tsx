@@ -1,12 +1,12 @@
 import { Box, Text } from '@chakra-ui/react';
 
-import NavbarPublicLayout from './navbar';
-import FooterPublicLayout from './footer';
+import Navbar from 'components/Navbar/NavbarDefault';
+import Footer from './footer';
 
 export default function PublicLayout({ children }) {
   return (
     <>
-      <NavbarPublicLayout />
+      <Navbar />
       <Box
         bg='green.500'
         pt='7'
@@ -36,7 +36,7 @@ export default function PublicLayout({ children }) {
         </Text>
       </Box>
       {children}
-      <FooterPublicLayout />
+      <Footer />
     </>
   );
 }

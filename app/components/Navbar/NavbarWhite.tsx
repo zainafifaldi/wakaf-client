@@ -18,10 +18,11 @@ const NavLink = (
 ) => (
   <NextLink href={href} passHref>
     <Link
-      px='2'
-      py='1'
+      h='63px'
+      px='4'
       pos='relative'
-      rounded='md'
+      display='flex'
+      alignItems='center'
       color='green.500'
       _hover={{
         bg: 'gray.100',

@@ -1,11 +1,9 @@
-import { Box, Text } from '@chakra-ui/react';
-
-import NavbarUserLayout from './navbar';
+import Navbar from 'components/Navbar/NavbarWhite';
 
 export default function PublicLayout({ children }) {
   return (
     <>
-      <NavbarUserLayout />
+      <Navbar />
       {children}
     </>
   );
