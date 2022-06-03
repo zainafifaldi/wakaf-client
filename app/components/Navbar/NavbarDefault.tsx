@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import {
-  VStack,
   Box,
   Flex,
   Avatar,

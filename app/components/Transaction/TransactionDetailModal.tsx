@@ -25,6 +25,7 @@ import { productUrl } from 'helpers/product';
 import { paymentMethod, stateLabel } from 'helpers/invoice';
 
 import PaymentInstruction from './PaymentInstruction';
+import TransactionStateProgress from './TransactionStateProgress';
 
 interface TransactionDetailModalProps {
   transaction: Transaction;
@@ -61,11 +62,12 @@ export default function TransactionDetailModal({
                   py="2"
                   divider={<StackDivider borderStyle="dashed" borderColor="gray.200" />}
                 >
-                  <Flex justifyContent="space-between">
+                  <Flex justifyContent="space-between" alignItems="center">
                     <Text fontWeight="700">
                       {stateLabel(transaction.invoice.state)}
                     </Text>
-                    <Box>
+                    <Box w="200px">
+                      <TransactionStateProgress transaction={transaction} />
                     </Box>
                   </Flex>
                   <Box>
