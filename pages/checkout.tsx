@@ -67,7 +67,8 @@ export default function CheckoutPage() {
         bank_name: 'muamalat',
       });
       localStorage.removeItem('wakaf-checkout-items');
-      router.replace(`/transaction/${data.id}`);
+      // router.replace(`/transaction/${data.id}`);
+      router.replace(`/transaction`);
     } catch (error) {
       console.log(error);
     } finally {

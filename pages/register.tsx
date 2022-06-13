@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import {
-  Flex,
   Box,
+  Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
   HStack,
   Input,
   InputGroup,
   InputRightElement,
   Link,
   Stack,
-  Button,
-  Heading,
   Text,
   Textarea,
 } from '@chakra-ui/react';
@@ -21,8 +21,8 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import {
   ArrowLeftIcon,
-  ViewOffIcon,
   ViewIcon,
+  ViewOffIcon,
 } from '@chakra-ui/icons';
 import { Field, Formik, Form } from 'formik';
 

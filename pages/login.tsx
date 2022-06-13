@@ -1,33 +1,26 @@
 import {
-  Flex,
   Box,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  HStack,
+  Button,
+  Flex,
+  Heading,
   Input,
   InputGroup,
-  InputRightElement,
+  InputLeftElement,
   Link,
   Stack,
-  Button,
-  Heading,
   Text,
-  Textarea,
-  InputLeftElement,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
-  LockIcon,
-  EmailIcon,
   ArrowLeftIcon,
+  EmailIcon,
+  LockIcon,
 } from '@chakra-ui/icons';
 import { Field, Formik, Form } from 'formik';
 
-import { User } from 'interfaces/user';
 import { UserCredential } from 'interfaces/user';
 import AuthAPI from 'lib/api/auth';
 import ApiClient from 'lib/api';
