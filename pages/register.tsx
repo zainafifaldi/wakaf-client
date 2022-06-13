@@ -20,6 +20,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import {
+  ArrowLeftIcon,
   ViewOffIcon,
   ViewIcon,
 } from '@chakra-ui/icons';
@@ -54,7 +55,7 @@ export default function RegisterPage() {
   return (
     <>
       <Head>
-        <title>Daftar | Wakaf</title>
+        <title>Daftar | Wakaf Pondok Saif Al-Ulum</title>
       </Head>
       <Flex
         minH="100vh"
@@ -189,7 +190,7 @@ export default function RegisterPage() {
                     <Stack pt="6">
                       <Text align="center">
                         Sudah pernah mendaftar?
-                        <NextLink href="" passHref>
+                        <NextLink href="/login" passHref>
                           <Link
                             ml="2"
                             color="green.400"
@@ -205,6 +206,14 @@ export default function RegisterPage() {
               )}
             </Formik>
           </Box>
+
+          <NextLink href="/">
+            <Link>
+              <Text color="green.400" _hover={{ color: 'green.600' }}>
+                <ArrowLeftIcon h="3"/> Kembali ke Halaman Utama
+              </Text>
+            </Link>
+          </NextLink>
         </Stack>
       </Flex>
     </>

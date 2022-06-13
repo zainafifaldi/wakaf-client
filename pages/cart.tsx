@@ -94,7 +94,7 @@ export default function CartPage() {
   return (
     <>
       <Head>
-        <title>Keranjang | Wakaf</title>
+        <title>Keranjang | Wakaf Pondok Saif Al-Ulum</title>
       </Head>
       <Container
         maxW="5xl"

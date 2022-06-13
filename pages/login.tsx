@@ -1,30 +1,37 @@
 import {
   Flex,
   Box,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  HStack,
   Input,
   InputGroup,
-  InputLeftElement,
+  InputRightElement,
+  Link,
   Stack,
   Button,
   Heading,
   Text,
-  Link,
+  Textarea,
+  InputLeftElement,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
-  CheckIcon,
   LockIcon,
+  EmailIcon,
+  ArrowLeftIcon,
 } from '@chakra-ui/icons';
-import { Formik, Form, Field } from 'formik';
+import { Field, Formik, Form } from 'formik';
 
+import { User } from 'interfaces/user';
 import { UserCredential } from 'interfaces/user';
-import ApiClient from 'lib/api';
 import AuthAPI from 'lib/api/auth';
+import ApiClient from 'lib/api';
 import useStore from 'store';
-import buttonStyles from 'styles/forms/buttons.module.scss';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -53,7 +60,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Login | Wakaf</title>
+        <title>Login | Wakaf Pondok Saif Al-Ulum</title>
       </Head>
       <Flex
         minH="100vh"
@@ -63,10 +70,10 @@ export default function LoginPage() {
         <Stack spacing="8" mx="auto" maxW="lg" py="12" px="6">
           <Stack align="center">
             <Heading fontSize="2xl">
-              Halo :)
+              Masuk
             </Heading>
-            <Text color="gray.600">
-              Yuk masuk. Semoga harimu menyenangkan!
+            <Text fontSize="sm" color="gray.600" align="center">
+              Login di sini untuk melanjutkan program Wakaf
             </Text>
           </Stack>
           <Box
@@ -82,61 +89,90 @@ export default function LoginPage() {
               {({ isSubmitting }) => (
                 <Form>
                   <Stack spacing="4">
-                    <Text color="gray.500" align="center">
-                      Masukkan data login kamu di sini...
-                    </Text>
-                    <Stack spacing="4">
-                      <Field name="email">
-                        {({ field }) => (
-                          <InputGroup>
-                            <InputLeftElement pointerEvents="none">
-                              <CheckIcon color="gray.300" />
-                            </InputLeftElement>
-                            <Input
-                              type="text"
-                              placeholder="Username"
-                              color="gray.600"
-                              {...field}
-                            />
-                          </InputGroup>
-                        )}
-                      </Field>
-                      <Field name="password">
-                        {({ field }) => (
-                          <InputGroup>
-                            <InputLeftElement pointerEvents="none">
-                              <LockIcon color="gray.300" />
-                            </InputLeftElement>
-                            <Input
-                              type="password"
-                              placeholder="Password"
-                              color="gray.600"
-                              {...field}
-                            />
-                          </InputGroup>
-                        )}
-                      </Field>
+                    <Field name="email">
+                      {({ field }) => (
+                        <InputGroup>
+                          <InputLeftElement pointerEvents="none">
+                            <EmailIcon color="gray.300" />
+                          </InputLeftElement>
+                          <Input
+                            type="email"
+                            placeholder="Email"
+                            color="gray.600"
+                            {...field}
+                          />
+                        </InputGroup>
+                      )}
+                    </Field>
+                    <Field name="password">
+                      {({ field }) => (
+                        <InputGroup>
+                          <InputLeftElement pointerEvents="none">
+                            <LockIcon color="gray.300" />
+                          </InputLeftElement>
+                          <Input
+                            type="password"
+                            placeholder="Password"
+                            color="gray.600"
+                            {...field}
+                          />
+                        </InputGroup>
+                      )}
+                    </Field>
+
+                    {/* <Field name="email">
+                      {({ field }) => (
+                        <FormControl id="email" isRequired>
+                          <FormLabel>Email</FormLabel>
+                          <Input type="email" {...field} />
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="password">
+                      {({ field }) => (
+                        <FormControl id="password" isRequired>
+                          <FormLabel>Password</FormLabel>
+                          <Input type="password" {...field} />
+                        </FormControl>
+                      )}
+                    </Field> */}
+                    <Stack spacing="10" pt="2">
+                      <Button
+                        type="submit"
+                        loadingText="Mendaftarkan"
+                        bg="green.500"
+                        color="white"
+                        isLoading={isSubmitting}
+                        _hover={{
+                          bg: 'green.600',
+                        }}>
+                        Masuk
+                      </Button>
                     </Stack>
-                    <Button
-                      type="submit"
-                      bg="green.400"
-                      color="white"
-                      isLoading={isSubmitting}
-                      _hover={{
-                        bg: 'green.500',
-                      }}
-                    >
-                      Sign in
-                    </Button>
+                    <Stack pt="6">
+                      <Text align="center">
+                        Belum pernah mendaftar?
+                        <NextLink href="/register" passHref>
+                          <Link
+                            ml="2"
+                            color="green.400"
+                            _hover={{ color: 'green.600' }}
+                          >
+                            Yuk daftar di sini
+                          </Link>
+                        </NextLink>
+                      </Text>
+                    </Stack>
                   </Stack>
                 </Form>
               )}
             </Formik>
           </Box>
-          <NextLink href="/" passHref>
+
+          <NextLink href="/">
             <Link>
               <Text color="green.400" _hover={{ color: 'green.600' }}>
-                Lupa password? Yuk hubungi admin di sini
+                <ArrowLeftIcon h="3"/> Kembali ke Halaman Utama
               </Text>
             </Link>
           </NextLink>

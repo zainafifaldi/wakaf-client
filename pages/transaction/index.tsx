@@ -44,7 +44,7 @@ export default function TransactionPage() {
   return (
     <>
       <Head>
-        <title>Daftar Transaksi | Wakaf</title>
+        <title>Daftar Transaksi | Wakaf Pondok Saif Al-Ulum</title>
       </Head>
       <Container
         maxW="5xl"

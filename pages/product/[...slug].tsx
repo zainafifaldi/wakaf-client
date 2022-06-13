@@ -88,7 +88,7 @@ export default function ProductPage({ product }) {
   return (
     <>
       <Head>
-        <title>{product.name} | Wakaf</title>
+        <title>{product.name} | Wakaf Pondok Saif Al-Ulum</title>
       </Head>
       <Container
         maxW="5xl"

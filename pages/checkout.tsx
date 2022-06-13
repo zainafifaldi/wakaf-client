@@ -119,7 +119,7 @@ export default function CheckoutPage() {
   return (
     <>
       <Head>
-        <title>Checkout | Wakaf</title>
+        <title>Checkout | Wakaf Pondok Saif Al-Ulum</title>
       </Head>
       <Container maxW="5xl" py="8">
         <Formik

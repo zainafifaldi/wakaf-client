@@ -99,7 +99,7 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>Home | Wakaf</title>
+        <title>Home | Wakaf Pondok Saif Al-Ulum</title>
       </Head>
       <Container
         maxW="5xl"
