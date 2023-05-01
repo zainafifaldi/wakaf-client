@@ -42,11 +42,11 @@ export default function PaymentInstruction({ invoice }: PaymentInstructionProps)
         <Text>Nominal Transfer :</Text>
         <HStack>
           <Text fontSize="3xl" fontWeight="700">
-            {money(invoice.amount)}
+            {money(invoice.total_amount)}
           </Text>
           <ButtonCopy
             ariaLabel="Copy nominal transfer"
-            copyText={invoice.amount}
+            copyText={invoice.total_amount}
           />
         </HStack>
       </Box>

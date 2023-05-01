@@ -203,12 +203,21 @@ export default function TransactionDetailModal({
                       </Text>
                     </Stack>
                     <Stack direction="row">
+                      <Text color="gray.500">
+                        Kode Unik
+                      </Text>
+                      <Spacer />
+                      <Text>
+                        {money(transaction.invoice.unique_code)}
+                      </Text>
+                    </Stack>
+                    <Stack direction="row">
                       <Text fontWeight="700">
                         Total Wakaf
                       </Text>
                       <Spacer />
                       <Text fontWeight="700">
-                        {money(transaction.invoice.amount)}
+                        {money(transaction.invoice.total_amount)}
                       </Text>
                     </Stack>
                   </Stack>

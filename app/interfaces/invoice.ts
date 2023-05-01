@@ -15,6 +15,8 @@ export interface Invoice {
   invoice_number: string;
   transaction_id: number;
   amount: number;
+  unique_code: number;
+  total_amount: number;
   payment_method: string;
   payment_detail: InvoicePaymentDetail;
   state: string;

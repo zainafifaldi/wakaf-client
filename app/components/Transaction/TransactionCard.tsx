@@ -26,10 +26,7 @@ interface TransactionCardProps {
 export default function TransactionCard({ transaction, onOpen }: TransactionCardProps) {
   const firstProduct = transaction.products[0];
   const totalProducts = transaction.products.length;
-  const totalAmount = transaction.products.reduce(
-    (total, product) => total + product.price * product.quantity,
-    0
-  );
+  const totalAmount = transaction.invoice?.total_amount;
 
   return (
     <Stack

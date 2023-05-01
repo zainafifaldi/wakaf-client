@@ -63,7 +63,7 @@ export default function CheckoutPage() {
       const { data } = await TransactionAPI.createTransaction({
         ...values,
         cart_ids: cartIds,
-        payment_method: 'bank_transfer',
+        payment_method: 'bank_transfer_automatic',
         bank_name: 'muamalat',
       });
       localStorage.removeItem('wakaf-checkout-items');
@@ -193,7 +193,7 @@ export default function CheckoutPage() {
                             <FormLabel htmlFor="donor-email">Email Pewakaf</FormLabel>
                             <Input
                               id="donor-email"
-                              placeholder="Nomor HP Pewakaf"
+                              placeholder="Email Pewakaf"
                               variant="filled"
                               isDisabled={selfDonate}
                               {...field}
