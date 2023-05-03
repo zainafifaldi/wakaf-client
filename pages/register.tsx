@@ -15,6 +15,7 @@ import {
   Stack,
   Text,
   Textarea,
+  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import Head from 'next/head';
@@ -30,16 +31,59 @@ import { Field, Formik, Form } from 'formik';
 import { User } from 'interfaces/user';
 import AuthAPI from 'lib/api/auth';
 import ApiClient from 'lib/api';
+import OTPModal from 'components/Register/OTPModal';
 
 export default function RegisterPage() {
   const router = useRouter();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [password, setPassword] = useState<string | ''>('')
   const [passwordConfirmation, setPasswordConfirmation] = useState<string | ''>('')
   const [showPassword, setShowPassword] = useState<boolean | false>(false)
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState<boolean | false>(false)
+  const [formValues, setFormValues] = useState<User>(null)
+  const [showModal, setShowModal] = useState<boolean | false>(false)
 
   const isInvalidConfirmationPassword = (password !== '' && passwordConfirmation !== '' && password !== passwordConfirmation);
+
+  async function handlePreRegister(values: User, { setSubmitting }: any) {
+    if (password != passwordConfirmation) return;
+
+    setFormValues(values);
+    setShowModal(true);
+    onOpen();
+  }
+
+  async function handleRegisterWithPhone(values: User, { setSubmitting }: any) {
+    if (password != passwordConfirmation) return;
+
+    try {
+      const { data } = await AuthAPI.registerWithPhone(values);
+      // ApiClient.saveToken(data);
+      // router.replace('/');
+    } catch (error) {
+      setSubmitting(false);
+      console.log(error);
+
+      if(error.response?.status === 422) {
+        toast({
+          title: `Data yang dimasukan kurang sesuai`,
+          description: `${error.response.data?.error?.message}`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: `Terjadi kesalahan pada sistem`,
+          description: `Mohon coba lagi beberapa saat, atau hubungi tim pengelola.`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+  }
 
   async function handleRegister(values: User, { setSubmitting }: any) {
     if (password != passwordConfirmation) return;
@@ -105,7 +149,7 @@ export default function RegisterPage() {
                 address: '',
                 password: ''
               }}
-              onSubmit={(values, actions) => handleRegister(values, actions)}
+              onSubmit={(values, actions) => handlePreRegister(values, actions)}
             >
               {(props) => (
                 <Form
@@ -135,8 +179,8 @@ export default function RegisterPage() {
                     <Field name="phone_number">
                       {({ field }) => (
                         <FormControl id="phone_number" isRequired>
-                          <FormLabel>Nomor Handphone</FormLabel>
-                          <Input type="text" {...field} />
+                          <FormLabel>Nomor HP (WhatsApp)</FormLabel>
+                          <Input type="text" placeholder="Masukkan nomor WA yang aktif" {...field} />
                         </FormControl>
                       )}
                     </Field>
@@ -236,6 +280,15 @@ export default function RegisterPage() {
           </NextLink>
         </Stack>
       </Flex>
+
+      {showModal && (
+        <OTPModal
+          onClose={onClose}
+          isOpen={isOpen}
+          formValues={formValues}
+          onSubmit={handleRegisterWithPhone}
+        />
+      )}
     </>
   );
 }
