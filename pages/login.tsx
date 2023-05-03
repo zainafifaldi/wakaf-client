@@ -9,6 +9,7 @@ import {
   Link,
   Stack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -28,6 +29,7 @@ import useStore from 'store';
 
 export default function LoginPage() {
   const router = useRouter();
+  const toast = useToast();
   const isLoggedIn = useStore((state) => state.isLoggedIn());
   let callbackUrl = router.query.continue as string;
   callbackUrl = callbackUrl ? decodeURIComponent(callbackUrl) : '/';
@@ -39,6 +41,23 @@ export default function LoginPage() {
       window.location.href = callbackUrl;
     } catch (error) {
       console.log(error);
+
+      if(error.response?.status === 401) {
+        toast({
+          description: `Username / password yang dimasukan tidak sesuai`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: `Terjadi kesalahan pada sistem`,
+          description: `Mohon coba lagi beberapa saat, atau hubungi tim pengelola.`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     } finally {
       setSubmitting(false);
     }

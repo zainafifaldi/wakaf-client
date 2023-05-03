@@ -15,6 +15,7 @@ import {
   Stack,
   Text,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -32,6 +33,7 @@ import ApiClient from 'lib/api';
 
 export default function RegisterPage() {
   const router = useRouter();
+  const toast = useToast();
   const [password, setPassword] = useState<string | ''>('')
   const [passwordConfirmation, setPasswordConfirmation] = useState<string | ''>('')
   const [showPassword, setShowPassword] = useState<boolean | false>(false)
@@ -49,6 +51,24 @@ export default function RegisterPage() {
     } catch (error) {
       setSubmitting(false);
       console.log(error);
+
+      if(error.response?.status === 422) {
+        toast({
+          title: `Data yang dimasukan kurang sesuai`,
+          description: `${error.response.data?.error?.message}`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: `Terjadi kesalahan pada sistem`,
+          description: `Mohon coba lagi beberapa saat, atau hubungi tim pengelola.`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     }
   }
 
