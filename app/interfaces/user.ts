@@ -8,12 +8,26 @@ export interface UserCredential {
   password?: string;
 }
 
-export interface User extends UserCredential {
+export interface User {
   name: string;
+  email: string;
   phone_number: string;
   address: string;
 }
 
-export interface AuthUser extends UserToken, User {
+export interface UserRegister extends User, UserCredential {}
+
+export interface UserDetail extends User {
+  id: number;
+  email_verified: boolean,
+  // roles: [string],
+  phone_number_verified: boolean,
+}
+
+export interface AuthUser extends UserToken {
   user_id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  address: string;
 }

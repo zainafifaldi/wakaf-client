@@ -12,45 +12,40 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  Skeleton,
   Spacer,
   Text,
+  useToast,
 } from '@chakra-ui/react';
+import { Field, Formik, Form } from 'formik';
+import { OTP } from 'interfaces/otp';
+import { useRouter } from 'next/router';
 
-import { User } from 'interfaces/user';
+import AuthAPI from 'lib/api/auth';
+import ApiClient from 'lib/api';
+
+const otpLength = 4;
 
 interface OTPModalProps {
   onClose?: () => void;
   isOpen?: boolean;
-  formValues: User;
-  onSubmit: (values: User, { setSubmitting }: any) => void;
+  isLoading?: boolean;
+  phoneNumber?: string;
+  setPhoneNumberConfirmed: (phoneNumberConfirmed: boolean) => void;
+  content?: string;
 }
 
 export default function OTPModal({
   onClose,
   isOpen,
-  formValues,
-  onSubmit,
+  isLoading,
+  phoneNumber,
+  setPhoneNumberConfirmed,
+  content,
 }: OTPModalProps) {
-  const [content, setContent] = useState<string | ''>('confirmation')
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleClose = () => {
-    setContent('confirmation');
+    setPhoneNumberConfirmed(false);
     onClose();
-  }
-
-  const handleConfirm = () => {
-    setContent('blank');
-    setIsLoading(true);
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    //   setContent('form');
-    // }, 1000);
-
-    onSubmit(formValues, (x:boolean)=>{});
-    setIsLoading(false);
-    setContent('form');
   }
 
   return (
@@ -58,7 +53,7 @@ export default function OTPModal({
       <Modal
         isCentered
         size="sm"
-        onClose={handleClose}
+        onClose={isLoading ? () => {} : handleClose}
         isOpen={isOpen}
       >
         <ModalOverlay />
@@ -70,30 +65,15 @@ export default function OTPModal({
           <ModalBody pt="0" px="0">
             <Flex>
               <Stack divider={<StackDivider borderWidth="5px" borderColor="gray.200" />}>
-                {isLoading &&
-                  <Stack
-                    px="6"
-                    py="2"
-                  >
-                    <Flex w="250px">
-                      <Skeleton w="80px" h="23px" />
-                      <Spacer />
-                      <Skeleton w="80px" h="23px" />
-                      <Spacer />
-                      <Skeleton w="80px" h="23px" />
-                    </Flex>
-                  </Stack>
-                }
-
                 {content === 'confirmation' && (
                   <OTPConfirmation
-                    onConfirm={handleConfirm}
                     onClose={handleClose}
-                    phoneNumber={formValues.phone_number}
-                  ></OTPConfirmation>
+                    phoneNumber={phoneNumber}
+                    isLoading={isLoading}></OTPConfirmation>
                 )}
                 {content === 'form' && (
-                  <OTPForm></OTPForm>
+                  <OTPForm
+                    phoneNumber={phoneNumber}></OTPForm>
                 )}
               </Stack>
             </Flex>
@@ -105,15 +85,15 @@ export default function OTPModal({
 }
 
 interface OTPConfirmationProps {
-  onConfirm: () => void;
   onClose: () => void;
   phoneNumber: string;
+  isLoading: boolean;
 }
 
 function OTPConfirmation({
-  onConfirm,
   onClose,
   phoneNumber,
+  isLoading,
 }: OTPConfirmationProps) {
   return (
     <>
@@ -125,7 +105,7 @@ function OTPConfirmation({
           <Text fontWeight="500">
             Apakah nomor WhatsApp yang dimasukkan sudah benar?
           </Text>
-          <Text fontWeight="200" fontSize="xs" fontStyle="italic" my="2">
+          <Text fontWeight="200" fontSize="xs" fontStyle="italic" my="2" px="10">
             Kamu akan dikirimkan kode OTP melalui nomor WhatsApp di bawah.
           </Text>
           <Text fontWeight="800" fontSize="2xl" my="5">
@@ -133,9 +113,17 @@ function OTPConfirmation({
           </Text>
           <StackDivider borderStyle="solid" borderWidth="0.5px" borderColor="gray.200" />
           <Flex mt="3">
-            <Button w="180px" colorScheme="green" onClick={onConfirm}>Kirim OTP</Button>
+            <Button
+              type="submit"
+              form="register-form"
+              w="180px"
+              colorScheme="green"
+              loadingText="Mengirim OTP"
+              isLoading={isLoading}
+              autoFocus
+            >Kirim OTP</Button>
             <Spacer />
-            <Button w="140px" colorScheme="gray" onClick={onClose}>Ganti Nomor</Button>
+            <Button w="140px" colorScheme="gray" onClick={onClose} disabled={isLoading}>Ganti Nomor</Button>
           </Flex>
         </Box>
       </Stack>
@@ -143,7 +131,51 @@ function OTPConfirmation({
   )
 }
 
-function OTPForm() {
+interface OTPFormProps {
+  phoneNumber: string;
+}
+
+function OTPForm({
+  phoneNumber,
+}: OTPFormProps) {
+  const router = useRouter();
+  const toast = useToast();
+  const [otp, setOtp] = useState<string | ''>('');
+
+  const isValidOtp = (otp.length === otpLength);
+
+  async function handleValidateOTP(values: OTP, { setSubmitting }: any) {
+    if (values.otp.length != otpLength) return;
+    
+    try {
+      const { data } = await AuthAPI.validateOTP(values);
+
+      ApiClient.saveToken(data);
+      router.replace('/');
+    } catch (error) {
+      setSubmitting(false);
+
+      console.log(error);
+
+      if(error.response?.status === 401) {
+        toast({
+          description: `OTP yang dimasukan tidak sesuai`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: `Terjadi kesalahan pada sistem`,
+          description: `Mohon coba lagi beberapa saat, atau hubungi tim pengelola.`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+  }
+
   return (
     <>
       <Stack
@@ -151,27 +183,63 @@ function OTPForm() {
         py="2"
       >
         <Box textAlign="center">
-          <Text fontWeight="500">
+          <Text fontWeight="500" my="2">
             OTP sudah dikirimkan ke WhatsApp kamu
+          </Text>
+          <Text fontWeight="800" color="gray">
+            {phoneNumber.replace(/(\d{4})(\d{4})(\d+)/, "$1-$2-$3")}
           </Text>
           <Text fontWeight="200" fontSize="xs" fontStyle="italic" my="2">
             Silakan masukkan kode OTP yang kamu terima ke dalam form di bawah ini
           </Text>
-          <Input
-            variant="flushed"
-            placeholder="Kode OTP"
-            _placeholder={{
-              fontSize:"lg",
-              fontWeight:300,
+          <Formik
+            initialValues={{
+              otp: '',
+              phone_number: phoneNumber,
+              action: 1
             }}
-            textAlign="center"
-            my="5"
-            fontSize="2xl"
-            fontWeight="700"
-            autoFocus />
-          <Flex mt="2" align="center">
-            <Button w="full" colorScheme="green">Submit</Button>
-          </Flex>
+            onSubmit={(values, actions) => handleValidateOTP(values, actions)}
+          >
+            {(props) => (
+              <Form id="validate-otp-form"
+                onChange={(e) => {
+                  const { name, value } = (e.target as HTMLInputElement)
+                  if (name == 'otp')
+                    setOtp(value)
+                }}>
+                <Field name="otp">
+                  {({ field }) => (
+                    <Input
+                      name=""
+                      variant="flushed"
+                      placeholder={otpLength + " Digit Kode OTP"}
+                      _placeholder={{
+                        fontSize:"lg",
+                        fontWeight:300,
+                      }}
+                      textAlign="center"
+                      my="5"
+                      fontSize="2xl"
+                      fontWeight="700"
+                      autoFocus
+                      maxLength={otpLength}
+                      {...field} />
+                  )}
+                </Field>
+                <Flex mt="2" align="center">
+                  <Button
+                    type="submit"
+                    form="validate-otp-form"
+                    w="full"
+                    colorScheme="green"
+                    loadingText="Memvalidasi OTP"
+                    disabled={!isValidOtp || props.isSubmitting}
+                    isLoading={props.isSubmitting}
+                  >Submit</Button>
+                </Flex>
+              </Form>
+            )}
+          </Formik>
         </Box>
       </Stack>
     </>

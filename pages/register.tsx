@@ -20,7 +20,6 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import {
   ArrowLeftIcon,
   ViewIcon,
@@ -28,39 +27,49 @@ import {
 } from '@chakra-ui/icons';
 import { Field, Formik, Form } from 'formik';
 
-import { User } from 'interfaces/user';
+import { UserRegister } from 'interfaces/user';
 import AuthAPI from 'lib/api/auth';
-import ApiClient from 'lib/api';
 import OTPModal from 'components/Register/OTPModal';
 
 export default function RegisterPage() {
-  const router = useRouter();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [phoneNumber, setPhoneNumber] = useState<string | ''>('')
   const [password, setPassword] = useState<string | ''>('')
   const [passwordConfirmation, setPasswordConfirmation] = useState<string | ''>('')
   const [showPassword, setShowPassword] = useState<boolean | false>(false)
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState<boolean | false>(false)
-  const [formValues, setFormValues] = useState<User>(null)
   const [showModal, setShowModal] = useState<boolean | false>(false)
+  const [phoneNumberConfirmed, setPhoneNumberConfirmed] = useState<boolean | false>(false)
+  const [isLoading, setIsLoading] = useState<boolean | false>(false)
+  const [modalContent, setModalContent] = useState<string | ''>('confirmation')
 
+  const isInvalidPasswordLen = (password !== '' && password.length < 6);
   const isInvalidConfirmationPassword = (password !== '' && passwordConfirmation !== '' && password !== passwordConfirmation);
 
-  async function handlePreRegister(values: User, { setSubmitting }: any) {
-    if (password != passwordConfirmation) return;
-
-    setFormValues(values);
+  function handlePreRegister() {
+    setModalContent("confirmation");
+    setPhoneNumberConfirmed(true);
     setShowModal(true);
     onOpen();
   }
 
-  async function handleRegisterWithPhone(values: User, { setSubmitting }: any) {
-    if (password != passwordConfirmation) return;
+  async function handleRegisterWithPhone(values: UserRegister, { setSubmitting }: any) {
+    if (password.length < 6 || password != passwordConfirmation) return;
+
+    if (!phoneNumberConfirmed) {
+      setSubmitting(false);
+      setPhoneNumber(values.phone_number);
+      handlePreRegister();
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
       const { data } = await AuthAPI.registerWithPhone(values);
-      // ApiClient.saveToken(data);
-      // router.replace('/');
+
+      setModalContent('form');
     } catch (error) {
       setSubmitting(false);
       console.log(error);
@@ -82,37 +91,8 @@ export default function RegisterPage() {
           isClosable: true,
         });
       }
-    }
-  }
-
-  async function handleRegister(values: User, { setSubmitting }: any) {
-    if (password != passwordConfirmation) return;
-
-    try {
-      const { data } = await AuthAPI.register(values);
-      ApiClient.saveToken(data);
-      router.replace('/');
-    } catch (error) {
-      setSubmitting(false);
-      console.log(error);
-
-      if(error.response?.status === 422) {
-        toast({
-          title: `Data yang dimasukan kurang sesuai`,
-          description: `${error.response.data?.error?.message}`,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: `Terjadi kesalahan pada sistem`,
-          description: `Mohon coba lagi beberapa saat, atau hubungi tim pengelola.`,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -149,10 +129,10 @@ export default function RegisterPage() {
                 address: '',
                 password: ''
               }}
-              onSubmit={(values, actions) => handlePreRegister(values, actions)}
+              onSubmit={(values, actions) => handleRegisterWithPhone(values, actions)}
             >
               {(props) => (
-                <Form
+                <Form id="register-form"
                   onChange={(e) => {
                     const { name, value } = (e.target as HTMLInputElement)
                     if (name == 'password')
@@ -196,7 +176,7 @@ export default function RegisterPage() {
                       <Box>
                         <Field name="password">
                           {({ field }) => (
-                            <FormControl id="password" isRequired>
+                            <FormControl id="password" isRequired isInvalid={isInvalidPasswordLen}>
                               <FormLabel>Password</FormLabel>
                               <InputGroup>
                                 <Input
@@ -211,6 +191,10 @@ export default function RegisterPage() {
                                   </Button>
                                 </InputRightElement>
                               </InputGroup>
+                              {
+                                isInvalidPasswordLen &&
+                                <FormErrorMessage>Minimum 6 karakter</FormErrorMessage>
+                              }
                             </FormControl>
                           )}
                         </Field>
@@ -233,7 +217,7 @@ export default function RegisterPage() {
                           </InputGroup>
                           {
                             isInvalidConfirmationPassword &&
-                            <FormErrorMessage>Invalid konfirmation password</FormErrorMessage>
+                            <FormErrorMessage>Konfirmasi password tidak sama</FormErrorMessage>
                           }
                         </FormControl>
                       </Box>
@@ -285,8 +269,10 @@ export default function RegisterPage() {
         <OTPModal
           onClose={onClose}
           isOpen={isOpen}
-          formValues={formValues}
-          onSubmit={handleRegisterWithPhone}
+          isLoading={isLoading}
+          phoneNumber={phoneNumber}
+          setPhoneNumberConfirmed={setPhoneNumberConfirmed}
+          content={modalContent}
         />
       )}
     </>
