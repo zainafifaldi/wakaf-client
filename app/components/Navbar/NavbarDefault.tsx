@@ -114,7 +114,7 @@ export default function Navbar() {
                         </Text>
                       </Flex>
                       <MenuDivider />
-                      <NextLink href="/logout" passHref>
+                      <NextLink href="/auth/logout" passHref>
                         <Link>
                           <MenuItem fontSize="sm">
                             Logout
@@ -132,7 +132,7 @@ export default function Navbar() {
                   alignItems="center"
                   spacing="4"
                 >
-                  <NextLink href="/login" passHref>
+                  <NextLink href="/auth/login" passHref>
                     <Button
                       variant="outline"
                       size="sm"
@@ -144,7 +144,7 @@ export default function Navbar() {
                       Masuk
                     </Button>
                   </NextLink>
-                  <NextLink href="/register" passHref>
+                  <NextLink href="/auth/register" passHref>
                     <Button size="sm" color="green.500">
                       Daftar
                     </Button>

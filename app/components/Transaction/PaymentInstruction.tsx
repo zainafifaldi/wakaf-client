@@ -94,19 +94,27 @@ export default function PaymentInstruction({ invoice }: PaymentInstructionProps)
       >
         <OrderedList>
           <ListItem>
-            <strong>Transfer sesuai jumlah di atas</strong> ke rekening yang telah kamu pilih.
+            Transfer <strong>tepat sesuai dengan jumlah yang tertera</strong> di atas ke rekening yang telah kamu pilih.
           </ListItem>
           <ListItem>
-            Ambil screenshot atau foto bukti transfer.
+            Sistem akan melakukan <strong>pengecekan secara otomatis</strong> berdasarkan nominal pembayaran.
           </ListItem>
           <ListItem>
-            Kirim foto bukti transfer sebelum <strong>{fullDate(invoice.expire_time)}</strong> agar order tidak dibatalkan secara otomatis.
+            Jika pembayaran belum terkonfirmasi.
+            <OrderedList type="a">
+              <ListItem>
+                Ambil screenshot atau foto bukti transfer.
+              </ListItem>
+              <ListItem>
+                Kirim foto bukti transfer sebelum <strong>{fullDate(invoice.expire_time)}</strong> agar order tidak dibatalkan secara otomatis.
+              </ListItem>
+            </OrderedList>
           </ListItem>
         </OrderedList>
       </Box>
-      <Button w="full" size="lg" colorScheme="green">
+      {/* <Button w="full" size="lg" colorScheme="green">
         Kirim Bukti Transfer
-      </Button>
+      </Button> */}
     </VStack>
   )
 }

@@ -14,6 +14,8 @@ import {
   Input,
   Skeleton,
   FormErrorMessage,
+  Tooltip,
+  useToast,
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -26,9 +28,11 @@ import Layout from 'layouts/white';
 import CartItem from 'components/Cart/CartItem';
 import PaymentMethod from 'components/Checkout/PaymentMethod';
 import useStore from 'store';
+import { QuestionIcon } from '@chakra-ui/icons';
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const toast = useToast();
   const user = useStore((state) => state.user);
   const isLoggedIn = useStore((state) => state.isLoggedIn());
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -71,6 +75,24 @@ export default function CheckoutPage() {
       router.replace(`/transaction`);
     } catch (error) {
       console.log(error);
+
+      if(error.response?.status === 422) {
+        toast({
+          title: `Kesalahan. Mohon periksa kembali data Anda`,
+          description: `${error.response.data?.error?.message}`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: `Terjadi kesalahan pada sistem`,
+          description: `Mohon coba lagi beberapa saat, atau hubungi tim pengelola.`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -103,7 +125,7 @@ export default function CheckoutPage() {
       return;
     } else if (!isLoggedIn) {
       const callbackUrl = encodeURIComponent(router.asPath);
-      router.replace(`/login?continue=${callbackUrl}`);
+      router.replace(`/auth/login?continue=${callbackUrl}`);
       return;
     }
 
@@ -263,6 +285,24 @@ export default function CheckoutPage() {
                       <Text fontWeight="700">
                         {money(totalAmount)}
                       </Text>
+                    </Flex>
+                    <Flex mt="6">
+                      <Text fontWeight="500">
+                        Kode Unik
+                      </Text>
+                      <Spacer />
+                      <Tooltip
+                        hasArrow
+                        textAlign="center"
+                        label={
+                          <>
+                            <strong>3 digit Kode Unik</strong> akan ditambahkan pada pembayaran wakaf untuk pengecekan transaksi otomatis
+                          </>
+                        }
+                        fontSize='sm'
+                      >
+                        <QuestionIcon/>
+                      </Tooltip>
                     </Flex>
                     <Button
                       type="submit"

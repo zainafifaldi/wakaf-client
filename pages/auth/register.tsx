@@ -238,7 +238,7 @@ export default function RegisterPage() {
                     <Stack pt="6">
                       <Text align="center">
                         Sudah pernah mendaftar?
-                        <NextLink href="/login" passHref>
+                        <NextLink href="/auth/login" passHref>
                           <Link
                             ml="2"
                             color="green.400"

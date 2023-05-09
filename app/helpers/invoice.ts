@@ -15,7 +15,8 @@ export function stateLabel(state: string): string {
 export function paymentMethod(invoice: Invoice) {
   const method = {
     bank_transfer: 'Transfer Bank',
+    bank_transfer_automatic: 'Transfer Bank Otomatis',
   }[invoice.payment_method] || invoice.payment_method;
 
-  return `${method} ${invoice.payment_detail.name}`;
+  return `${method} | ${invoice.payment_detail.name}`;
 }

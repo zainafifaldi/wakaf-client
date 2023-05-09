@@ -8,6 +8,10 @@ export interface UserCredential {
   password?: string;
 }
 
+export interface PhoneCredential {
+  phone_number: string;
+}
+
 export interface User {
   name: string;
   email: string;

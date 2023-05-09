@@ -7,6 +7,7 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
+  StackDivider,
   Stack,
   Text,
   useToast,
@@ -16,6 +17,7 @@ import NextLink from 'next/link';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
+  ArrowForwardIcon,
   ArrowLeftIcon,
   EmailIcon,
   LockIcon,
@@ -132,26 +134,10 @@ export default function LoginPage() {
                       )}
                     </Field>
 
-                    {/* <Field name="email">
-                      {({ field }) => (
-                        <FormControl id="email" isRequired>
-                          <FormLabel>Email</FormLabel>
-                          <Input type="email" {...field} />
-                        </FormControl>
-                      )}
-                    </Field>
-                    <Field name="password">
-                      {({ field }) => (
-                        <FormControl id="password" isRequired>
-                          <FormLabel>Password</FormLabel>
-                          <Input type="password" {...field} />
-                        </FormControl>
-                      )}
-                    </Field> */}
-                    <Stack spacing="10" pt="2">
+                    <Stack pt="2">
                       <Button
                         type="submit"
-                        loadingText="Mendaftarkan"
+                        loadingText="Mengecek"
                         bg="green.500"
                         color="white"
                         isLoading={isSubmitting}
@@ -160,11 +146,26 @@ export default function LoginPage() {
                         }}>
                         Masuk
                       </Button>
+                      <StackDivider borderStyle="solid" borderWidth="0.5px" borderColor="gray.200" />
+                      <Text align="center" fontSize="sm" fontWeight="500" py="2">Atau</Text>
+                      <NextLink href="/auth/phone-login">
+                        <Link>
+                          <Button
+                            width="full"
+                            colorScheme="teal"
+                            isLoading={isSubmitting}
+                            size="sm"
+                            fontSize="xs">
+                            Masuk menggunakan nomor WhatsApp &nbsp;&nbsp;<ArrowForwardIcon w="5" h="5" />
+                          </Button>
+                        </Link>
+                      </NextLink>
                     </Stack>
-                    <Stack pt="6">
+                    <StackDivider borderStyle="solid" borderWidth="0.5px" borderColor="gray.200" />
+                    <Stack pt="3">
                       <Text align="center">
                         Belum pernah mendaftar?
-                        <NextLink href="/register" passHref>
+                        <NextLink href="/auth/register" passHref>
                           <Link
                             ml="2"
                             color="green.400"
