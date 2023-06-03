@@ -10,7 +10,7 @@ import { FaInstagram } from 'react-icons/fa';
 import { ReactNode } from 'react';
 
 interface SocialButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   label: string;
   href: string;
 }

@@ -23,7 +23,7 @@ import useStore from 'store';
 interface NavLinkProps {
   href: string;
   counter?: number;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 function NavLink({ href, counter, children }: NavLinkProps) {

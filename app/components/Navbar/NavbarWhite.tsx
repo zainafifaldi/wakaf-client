@@ -9,7 +9,7 @@ import NextLink from 'next/link';
 
 interface NavLinkProps {
   href: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const NavLink = (
